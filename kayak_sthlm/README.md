@@ -5,7 +5,7 @@
 ToDo:
 - Skriva klart getters setters
 - Klass för hämta user tabell
-- Git
 - Ta bort en användare
 - Designa om login/register
-- Implentera google
+- Implentera google MAPS
+- Implentera API
