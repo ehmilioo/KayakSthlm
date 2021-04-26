@@ -7,7 +7,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    dynamic name = _auth.getUser().displayName;
+    //dynamic name = _auth.getUser().displayName;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -21,7 +21,7 @@ class Home extends StatelessWidget {
       body: Container(
         child: Column(
           children: <Widget>[
-            Text('Welcome ' + name, style: TextStyle(fontSize: 30)),
+            Text('Welcome ', style: TextStyle(fontSize: 30)),
           ],
         ),
       ),

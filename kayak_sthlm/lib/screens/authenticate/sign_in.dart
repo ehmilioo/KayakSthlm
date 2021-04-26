@@ -1,11 +1,13 @@
 import 'package:kayak_sthlm/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
 
 class SignIn extends StatefulWidget {
 
   final Function toggleView;
-  SignIn({this.toggleView});
+  final Function switchView;
+  SignIn({this.toggleView, this.switchView});
 
   @override
   _SignInState createState() => _SignInState();
@@ -15,7 +17,6 @@ class _SignInState extends State<SignIn> {
 
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
-
 
   //Text field state
   bool hidePassword = true;
@@ -30,7 +31,6 @@ class _SignInState extends State<SignIn> {
   RegExp regex = new RegExp(pattern);
   return (!regex.hasMatch(value)) ? true : false;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +105,18 @@ class _SignInState extends State<SignIn> {
               Text(
                 error, 
                 style: TextStyle(color: Colors.red, fontSize: 14.0),
+              ),
+              CupertinoButton(
+                child: Text('Reset Password'),
+                color: CupertinoColors.darkBackgroundGray,
+                onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return ResetPass();
+                      })
+                    );
+                  },
               ),
             ],
           )
