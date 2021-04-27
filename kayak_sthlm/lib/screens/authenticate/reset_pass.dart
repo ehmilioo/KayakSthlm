@@ -29,7 +29,6 @@ class _ResetPass extends State<ResetPass> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlueAccent,
       body: Form(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 30.0),
@@ -38,20 +37,15 @@ class _ResetPass extends State<ResetPass> {
             SizedBox(height:200),
             Text(
               'Reset your Password',
-              style: TextStyle(fontSize: 30, color: Colors.white),
+              style: TextStyle(fontSize: 30),
             ),
             TextFormField(
               validator: (val) => validateEmail(val) ? 'Ange en giltig e-mail' : null,
-              style: TextStyle(color:Colors.white),
               onChanged: (val) {
                 setState(() => email = val);
               },
               decoration: InputDecoration(
                 labelText: 'Email',
-                icon: Icon(Icons.mail, color: Colors.white),
-                errorStyle: TextStyle(color: Colors.white),
-                labelStyle: TextStyle(color: Colors.white),
-                hintStyle: TextStyle(color: Colors.white),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                     color: Colors.white
@@ -76,7 +70,8 @@ class _ResetPass extends State<ResetPass> {
               onPressed: () async {
                 try{
                   await _auth.sendPasswordResetEmail(email: email);
-                }catch(e){
+                }
+                catch(e){
                   print(e);
                 }
               }
