@@ -9,6 +9,4 @@ ToDo:
 - Designa om login/register
 - Implentera google MAPS
 - Implentera API
-- HITTA NÅGOT SÄTT ATT HÄMTA ANVÄNDAREN
-fwemwepä¨jmwepåiwemfpwåäomop
-Hej, något random!
+Någonting.
