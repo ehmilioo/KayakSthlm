@@ -11,3 +11,4 @@ ToDo:
 - Implentera API
 - HITTA NÅGOT SÄTT ATT HÄMTA ANVÄNDAREN
 fwemwepä¨jmwepåiwemfpwåäomop
+Hej, något random!
