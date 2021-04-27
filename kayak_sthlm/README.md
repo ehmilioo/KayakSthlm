@@ -10,4 +10,3 @@ ToDo:
 - Implentera google MAPS
 - Implentera API
 - HITTA NÅGOT SÄTT ATT HÄMTA ANVÄNDAREN
-fwemwepä¨jmwepåiwemfpwåäomop
