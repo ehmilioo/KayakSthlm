@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kayak_sthlm/services/auth.dart';
+import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
 
 
 class Home extends StatelessWidget {
 
   final AuthService _auth = AuthService();
-
+  final Database db = new Database();
 
   void openPage(BuildContext context) {
     Navigator.push(context,
@@ -16,14 +17,17 @@ class Home extends StatelessWidget {
     );
   }
 
+  void flutterIsShit() {
+    db.getMap();
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    //dynamic name = _auth.getUser().displayName;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Hemskärmen'),
+        title: Text('Welcome back'),
         backgroundColor: Colors.red[600],
         elevation: 0.0,
         actions: <Widget>[
@@ -61,7 +65,9 @@ class Home extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.wb_sunny_outlined),
                   iconSize: 30,
-                  onPressed: (){},
+                  onPressed: (){
+                    flutterIsShit();
+                  },
                 ),
                 IconButton(
                   icon: Icon(Icons.person_outline_outlined),
@@ -71,7 +77,8 @@ class Home extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.sticky_note_2_outlined),
                   iconSize: 30,
-                  onPressed: (){},
+                  onPressed: (){
+                  },
                 ),
                 IconButton(
                   icon: Icon(Icons.settings),
