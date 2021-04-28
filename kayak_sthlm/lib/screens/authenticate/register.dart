@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:kayak_sthlm/services/auth.dart';
 
 class Register extends StatefulWidget {
@@ -16,17 +17,30 @@ class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
-
-  final experienceLevels = <String>['Beginner', 'Amateur', 'Expert', 'Coach'];
-
   //Text field state
   String username = '';
   String email = '';
   String password = '';
   String error = '';
-  String dropdownValue = 'Beginner';
-  int age = 0;
+  
+  //Imported package vars
+  var age = 'Age';
+  var selectedExperienceLevel = "Skill level";
+  var selectedGender = "Gender";
 
+  List<String> experienceLevels = <String>[
+    'Beginner',
+    'Average',
+    'Skilled',
+    'Specialist',
+    'Expert',
+  ];
+  List<String> genders = <String>[
+    'Male',
+    'Female',
+    'Other'
+  ];
+  
   //Bool
   bool hidePassword = true; //Obscure passwords with buttons and icons
   bool validatedInput = false;
@@ -109,66 +123,77 @@ class _RegisterState extends State<Register> {
               ),
               SizedBox(height:20.0),
 
-
-
-
-              //Fixa designen på denna
-              DropdownButton<String>(
-                value: dropdownValue,
-                icon: const Icon(Icons.arrow_downward),
-                iconSize: 24,
-                elevation: 16,
-                style: const TextStyle(color: Colors.deepPurple),
-                underline: Container(
-                  height: 2,
-                  color: Colors.deepPurpleAccent,
-                ),
-                onChanged: (String newValue) {
-                  setState(() {
-                    dropdownValue = newValue;
-                  });
-                },
-                items: experienceLevels
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
+              FloatingActionButton.extended(
+                    icon: Icon(Icons.keyboard_arrow_down), 
+                    label: Text(selectedExperienceLevel),
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,  
+                    onPressed: () => {
+                      showMaterialRadioPicker(
+                        context: context,
+                        title: "Pick Your Skill Level",
+                        items: experienceLevels,
+                        onChanged: (value) => setState(() => selectedExperienceLevel = value),
+                      )
+                    },
+                  ),
+              Row(
+                children: <Widget>[
+                  FloatingActionButton.extended(
+                    icon: Icon(Icons.keyboard_arrow_down), 
+                    label: Text(selectedGender),
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,  
+                    onPressed: () => {
+                      showMaterialRadioPicker(
+                          context: context,
+                          title: "Pick Your Gender",
+                          items: genders,
+                          onChanged: (value) {
+                            setState(() => selectedGender = value);
+                          }
+                      )
+                    },
+                  ),
+                  FloatingActionButton.extended(
+                    icon: Icon(Icons.keyboard_arrow_down), 
+                    label: Text(age),
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,  
+                    onPressed: () => {
+                      showMaterialNumberPicker(
+                        context: context,
+                        title: "Pick Your Age",
+                        maxNumber: 100,
+                        minNumber: 1,
+                        onChanged: (value) {
+                          setState(() => age = value.toString());
+                        },
+                      )
+                    },
+                  ),
+                ],
               ),
-
-
-
-
-
+              SizedBox(height:40.0),
               
               CupertinoButton(
                 child: Text('Registrera'),
                 color: CupertinoColors.activeBlue,
                 onPressed: () async {
                   if(_formKey.currentState.validate()){
-                    dynamic result = await _auth.registerMail(email, password, username, dropdownValue, age);
+                    dynamic result = await _auth.registerMail(email, password, username, selectedExperienceLevel, age, selectedGender);
                     if(result == null){
                       setState(() => error = 'Ett fel uppstod');
                     }
                   }
                 },
               ),
-
-
-
               SizedBox(height: 12.0),
-
-
               //Preliminär errorhandling
               Text(
                 error, 
                 style: TextStyle(color: Colors.red, fontSize: 14.0),
               ),
-
-
-
-
               CupertinoButton(
                 child: Text('Logga in'),
                 color: CupertinoColors.darkBackgroundGray,

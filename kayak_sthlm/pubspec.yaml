@@ -13,6 +13,7 @@ dependencies:
   firebase_core: ^1.0.2
   provider: ^5.0.0
   cupertino_icons: ^1.0.2
+  flutter_material_pickers: ^2.1.1
 
 dev_dependencies:
   flutter_test:

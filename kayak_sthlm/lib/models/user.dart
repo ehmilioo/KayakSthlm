@@ -3,13 +3,15 @@ class TheUser {
   final String username;
   final String email;
   final String experience;
-  final int age;
+  final String age;
+  final String gender;
   TheUser({ 
       this.uid, 
       this.email, 
       this.username, 
       this.experience,
       this.age,
+      this.gender,
     });
 
   String getName(){
@@ -22,7 +24,8 @@ class TheUser {
         username = data['username'],
         email = data['email'],
         experience = data['experience'],
-        age = data['age'];
+        age = data['age'],
+        gender = data['gender'];
 
   Map<String, dynamic> toJson() => {
       'username': username,
@@ -30,6 +33,7 @@ class TheUser {
       'uid': uid,
       'experience' : experience,
       'age' : age,
+      'gender' : gender,
     };
 }
 

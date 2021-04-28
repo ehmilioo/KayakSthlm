@@ -31,9 +31,9 @@ class Home extends StatelessWidget {
         ],
       ),
       body: Container(
+        color: Colors.black,
         child: Column(
           children: <Widget>[
-            Text('Welcome ', style: TextStyle(fontSize: 30)),
           ],
         ),
       ),
@@ -49,36 +49,40 @@ class Home extends StatelessWidget {
         ),
       ),
         
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 4.0,
-        child: new Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.wb_sunny_outlined),
-                iconSize: 30,
-                onPressed: (){},
-              ),
-              IconButton(
-                icon: Icon(Icons.person_outline_outlined),
-                iconSize: 30,
-                onPressed: (){},
-              ),
-              IconButton(
-                icon: Icon(Icons.sticky_note_2_outlined),
-                iconSize: 30,
-                onPressed: (){},
-              ),
-              IconButton(
-                icon: Icon(Icons.settings),
-                iconSize: 30,
-                onPressed: (){},
-              ),
-          ],
+      bottomNavigationBar: SizedBox(
+        height: 60,
+        child: BottomAppBar(
+          shape: CircularNotchedRectangle(),
+          notchMargin: 4.0,
+          child: new Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.wb_sunny_outlined),
+                  iconSize: 30,
+                  onPressed: (){},
+                ),
+                IconButton(
+                  icon: Icon(Icons.person_outline_outlined),
+                  iconSize: 30,
+                  onPressed: (){},
+                ),
+                IconButton(
+                  icon: Icon(Icons.sticky_note_2_outlined),
+                  iconSize: 30,
+                  onPressed: (){},
+                ),
+                IconButton(
+                  icon: Icon(Icons.settings),
+                  iconSize: 30,
+                  onPressed: (){},
+                ),
+            ],
+          ),
         ),
       ),
+      
     );
   }
 }

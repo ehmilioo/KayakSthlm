@@ -8,7 +8,8 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String _username = '';
   String _experience = '';
-  int _age = 0;
+  String _gender = '';
+  String _age = '';
 
   //Tappert försök till att kunna hämta den skapade profilen
   User getUser(){
@@ -30,6 +31,7 @@ class AuthService {
         username: _username,
         experience: _experience,
         age : _age,
+        gender: _gender,
       ) 
     : null;
   }
@@ -55,9 +57,11 @@ class AuthService {
   }
 
   //Register with email&pass
-  Future registerMail(String email, String password, String username, String experience, int age) async {
+  Future registerMail(String email, String password, String username, String experience, String age, String gender) async {
     String _username = username;
     String _experience = experience;
+    String _gender = gender;
+    String _age = age;
     FirestoreService _firestoreAuth = FirestoreService();
     try{
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
@@ -68,7 +72,9 @@ class AuthService {
           email: user.email,
           username: _username,
           experience: _experience,
-          age: _age)); // Spara data i user tabell - firebase
+          age: _age,
+          gender: _gender,
+          )); // Spara data i user tabell - firebase
       return _userFromFirebase(user);
     }
     catch (error) {
