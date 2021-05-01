@@ -82,7 +82,7 @@ class _RegisterState extends State<Register> {
               ),
               SizedBox(height:20.0),
               TextFormField(
-                validator: (val) => val.length < 3 ? 'Användarnamn för kort' : null,
+                validator: (val) => val.length < 3 && val.length > 15 ? 'Användarnamn för kort/långt' : null,
                 decoration: InputDecoration(
                   hintText: 'Username',
                   suffixIcon : IconButton(
