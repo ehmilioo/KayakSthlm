@@ -15,6 +15,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_material_pickers: ^2.1.1
   google_maps_flutter: ^2.0.3
+  location: ^2.3.5
+
 
 dev_dependencies:
   flutter_test:
@@ -26,6 +28,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/kayakicon.png
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:

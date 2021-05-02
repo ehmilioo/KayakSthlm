@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
+import 'package:location/location.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:kayak_sthlm/services/auth.dart';
@@ -12,10 +15,16 @@ class Home extends StatefulWidget  {
 
 class MapSampleState extends State<Home> {
 
-  Completer<GoogleMapController> _controller = Completer();
+  //Completer<GoogleMapController> _controller = Completer();
 
   final AuthService _auth = AuthService();
   final Database db = new Database();
+  Marker marker;
+  Circle circle;
+  Location _locationTracker = Location();
+  StreamSubscription _locationSubscription;
+  GoogleMapController _controller;
+  var locationData;
 
   void openPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -27,40 +36,123 @@ class MapSampleState extends State<Home> {
     db.getMap();
   }
 
-  bool terrain = false;
-
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+  static final CameraPosition _startPosition = CameraPosition(
+    target: LatLng(59.33879, 18.08487),
     zoom: 14.4746,
   );
 
-  CameraPosition _userPos = CameraPosition(
-    bearing: 300.8334901395799,
-    target: LatLng(37.43296265331129, -122.08832357078792),
-    zoom: 19.151926040649414
-  );
+  Future<Uint8List> getMarker() async {
+    ByteData byteData = await DefaultAssetBundle.of(context).load("assets/kayakicon.png");
+    return byteData.buffer.asUint8List();
+  }
+
+  void updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData){
+    LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
+    this.setState(() {
+          marker = Marker(
+            markerId: MarkerId("home"),
+            position: latlng,
+            rotation: newLocalData.heading,
+            draggable: false,
+            zIndex: 2,
+            flat: true,
+            anchor: Offset(0.5,0.5),
+            icon: BitmapDescriptor.fromBytes(imageData));
+          circle = Circle(
+            circleId: CircleId("car"),
+            radius: newLocalData.accuracy,
+            zIndex: 1,
+            strokeColor: Colors.blue,
+            center: latlng,
+            fillColor: Colors.blue.withAlpha(70));
+        });
+  }
+
+
+
+  void getCurrentLocation() async {
+    try{
+      Uint8List imageData = await getMarker();
+      var location = await _locationTracker.getLocation();
+
+      updateMarkerAndCircle(location, imageData);
+
+      if(_locationSubscription != null){
+        _locationSubscription.cancel();
+      }
+
+      _locationSubscription = _locationTracker.onLocationChanged().listen((newLocalData) {
+        locationData = newLocalData;
+        if(_controller != null){
+          updateMarkerAndCircle(newLocalData, imageData);
+        }
+      });
+    } on PlatformException catch (e) {
+      if(e.code == 'PERMISSION_DENID') {
+        debugPrint('Permission Denied');
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    if (_locationSubscription != null) {
+      _locationSubscription.cancel();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
 
     return new Scaffold(
-      body: GoogleMap(
-        mapType: terrain ? MapType.hybrid : MapType.normal,
-        zoomControlsEnabled: false,
-        compassEnabled: true,
-        myLocationButtonEnabled: true,
-        initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
+      body: Stack(
+        children: <Widget>[
+          GoogleMap(
+          mapType: MapType.hybrid,
+          zoomControlsEnabled: false,
+          myLocationButtonEnabled: true,
+          initialCameraPosition: _startPosition,
+          markers: Set.of((marker != null) ? [marker] : []),
+          circles: Set.of((circle != null) ? [circle] : []),
+          onMapCreated: (GoogleMapController controller) {
+            _controller = controller;
+          },
+        ),
+        Positioned(
+          bottom: 20,
+          right: 5,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: RawMaterialButton(
+              onPressed: () {
+                getCurrentLocation();
+                _controller.animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+                  bearing: 192.83,
+                  target: LatLng(locationData.latitude, locationData.longitude),
+                  zoom: 15.00))
+                );
+              },
+              elevation: 5.0,
+              fillColor: Colors.white,
+              child: Icon(
+                Icons.location_searching,
+                size: 35.0,
+              ),
+              padding: EdgeInsets.all(10.0),
+              shape: CircleBorder(),
+            ),
+          ),
+        ),
+        
+        ],
       ),
+        
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 30.0),
         child: FloatingActionButton(
             onPressed: () {
-              setState(() =>!terrain);
-              print(terrain);
             },
             tooltip: 'Start',
             backgroundColor: Colors.green[200],
@@ -110,10 +202,5 @@ class MapSampleState extends State<Home> {
         ),
       ),
     );
-  }
-
-  Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_userPos));
   }
 }
