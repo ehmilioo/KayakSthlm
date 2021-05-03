@@ -28,7 +28,6 @@ class MapSampleState extends State<Home> {
 
   @override
   void initState() {
-    getCurrentLocation();
     super.initState();
   }
 
@@ -111,6 +110,7 @@ class MapSampleState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    getCurrentLocation();
     return new Scaffold(
       body: Stack(
         children: <Widget>[
