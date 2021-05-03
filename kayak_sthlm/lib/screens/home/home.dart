@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 import 'package:flutter/material.dart';
+import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'dart:async';
 import 'package:kayak_sthlm/services/auth.dart';
 import 'package:kayak_sthlm/services/database.dart';
@@ -15,8 +16,6 @@ class Home extends StatefulWidget  {
 
 class MapSampleState extends State<Home> {
 
-  //Completer<GoogleMapController> _controller = Completer();
-
   final AuthService _auth = AuthService();
   final Database db = new Database();
   Marker marker;
@@ -24,7 +23,14 @@ class MapSampleState extends State<Home> {
   Location _locationTracker = Location();
   StreamSubscription _locationSubscription;
   GoogleMapController _controller;
-  var locationData;
+  LocationData locationData;
+  CameraPosition currentPosition;
+
+  @override
+  void initState() {
+    getCurrentLocation();
+    super.initState();
+  }
 
   void openPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -42,7 +48,7 @@ class MapSampleState extends State<Home> {
   );
 
   Future<Uint8List> getMarker() async {
-    ByteData byteData = await DefaultAssetBundle.of(context).load("assets/kayakicon.png");
+    ByteData byteData = await DefaultAssetBundle.of(context).load("assets/arrow_final.png");
     return byteData.buffer.asUint8List();
   }
 
@@ -50,7 +56,7 @@ class MapSampleState extends State<Home> {
     LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
     this.setState(() {
           marker = Marker(
-            markerId: MarkerId("home"),
+            markerId: MarkerId("user"),
             position: latlng,
             rotation: newLocalData.heading,
             draggable: false,
@@ -59,16 +65,14 @@ class MapSampleState extends State<Home> {
             anchor: Offset(0.5,0.5),
             icon: BitmapDescriptor.fromBytes(imageData));
           circle = Circle(
-            circleId: CircleId("car"),
-            radius: newLocalData.accuracy,
+            circleId: CircleId("radius"),
+            radius: newLocalData.accuracy+100,
             zIndex: 1,
             strokeColor: Colors.blue,
             center: latlng,
             fillColor: Colors.blue.withAlpha(70));
         });
   }
-
-
 
   void getCurrentLocation() async {
     try{
@@ -94,6 +98,9 @@ class MapSampleState extends State<Home> {
     }
   }
 
+  static final testNE = LatLng(60.380987, 19.644660);
+  static final testSW = LatLng(58.653765, 17.205695);
+
   @override
   void dispose() {
     if (_locationSubscription != null) {
@@ -104,20 +111,60 @@ class MapSampleState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-
     return new Scaffold(
       body: Stack(
         children: <Widget>[
-          GoogleMap(
+          locationData == null ? 
+          Center(
+            child: CircularProgressIndicator(
+                backgroundColor: Colors.black,
+              ),
+          )
+
+          : GoogleMap(
           mapType: MapType.hybrid,
           zoomControlsEnabled: false,
-          myLocationButtonEnabled: true,
+          mapToolbarEnabled: false,
+          compassEnabled: false,
           initialCameraPosition: _startPosition,
           markers: Set.of((marker != null) ? [marker] : []),
           circles: Set.of((circle != null) ? [circle] : []),
           onMapCreated: (GoogleMapController controller) {
             _controller = controller;
+            _controller.animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+              bearing: locationData.heading,
+              target: LatLng(locationData.latitude, locationData.longitude),
+              zoom: 15.00))
+            );
           },
+          cameraTargetBounds: new CameraTargetBounds(
+                new LatLngBounds(
+                  northeast: testNE,
+                  southwest: testSW,
+                ),
+              ),
+        ),
+        Positioned(
+          top: 40,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: RawMaterialButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => WeatherDialog(),
+                );
+              },
+              elevation: 5.0,
+              fillColor: Colors.white,
+              child: Icon(
+                Icons.wb_cloudy_rounded,
+                size: 35.0,
+              ),
+              padding: EdgeInsets.all(10.0),
+              shape: CircleBorder(),
+            ),
+          ),
         ),
         Positioned(
           bottom: 20,
@@ -128,7 +175,7 @@ class MapSampleState extends State<Home> {
               onPressed: () {
                 getCurrentLocation();
                 _controller.animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
-                  bearing: 192.83,
+                  bearing: locationData.heading,
                   target: LatLng(locationData.latitude, locationData.longitude),
                   zoom: 15.00))
                 );

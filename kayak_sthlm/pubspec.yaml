@@ -16,6 +16,7 @@ dependencies:
   flutter_material_pickers: ^2.1.1
   google_maps_flutter: ^2.0.3
   location: ^2.3.5
+  http: ^0.13.2
 
 
 dev_dependencies:
@@ -29,7 +30,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/kayakicon.png
+    - assets/arrow_final.png
 
 
   # To add assets to your application, add an assets section, like this:
