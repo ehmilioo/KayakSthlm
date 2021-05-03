@@ -38,7 +38,8 @@ class MapSampleState extends State<Home> {
   }
 
   void flutterIsShit() {
-    db.getMap();
+    Map<String, dynamic> myMap = db.getMap();
+    print(myMap);
   }
 
   static final CameraPosition _startPosition = CameraPosition(
@@ -200,6 +201,7 @@ class MapSampleState extends State<Home> {
         padding: const EdgeInsets.only(bottom: 30.0),
         child: FloatingActionButton(
             onPressed: () {
+              flutterIsShit();
             },
             tooltip: 'Start',
             backgroundColor: Colors.green[200],
