@@ -14,17 +14,17 @@ class Database {
   };
 
 
-  Map<String, dynamic> getUser(){
+  Map<String, dynamic> mapUser(){
     var myMap = Map<String, dynamic>.from(data);
     return myMap;
   }
 
-  Map<String, dynamic> getMap() {
+  Map<String, dynamic> getUser() {
     _fetchUserInfo();
     if(data['age'] == 0){
       print('Havent fetched yet');
     }else{
-      Map<String,dynamic> myMap = getUser();
+      Map<String,dynamic> myMap = mapUser();
       return myMap;
     }
     return null;

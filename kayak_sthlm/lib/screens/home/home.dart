@@ -4,7 +4,6 @@ import 'package:location/location.dart';
 import 'package:flutter/material.dart';
 import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'dart:async';
-import 'package:kayak_sthlm/services/auth.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -16,7 +15,6 @@ class Home extends StatefulWidget  {
 
 class MapSampleState extends State<Home> {
 
-  final AuthService _auth = AuthService();
   final Database db = new Database();
   Marker marker;
   Circle circle;
@@ -38,7 +36,7 @@ class MapSampleState extends State<Home> {
   }
 
   void flutterIsShit() {
-    Map<String, dynamic> myMap = db.getMap();
+    Map<String, dynamic> myMap = db.getUser();
     print(myMap);
   }
 
@@ -92,14 +90,15 @@ class MapSampleState extends State<Home> {
         }
       });
     } on PlatformException catch (e) {
+      print(e);
       if(e.code == 'PERMISSION_DENID') {
         debugPrint('Permission Denied');
       }
     }
   }
 
-  static final testNE = LatLng(60.380987, 19.644660);
-  static final testSW = LatLng(58.653765, 17.205695);
+  static final sthlmNE = LatLng(60.380987, 19.644660);
+  static final sthlmSW = LatLng(58.653765, 17.205695);
 
   @override
   void dispose() {
@@ -140,8 +139,8 @@ class MapSampleState extends State<Home> {
           },
           cameraTargetBounds: new CameraTargetBounds(
                 new LatLngBounds(
-                  northeast: testNE,
-                  southwest: testSW,
+                  northeast: sthlmNE,
+                  southwest: sthlmSW,
                 ),
               ),
         ),
@@ -153,7 +152,7 @@ class MapSampleState extends State<Home> {
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (_) => WeatherDialog(),
+                  builder: (_) => WeatherDialog(longitude: locationData.longitude, latitude: locationData.latitude),
                 );
               },
               elevation: 5.0,
