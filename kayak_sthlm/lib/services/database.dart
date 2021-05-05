@@ -14,7 +14,7 @@ class Database {
   };
 
 
-  Map<String, dynamic> mapUser(){
+  Map<String, dynamic> mapData(){
     var myMap = Map<String, dynamic>.from(data);
     return myMap;
   }
@@ -24,7 +24,7 @@ class Database {
     if(data['age'] == 0){
       print('Havent fetched yet');
     }else{
-      Map<String,dynamic> myMap = mapUser();
+      Map<String,dynamic> myMap = mapData();
       return myMap;
     }
     return null;
