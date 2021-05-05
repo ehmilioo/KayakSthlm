@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kayak_sthlm/screens/home/home.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
+import 'dart:ui';
 
 class WeatherDialog extends StatefulWidget {
   final double longitude;
@@ -45,7 +46,46 @@ class WeatherOverlayState extends State<WeatherDialog> {
       future: currentWeather,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Text(snapshot.data.timeSeries[0].toString());
+          return Stack(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: Constants.padding,top: 120, right: Constants.padding,bottom: Constants.padding
+                ),
+                margin: EdgeInsets.only(top: Constants.avatarRadius),
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(Constants.padding),
+                  boxShadow: [
+                    BoxShadow(color: Colors.black,offset: Offset(0,10),
+                    blurRadius: 10
+                    ),
+                  ]
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text('Temp ${snapshot.data.timeSeries[0]['parameters'][10]['level']} °C',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+                    SizedBox(height: 15,),
+                    Text('Wind ${snapshot.data.timeSeries[0]['parameters'][14]['level']} m/s',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+                    SizedBox(height: 15,),
+                    Text('Weather type',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+                    SizedBox(height: 15,),
+                    Text('Rain ${snapshot.data.timeSeries[0]['parameters'][0]['level']}%',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+                    SizedBox(height: 22,),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: FlatButton(
+                          onPressed: (){
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Close',style: TextStyle(fontSize: 18),)),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
@@ -56,8 +96,12 @@ class WeatherOverlayState extends State<WeatherDialog> {
 }
  
 //ToDo
-//Serializea JSON string korrekt
-
+//Lista för alla föremål
+//['parameter'] för att hämta datan om föremålet
+//  child: Text(snapshot.data.timeSeries[0]['parameters'][10]['name']),
+// 
+//  timeSeries[0]['parameters'][10]['name']
+//  Lista    Timme            Format Värde  
 
 class Weather {
   final List timeSeries;
@@ -66,11 +110,17 @@ class Weather {
 
   factory Weather.fromJson(Map<String, dynamic> json) {
     List<dynamic> responseList;
-    List<dynamic> weatherList = []; 
+    List<dynamic> weatherList = [];
     responseList = json['timeSeries'];
-    weatherList.addAll(responseList.getRange(0, 8));
+    weatherList.addAll(responseList.getRange(1, 8));
     return Weather(
       timeSeries: weatherList,
     );
   }
+}
+
+class Constants{
+  Constants._();
+  static const double padding =20;
+  static const double avatarRadius =45;
 }
