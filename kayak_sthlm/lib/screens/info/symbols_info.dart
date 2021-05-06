@@ -11,8 +11,21 @@ class SymbolsScreen extends StatelessWidget {
         title: Text('Symbols Info'),
       ),
       body: Center(
-        child: Column(children: <Widget>[
+        child: ListView(children: <Widget>[
           SizedBox(height: 20),
+          Container(
+            decoration: BoxDecoration(
+              color: const Color(0xff7c94b6),
+              image: const DecorationImage(
+                image: AssetImage('asset/images/birdProtectionArea.jpg'),
+                fit: BoxFit.cover,
+              ),
+              border: Border.all(
+                color: Colors.black,
+                width: 40,
+              ),
+            ),
+          ),
           Container(
             height: 260.0,
             width: 300.0,
@@ -44,6 +57,19 @@ class SymbolsScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20),
+          Container(
+            decoration: BoxDecoration(
+              color: const Color(0xff7c94b6),
+              image: const DecorationImage(
+                image: AssetImage('asset/images/sealProtectionArea.jpg'),
+                fit: BoxFit.cover,
+              ),
+              border: Border.all(
+                color: Colors.black,
+                width: 40,
+              ),
+            ),
+          ),
           Container(
             height: 260.0,
             width: 300.0,

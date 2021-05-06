@@ -19,15 +19,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1476fab6-59af-40fe-aeaf-a49f811b7866" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/kayak_sthlm/assets/images/mapNatureReserves.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+    <list default="true" id="1476fab6-59af-40fe-aeaf-a49f811b7866" name="Default Changelist" comment="Youtube videos fixade.">
+      <change afterPath="$PROJECT_DIR$/kayak_sthlm/assets/images/birdProtectionArea.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kayak_sthlm/assets/images/sealProtectionArea.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/guides.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/guides.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/information.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/information.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/reserve.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/reserve.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kayak_sthlm/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/symbols_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/symbols_info.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kayak_sthlm/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,17 +50,18 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/kayak_sthlm/lib/assets" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/kayak_sthlm/assets/images" />
     <property name="settings.editor.selected.configurable" value="dart.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\marti\Documents\GitHub\KayakSthlm\kayak_sthlm\lib\assets" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\marti\Documents\GitHub\KayakSthlm\kayak_sthlm\assets" />
       <recent name="C:\Users\marti\Documents\GitHub\KayakSthlm\kayak_sthlm\lib\assets\images" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\marti\Documents\GitHub\KayakSthlm\kayak_sthlm\assets\images" />
+      <recent name="C:\Users\marti\Documents\GitHub\KayakSthlm\kayak_sthlm\lib\assets" />
     </key>
   </component>
   <component name="RunManager">
@@ -88,6 +86,14 @@
       <option name="presentableId" value="Default" />
       <updated>1619512175840</updated>
     </task>
+    <task id="LOCAL-00001" summary="Youtube videos fixade.">
+      <created>1620311369904</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1620311369904</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -104,6 +110,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Youtube videos fixade." />
+    <option name="LAST_COMMIT_MESSAGE" value="Youtube videos fixade." />
   </component>
   <component name="WindowStateProjectService">
     <state x="305" y="38" key="#Inspections" timestamp="1619517360896">
