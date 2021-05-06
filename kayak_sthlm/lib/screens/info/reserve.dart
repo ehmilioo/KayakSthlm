@@ -13,6 +13,15 @@ class ReserveScreen extends StatelessWidget {
       body: Center(
           child: Column(
         children: <Widget>[
+          DecoratedBox(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+              image: AssetImage('asset/images/mapNatureReserves.png'),
+        // ...
+      ),
+      // ...
+    ),
+    ),
           Expanded(
             child: Align(
               alignment: FractionalOffset.bottomCenter,

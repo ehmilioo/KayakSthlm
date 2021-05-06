@@ -1,32 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="1476fab6-59af-40fe-aeaf-a49f811b7866" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/kayak_sthlm/assets/images/mapNatureReserves.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/guides.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/guides.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/information.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/information.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/reserve.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/reserve.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kayak_sthlm/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kayak_sthlm/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Pixel_XL_API_30]" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1rkFRqv3HWVXdb91SZw6m9fPS4x" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="flutter.settings" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/kayak_sthlm/lib/assets" />
+    <property name="settings.editor.selected.configurable" value="dart.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\marti\Documents\GitHub\KayakSthlm\kayak_sthlm\lib\assets" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\marti\Documents\GitHub\KayakSthlm\kayak_sthlm\assets" />
+      <recent name="C:\Users\marti\Documents\GitHub\KayakSthlm\kayak_sthlm\lib\assets\images" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
@@ -52,6 +90,21 @@
     </task>
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="305" y="38" key="#Inspections" timestamp="1619517360896">
       <screen x="0" y="0" width="1280" height="680" />
@@ -61,39 +114,47 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="85" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1619520286966" />
-    <state x="162" y="232" width="1590" height="696" key="AVDManager" timestamp="1619641361548">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state x="108" y="146" width="1060" height="438" key="AVDManager" timestamp="1620309193801">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="108" y="146" width="1060" height="438" key="AVDManager/0.0.1280.680@0.0.1280.680" timestamp="1619520441063" />
+    <state x="108" y="146" width="1060" height="438" key="AVDManager/0.0.1280.680@0.0.1280.680" timestamp="1620309193801" />
     <state x="162" y="232" width="1590" height="696" key="AVDManager/1920.0.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1619641361548" />
     <state x="412" y="95" key="FileChooserDialogImpl" timestamp="1619518469368">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="412" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1619518469368" />
-    <state width="1877" height="295" key="GridCell.Tab.0.bottom" timestamp="1619641361435">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1236" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1619521590685" />
-    <state width="1877" height="295" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1619641361435" />
-    <state width="1877" height="295" key="GridCell.Tab.0.center" timestamp="1619641361435">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1236" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1619521590685" />
-    <state width="1877" height="295" key="GridCell.Tab.0.center/1920.0.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1619641361435" />
-    <state width="1877" height="295" key="GridCell.Tab.0.left" timestamp="1619641361435">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1236" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1619521590684" />
-    <state width="1877" height="295" key="GridCell.Tab.0.left/1920.0.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1619641361435" />
-    <state width="1877" height="295" key="GridCell.Tab.0.right" timestamp="1619641361435">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1236" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1619521590685" />
-    <state width="1877" height="295" key="GridCell.Tab.0.right/1920.0.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1619641361435" />
-    <state x="159" y="0" key="SettingsEditor" timestamp="1619517310042">
+    <state width="1236" height="375" key="GridCell.Tab.0.bottom" timestamp="1620309249280">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="159" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1619517310042" />
+    <state width="1236" height="375" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1620309249280" />
+    <state width="1877" height="295" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1619641361435" />
+    <state width="1236" height="375" key="GridCell.Tab.0.center" timestamp="1620309249280">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1236" height="375" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1620309249280" />
+    <state width="1877" height="295" key="GridCell.Tab.0.center/1920.0.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1619641361435" />
+    <state width="1236" height="375" key="GridCell.Tab.0.left" timestamp="1620309249279">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1236" height="375" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1620309249279" />
+    <state width="1877" height="295" key="GridCell.Tab.0.left/1920.0.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1619641361435" />
+    <state width="1236" height="375" key="GridCell.Tab.0.right" timestamp="1620309249280">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1236" height="375" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1620309249280" />
+    <state width="1877" height="295" key="GridCell.Tab.0.right/1920.0.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1619641361435" />
+    <state x="158" y="74" key="MergeDialog" timestamp="1620304189982">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="158" y="74" key="MergeDialog/0.0.1280.680@0.0.1280.680" timestamp="1620304189982" />
+    <state x="159" y="0" key="SettingsEditor" timestamp="1620293381548">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="159" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1620293381548" />
+    <state x="450" y="255" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1620304148098">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="450" y="255" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.680@0.0.1280.680" timestamp="1620304148098" />
     <state x="298" y="151" key="run.anything.popup" timestamp="1619520239408">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

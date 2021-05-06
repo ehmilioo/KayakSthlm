@@ -131,7 +131,7 @@ class InformationScreen extends StatelessWidget {
               ),
               IconButton(
                 // Navigationsknapp 4: Settings
-                icon: Icon(Icons.settings_outlined),
+                icon: Icon(Icons.follow_the_signs),
                 iconSize: 35,
                 onPressed: () {},
               ),
