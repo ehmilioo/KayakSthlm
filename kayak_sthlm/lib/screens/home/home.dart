@@ -1,12 +1,12 @@
 import 'dart:typed_data';
-import 'package:flutter/services.dart';
-import 'package:location/location.dart';
-import 'package:flutter/material.dart';
-import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'dart:async';
+import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
+import 'package:location/location.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Home extends StatefulWidget  {
   @override
