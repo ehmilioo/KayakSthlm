@@ -4,10 +4,9 @@ import 'package:kayak_sthlm/screens/info/guides.dart';
 import 'package:kayak_sthlm/screens/info/reserve.dart';
 import 'package:kayak_sthlm/services/auth.dart';
 import 'package:kayak_sthlm/screens/info/symbols_info.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
+import 'app_icons.dart';
 
 class InformationScreen extends StatelessWidget {
   final AuthService _auth = AuthService();
@@ -47,32 +46,32 @@ class InformationScreen extends StatelessWidget {
           crossAxisCount: 2,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.place_outlined),
-              iconSize: 35,
+              icon: Icon(AppIcons.guide),
+              iconSize: 90,
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => GuideScreen()));
               },
             ),
             IconButton(
-              icon: Icon(Icons.calendar_today_outlined),
-              iconSize: 35,
+              icon: Icon(AppIcons.reserves),
+              iconSize: 90,
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ReserveScreen()));
               },
             ),
             IconButton(
-              icon: Icon(Icons.info_outline),
-              iconSize: 35,
+              icon: Icon(AppIcons.fire),
+              iconSize: 90,
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => FireScreen()));
               },
             ),
             IconButton(
-              icon: Icon(Icons.settings_outlined),
-              iconSize: 35,
+              icon: Icon(AppIcons.symbols),
+              iconSize: 90,
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => SymbolsScreen()));

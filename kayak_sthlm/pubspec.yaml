@@ -15,6 +15,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_material_pickers: ^2.1.1
 
+  
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -25,6 +28,11 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  fonts:
+   - family:  AppIcons
+     fonts:
+      - asset: fonts/AppIcons.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
