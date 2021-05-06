@@ -12,37 +12,67 @@ class SymbolsScreen extends StatelessWidget {
       ),
       body: Center(
         child: Column(children: <Widget>[
+          SizedBox(height: 20),
           Container(
-            height: 200.0,
+            height: 260.0,
             width: 300.0,
             color: Colors.transparent,
             child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                child: new Center(
-                  child: new Text(
-                    "This symbol represents areas that are meant for seals to live undisturbed from human life. Typically, this is at the time of year when seals have babies. These areas are forbidden for kayakers to enter with their boat.",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                    textAlign: TextAlign.center,
+              padding: EdgeInsets.only(
+                top: 15.0,
+                left: 15.0,
+                right: 15.0,
+                bottom: 15.0,
+              ),
+              decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.audiotrack,
+                    color: Colors.black,
+                    size: 60.0,
                   ),
-                )),
-          ),
-          Container(
-            height: 200.0,
-            width: 300.0,
-            color: Colors.transparent,
-            child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                child: new Center(
-                  child: new Text(
+                  Text(
                     "This symbol represents areas that are meant to preserve a habitat important for birds. These areas are either areas that attract many birds or imortant for the endangered species. These areas are forbidden for kayakers to enter.",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    style: TextStyle(color: Colors.white, fontSize: 18),
                     textAlign: TextAlign.center,
                   ),
-                )),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          Container(
+            height: 260.0,
+            width: 300.0,
+            color: Colors.transparent,
+            child: Container(
+              padding: EdgeInsets.only(
+                top: 15.0,
+                left: 15.0,
+                right: 15.0,
+                bottom: 15.0,
+              ),
+              decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.favorite,
+                    color: Colors.black,
+                    size: 60.0,
+                  ),
+                  Text(
+                    "This symbol represents areas that are meant to preserve a habitat important for birds. These areas are either areas that attract many birds or imortant for the endangered species. These areas are forbidden for kayakers to enter.",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
           ),
           Expanded(
             child: Align(
