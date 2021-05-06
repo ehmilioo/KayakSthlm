@@ -28,14 +28,14 @@ class _ResetPass extends State<ResetPass> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color.fromRGBO(242, 248, 255, 1),
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage("assets/bakgrund.png"),
-            fit: BoxFit.cover,
-          )),
-          child: SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+              image: AssetImage("assets/bakgrund.png"),
+              fit: BoxFit.cover,
+            )),
             padding: EdgeInsets.symmetric(horizontal: 60.0),
             child: Form(
               key: _formKey,
