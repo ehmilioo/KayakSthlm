@@ -19,11 +19,12 @@ class WeatherDialog extends StatefulWidget {
 
 class WeatherOverlayState extends State<WeatherDialog> {
   Future<Weather> currentWeather;
-
+  List _types = [];
   @override
   void initState() {
     super.initState();
     currentWeather = fetchWeather();
+    readJson();
   }
 
   Future<Weather> fetchWeather() async {
@@ -39,6 +40,26 @@ class WeatherOverlayState extends State<WeatherDialog> {
     }
   }
 
+  
+
+  // Fetch content from the json file
+  Future<void> readJson() async {
+    final String response = await DefaultAssetBundle.of(context).loadString('assets/weatherType.json');
+    final data = await json.decode(response);
+    setState(() => {
+      _types = data['types']
+    });
+  }
+
+  Map<String, dynamic> getWeatherTypeInfo(int index){
+    if(_types != null){
+      return _types[index];
+    }else{
+      return null;
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +67,7 @@ class WeatherOverlayState extends State<WeatherDialog> {
       future: currentWeather,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          Map<String, dynamic> response = getWeatherTypeInfo(snapshot.data.timeSeries[0]['parameters'][18]['values'][0]-1); //-1 eftersom SMHI API börjar på 1 och listor på 0 :-)
           return Stack(
             children: <Widget>[
               Container(
@@ -65,13 +87,13 @@ class WeatherOverlayState extends State<WeatherDialog> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text('Temp ${snapshot.data.timeSeries[0]['parameters'][10]['level']} °C',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+                    Text('Temp: ${snapshot.data.timeSeries[0]['parameters'][10]['level']} °C',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
                     SizedBox(height: 15,),
-                    Text('Wind ${snapshot.data.timeSeries[0]['parameters'][14]['level']} m/s',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+                    Text('Wind: ${snapshot.data.timeSeries[0]['parameters'][14]['level']} m/s',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
                     SizedBox(height: 15,),
-                    Text('Weather type',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+                    Text('Weather type: ${response['desc']}',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
                     SizedBox(height: 15,),
-                    Text('Rain ${snapshot.data.timeSeries[0]['parameters'][0]['level']}%',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+                    Text('Rain: ${snapshot.data.timeSeries[0]['parameters'][0]['level']}%',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
                     SizedBox(height: 22,),
                     Align(
                       alignment: Alignment.bottomRight,
@@ -94,12 +116,12 @@ class WeatherOverlayState extends State<WeatherDialog> {
     );
   }
 }
- 
+
 //ToDo
 //Lista för alla föremål
 //['parameter'] för att hämta datan om föremålet
 //  child: Text(snapshot.data.timeSeries[0]['parameters'][10]['name']),
-// 
+//  https://opendata.smhi.se/apidocs/metfcst/parameters.html
 //  timeSeries[0]['parameters'][10]['name']
 //  Lista    Timme            Format Värde  
 
