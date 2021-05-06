@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
+import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 import 'package:kayak_sthlm/services/auth.dart';
 
 class Register extends StatefulWidget {
@@ -33,11 +34,117 @@ class _RegisterState extends State<Register> {
     'Specialist',
     'Expert',
   ];
+
+  List<int> ageNumbers = <int>[
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99
+  ];
   List<String> genders = <String>['Male', 'Female', 'Other'];
 
   //Bool
   bool hidePassword = true; //Obscure passwords with buttons and icons
   bool validatedInput = false;
+  bool _expSelected = false;
+  bool _genderSelected = false;
+  bool _ageSelected = false;
 
   //Check e-mail
   bool validateEmail(String value) {
@@ -76,7 +183,7 @@ class _RegisterState extends State<Register> {
                     style:
                         TextStyle(fontFamily: 'HammersmithOne', fontSize: 35),
                   ),
-                  SizedBox(height: 110),
+                  SizedBox(height: 0),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
                     child: TextFormField(
@@ -93,121 +200,261 @@ class _RegisterState extends State<Register> {
                           setState(() => username = val);
                         }),
                   ),
-                  SizedBox(height: 20.0),
-                  TextFormField(
-                      validator: (val) =>
-                          validateEmail(val) ? 'Ange en giltig e-mail' : null,
-                      decoration: InputDecoration(hintText: 'E-mail'),
-                      onChanged: (val) {
-                        setState(() => email = val);
-                      }),
-                  SizedBox(height: 20.0),
-                  TextFormField(
-                      validator: (val) => validatePassword(val)
-                          ? 'Minst 8 tecken och minst en siffra'
-                          : null,
-                      obscureText: hidePassword,
-                      decoration: InputDecoration(
-                          hintText: 'Password',
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() => hidePassword = !hidePassword);
-                            },
-                            icon: Icon(hidePassword
-                                ? Icons.remove_red_eye
-                                : Icons.remove_red_eye_outlined),
-                          )),
-                      onChanged: (val) {
-                        setState(() => password = val);
-                      }),
-                  SizedBox(height: 20.0),
-
-                  FloatingActionButton.extended(
-                    icon: Icon(Icons.keyboard_arrow_down),
-                    label: Text(selectedExperienceLevel),
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    onPressed: () => {
-                      showMaterialRadioPicker(
-                        context: context,
-                        title: "Pick Your Skill Level",
-                        items: experienceLevels,
-                        onChanged: (value) =>
-                            setState(() => selectedExperienceLevel = value),
-                      )
-                    },
-                  ),
+                  ConstrainedBox(
+                      constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
+                      child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          style: TextStyle(
+                              fontFamily: 'HammersmithOne', fontSize: 18),
+                          validator: (val) => validateEmail(val)
+                              ? 'Ange en giltig e-post'
+                              : null,
+                          decoration: InputDecoration(
+                              labelText: 'Email',
+                              contentPadding: EdgeInsets.only(top: 20),
+                              labelStyle: TextStyle(
+                                  color: Color.fromRGBO(136, 134, 134, 1))),
+                          onChanged: (val) {
+                            setState(() => email = val);
+                          })),
+                  ConstrainedBox(
+                      constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
+                      child: TextFormField(
+                          style: TextStyle(
+                              fontFamily: 'HammersmithOne', fontSize: 18),
+                          validator: (val) => validatePassword(val)
+                              ? 'Ange ett giltigt lösenord, minst 8 tecken 1 siffra'
+                              : null,
+                          obscureText: hidePassword,
+                          decoration: InputDecoration(
+                              labelText: 'Password',
+                              contentPadding: EdgeInsets.only(top: 20),
+                              labelStyle: TextStyle(
+                                  color: Color.fromRGBO(136, 134, 134, 1)),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() => hidePassword = !hidePassword);
+                                },
+                                icon: Icon(hidePassword
+                                    ? Icons.remove_red_eye
+                                    : Icons.remove_red_eye_outlined),
+                              )),
+                          onChanged: (val) {
+                            setState(() => password = val);
+                          })),
+                  SizedBox(height: 5),
+                  //EXPERIENCE
+                  Container(
+                      alignment: Alignment.center,
+                      width: 259,
+                      height: 28,
+                      decoration: BoxDecoration(
+                          color: _expSelected == true
+                              ? Color.fromRGBO(146, 199, 254, 1)
+                              : Color.fromRGBO(218, 221, 224, 1),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(50.0))),
+                      child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                        isExpanded: true,
+                        elevation: 10,
+                        style: TextStyle(color: Colors.black),
+                        items: experienceLevels
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        hint: _expSelected == true
+                            ? Align(
+                                alignment: Alignment.center,
+                                child: Text(selectedExperienceLevel,
+                                    style: TextStyle(
+                                      fontFamily: 'HammersmithOne',
+                                      fontSize: 16,
+                                    )))
+                            : Align(
+                                alignment: Alignment.center,
+                                child: Text('Experience',
+                                    style: TextStyle(
+                                      fontFamily: 'HammersmithOne',
+                                      fontSize: 16,
+                                    ))),
+                        onChanged: (String value) {
+                          _expSelected = true;
+                          setState(() {
+                            selectedExperienceLevel = value;
+                          });
+                        },
+                      ))),
+                  SizedBox(height: 20),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      FloatingActionButton.extended(
-                        icon: Icon(Icons.keyboard_arrow_down),
-                        label: Text(selectedGender),
-                        backgroundColor: Colors.green,
-                        foregroundColor: Colors.white,
-                        onPressed: () => {
-                          showMaterialRadioPicker(
-                              context: context,
-                              title: "Pick Your Gender",
-                              items: genders,
-                              onChanged: (value) {
-                                setState(() => selectedGender = value);
-                              })
-                        },
-                      ),
-                      FloatingActionButton.extended(
-                        icon: Icon(Icons.keyboard_arrow_down),
-                        label: Text(age),
-                        backgroundColor: Colors.green,
-                        foregroundColor: Colors.white,
-                        onPressed: () => {
-                          showMaterialNumberPicker(
-                            context: context,
-                            title: "Pick Your Age",
-                            maxNumber: 100,
-                            minNumber: 1,
-                            onChanged: (value) {
-                              setState(() => age = value.toString());
+                      //AGE
+                      Container(
+                          alignment: Alignment.center,
+                          width: 113,
+                          height: 28,
+                          decoration: BoxDecoration(
+                              color: _ageSelected == true
+                                  ? Color.fromRGBO(146, 199, 254, 1)
+                                  : Color.fromRGBO(218, 221, 224, 1),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50.0))),
+                          child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                            isExpanded: true,
+                            elevation: 10,
+                            style: TextStyle(color: Colors.black),
+                            items: ageNumbers
+                                .map<DropdownMenuItem<int>>((int value) {
+                              return DropdownMenuItem<int>(
+                                value: value,
+                                child: Text(value.toString()),
+                              );
+                            }).toList(),
+                            hint: _ageSelected == true
+                                ? Align(
+                                    alignment: Alignment.center,
+                                    child: Text(age + ' years',
+                                        style: TextStyle(
+                                          fontFamily: 'HammersmithOne',
+                                          fontSize: 16,
+                                        )))
+                                : Align(
+                                    alignment: Alignment.center,
+                                    child: Text('Age',
+                                        style: TextStyle(
+                                          fontFamily: 'HammersmithOne',
+                                          fontSize: 16,
+                                        ))),
+                            onChanged: (int value) {
+                              _ageSelected = true;
+                              setState(() {
+                                age = value.toString();
+                              });
                             },
-                          )
-                        },
+                          ))),
+
+                      SizedBox(
+                        width: 33,
                       ),
+
+                      //GENDER
+                      Container(
+                          alignment: Alignment.center,
+                          width: 113,
+                          height: 28,
+                          decoration: BoxDecoration(
+                              color: _genderSelected == true
+                                  ? Color.fromRGBO(146, 199, 254, 1)
+                                  : Color.fromRGBO(218, 221, 224, 1),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50.0))),
+                          child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                            isExpanded: true,
+                            elevation: 10,
+                            style: TextStyle(color: Colors.black),
+                            items: genders
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            hint: _genderSelected == true
+                                ? Align(
+                                    alignment: Alignment.center,
+                                    child: Text(selectedGender,
+                                        style: TextStyle(
+                                          fontFamily: 'HammersmithOne',
+                                          fontSize: 16,
+                                        )))
+                                : Align(
+                                    alignment: Alignment.center,
+                                    child: Text('Gender',
+                                        style: TextStyle(
+                                          fontFamily: 'HammersmithOne',
+                                          fontSize: 16,
+                                        ))),
+                            onChanged: (String value) {
+                              _genderSelected = true;
+                              setState(() {
+                                selectedGender = value;
+                              });
+                            },
+                          ))),
                     ],
                   ),
-                  SizedBox(height: 40.0),
+                  SizedBox(height: 20.0),
 
-                  CupertinoButton(
-                    child: Text('Registrera'),
-                    color: CupertinoColors.activeBlue,
-                    onPressed: () async {
-                      if (_formKey.currentState.validate()) {
-                        dynamic result = await _auth.registerMail(
-                            email,
-                            password,
-                            username,
-                            selectedExperienceLevel,
-                            age,
-                            selectedGender);
-                        if (result == null) {
-                          setState(() => error = 'Ett fel uppstod');
+                  OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: Size(281, 48),
+                        primary: _expSelected &&
+                                _ageSelected &&
+                                _genderSelected == true
+                            ? Colors.white
+                            : Colors.black,
+                        backgroundColor: _expSelected &&
+                                _ageSelected &&
+                                _genderSelected == true
+                            ? Color.fromRGBO(86, 151, 211, 1)
+                            : Color.fromRGBO(217, 221, 224, 1),
+                        shadowColor: Colors.black54,
+                        elevation: 10,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50))),
+                        textStyle: TextStyle(
+                            fontSize: 18, fontFamily: 'HammersmithOne'),
+                      ),
+                      child: Text('Sign Up'),
+                      onPressed: () async {
+                        if (_formKey.currentState.validate()) {
+                          dynamic result = await _auth.registerMail(
+                              email,
+                              password,
+                              username,
+                              selectedExperienceLevel,
+                              age,
+                              selectedGender);
+                          if (result == null) {
+                            setState(() => error = 'Ett fel uppstod');
+                          }
                         }
-                      }
-                    },
-                  ),
-                  SizedBox(height: 12.0),
+                      }),
+
                   //Preliminär errorhandling
                   Text(
                     error,
                     style: TextStyle(color: Colors.red, fontSize: 14.0),
                   ),
-                  CupertinoButton(
-                      child: Text('Logga in'),
-                      color: CupertinoColors.darkBackgroundGray,
-                      onPressed: () async {
-                        ElevatedButton.icon(
-                            onPressed: widget.toggleView(),
-                            icon: Icon(Icons.person),
-                            label: Text('Logga in'));
-                      }),
+
+                  SizedBox(
+                    height: 65,
+                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    TextButton(
+                        style: TextButton.styleFrom(
+                            primary: Color.fromRGBO(136, 134, 134, 1),
+                            textStyle: TextStyle(
+                                fontFamily: 'HammersmithOne', fontSize: 18)),
+                        onPressed: widget.toggleView,
+                        child: Text('Log In')),
+                  ]),
+                  // CupertinoButton(
+                  //     child: Text('Logga in'),
+                  //     color: CupertinoColors.darkBackgroundGray,
+                  //     onPressed: () async {
+                  //       ElevatedButton.icon(
+                  //           onPressed: widget.toggleView(),
+                  //           icon: Icon(Icons.person),
+                  //           label: Text('Logga in'));
+                  // }),
                 ],
               ),
             ),
