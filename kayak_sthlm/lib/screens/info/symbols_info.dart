@@ -13,7 +13,7 @@ class SymbolsScreen extends StatelessWidget {
       body: Center(
         child: Column(children: <Widget>[
           Container(
-            height: 150.0,
+            height: 200.0,
             width: 300.0,
             color: Colors.transparent,
             child: Container(
@@ -22,8 +22,24 @@ class SymbolsScreen extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(10.0))),
                 child: new Center(
                   child: new Text(
-                    "Rounded Corner Rectangle Shape",
-                    style: TextStyle(color: Colors.white, fontSize: 22),
+                    "This symbol represents areas that are meant for seals to live undisturbed from human life. Typically, this is at the time of year when seals have babies. These areas are forbidden for kayakers to enter with their boat.",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    textAlign: TextAlign.center,
+                  ),
+                )),
+          ),
+          Container(
+            height: 200.0,
+            width: 300.0,
+            color: Colors.transparent,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                child: new Center(
+                  child: new Text(
+                    "This symbol represents areas that are meant to preserve a habitat important for birds. These areas are either areas that attract many birds or imortant for the endangered species. These areas are forbidden for kayakers to enter.",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
                     textAlign: TextAlign.center,
                   ),
                 )),
