@@ -8,10 +8,26 @@ class SymbolsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Page 1'),
+        title: Text('Symbols Info'),
       ),
       body: Center(
         child: Column(children: <Widget>[
+          Container(
+            height: 150.0,
+            width: 300.0,
+            color: Colors.transparent,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                child: new Center(
+                  child: new Text(
+                    "Rounded Corner Rectangle Shape",
+                    style: TextStyle(color: Colors.white, fontSize: 22),
+                    textAlign: TextAlign.center,
+                  ),
+                )),
+          ),
           Expanded(
             child: Align(
               alignment: FractionalOffset.bottomCenter,

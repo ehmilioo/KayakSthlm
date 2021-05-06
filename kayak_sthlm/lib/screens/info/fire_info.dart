@@ -8,7 +8,7 @@ class FireScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Page 1'),
+        title: Text('Fire Info'),
       ),
       body: Center(
         child: Column(children: <Widget>[

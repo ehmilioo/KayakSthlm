@@ -8,7 +8,7 @@ class GuideScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Page 1'),
+        title: Text('Guides'),
       ),
       body: Center(
         child: Column(children: <Widget>[

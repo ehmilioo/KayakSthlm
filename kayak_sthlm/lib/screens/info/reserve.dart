@@ -8,7 +8,7 @@ class ReserveScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Page 2'),
+        title: Text('Map of Reserves'),
       ),
       body: Center(
           child: Column(
