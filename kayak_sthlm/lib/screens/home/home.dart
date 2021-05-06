@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kayak_sthlm/screens/info/information.dart';
 import 'package:kayak_sthlm/services/auth.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
@@ -17,7 +18,6 @@ class Home extends StatelessWidget {
   void flutterIsShit() {
     db.getMap();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +85,12 @@ class Home extends StatelessWidget {
                 // Navigationsknapp 3: Info
                 icon: Icon(Icons.info_outline),
                 iconSize: 35,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => InformationScreen()));
+                },
               ),
               IconButton(
                 // Navigationsknapp 4: Settings
