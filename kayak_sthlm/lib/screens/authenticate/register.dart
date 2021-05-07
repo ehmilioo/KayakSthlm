@@ -207,7 +207,7 @@ class _RegisterState extends State<Register> {
                             isExpanded: true,
                             elevation: 10,
                             style: TextStyle(color: Colors.black),
-                            items: test
+                            items: ageNumbers
                                 .map<DropdownMenuItem<int>>((int value) {
                               return DropdownMenuItem<int>(
                                 value: value,
