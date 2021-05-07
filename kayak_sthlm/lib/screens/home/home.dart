@@ -18,11 +18,10 @@ class Home extends StatelessWidget {
     db.getMap();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromRGBO(242, 248, 255, 1),
       appBar: AppBar(
         title: Text('Welcome back'),
         backgroundColor: Colors.red[600],
