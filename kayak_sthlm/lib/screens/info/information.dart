@@ -84,8 +84,7 @@ class InformationScreen extends StatelessWidget {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 30.0),
         child: FloatingActionButton(
-            onPressed: () {
-              openPage(context);
+            onPressed: () {openPage(context);
             },
             tooltip: 'Start',
             backgroundColor: Colors.green[200],

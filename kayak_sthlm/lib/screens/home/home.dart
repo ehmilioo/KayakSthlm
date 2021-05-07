@@ -48,7 +48,9 @@ class Home extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 30.0),
         child: FloatingActionButton(
             onPressed: () {
-              openPage(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Home()));
             },
             tooltip: 'Start',
             backgroundColor: Colors.green[200],
@@ -86,7 +88,7 @@ class Home extends StatelessWidget {
                 icon: Icon(Icons.info_outline),
                 iconSize: 35,
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => InformationScreen()));
