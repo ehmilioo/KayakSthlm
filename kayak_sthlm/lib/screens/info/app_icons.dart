@@ -33,4 +33,6 @@ class AppIcons {
       IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData guide =
       IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData symbols_text =
+      IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
