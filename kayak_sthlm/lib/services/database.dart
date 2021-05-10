@@ -3,7 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Database {
   String uid = FirebaseAuth.instance.currentUser.uid;
-  var test;
+  final _auth = FirebaseAuth.instance;
+  final _user = FirebaseAuth.instance.currentUser;
 
   var data = {
     'age': 0,
@@ -15,8 +16,26 @@ class Database {
 
 //Gör färdigt dessa auth samt usertable
 
-  void deleteUser(){
-    print('deleted user');
+  void deleteUser(String pw) async{
+    try{
+      String email = data['email'];
+      String password = pw;
+      EmailAuthCredential credential = EmailAuthProvider.credential(email: email, password: password);
+      var result = await _user.reauthenticateWithCredential(credential);
+      await result.user.delete();
+      print('auth user deleted');
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .delete();
+      print('tog bort dokument');
+      _auth.signOut();
+      print('loggade ut');
+    }
+    catch(e){
+      print(e);
+    }
   }
 
   void saveUserSettings(){
@@ -35,16 +54,14 @@ class Database {
 
   Map<String, dynamic> getUser() {
     _fetchUserInfo();
-    if(data['age'] == 0){
-      print('Havent fetched yet');
-    }else{
+    while(data == null){
       Map<String,dynamic> myMap = mapData();
       return myMap;
     }
-    return null;
+    return data;
   }
 
-  void _fetchUserInfo() async {
+  Future<void> _fetchUserInfo() async {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(uid)

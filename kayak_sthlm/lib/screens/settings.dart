@@ -15,12 +15,36 @@ class _Settings extends State<Settings> {
   final _auth = FirebaseAuth.instance;
   final Database db = Database();
 
+  @override
+  void initState() {
+    super.initState();
+    flutterIsShit();
+  }
+
+  void flutterIsShit() {
+    Map<String, dynamic> myMap = db.getUser();
+    print(myMap);
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Text('Settings page'),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            Text('Welcome'),
+            ElevatedButton(
+              child: Text('Sign out'),
+              onPressed: (){
+                _auth.signOut();
+                Navigator.pop(context, MaterialPageRoute(builder: (context) {
+                  return Home();
+                }));
+              }
+            ),
+          ],
+        ),
       ),
         
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
