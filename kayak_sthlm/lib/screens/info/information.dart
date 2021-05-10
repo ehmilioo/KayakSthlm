@@ -25,71 +25,99 @@ class InformationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Information'),
-        backgroundColor: Colors.red[600],
-        elevation: 0.0,
-        actions: <Widget>[
-          ElevatedButton.icon(
-              onPressed: () async {
-                await _auth.signOut();
-              },
-              style: ElevatedButton.styleFrom(primary: Colors.deepOrange[600]),
-              icon: Icon(Icons.lock_open),
-              label: Text('Logga ut'))
-        ],
-      ),
+      backgroundColor: Color.fromRGBO(242, 248, 255, 1),
       body: Container(
-        color: Colors.white,
-        child: GridView.count(
-          crossAxisCount: 2,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(AppIcons.guide),
-              iconSize: 90,
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => GuideScreen()));
-              },
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage("assets/bakgrund.png"),
+          fit: BoxFit.cover,
+        )),
+        padding: EdgeInsets.symmetric(horizontal: 45.0),
+        child: Column(children: <Widget>[
+          SizedBox(height: 50),
+          Container(
+              width: 322,
+              height: 56,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: Text('INFORMATION',
+                  style: TextStyle(
+                    fontFamily: 'Lato',
+                    fontSize: 33,
+                  ))),
+          SizedBox(height: 30),
+          Row(children: <Widget>[
+            Column(
+              children: <Widget>[
+                Center(
+                  child: Ink(
+                      decoration: const ShapeDecoration(
+                        color: Colors.lightBlue,
+                        shape: CircleBorder(),
+                      ),
+                      child: IconButton(
+                        icon: Icon(AppIcons.guide),
+                        iconSize: 55,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => GuideScreen()));
+                        },
+                      )),
+                )
+              ],
             ),
             IconButton(
               icon: Icon(AppIcons.reserves),
-              iconSize: 90,
+              iconSize: 55,
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ReserveScreen()));
               },
             ),
-            IconButton(
-              icon: Icon(AppIcons.fire),
-              iconSize: 90,
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => FireScreen()));
-              },
-            ),
-            IconButton(
-              icon: Icon(AppIcons.symbols),
-              iconSize: 90,
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SymbolsScreen()));
-              },
-            ),
-          ],
-        ),
+          ]),
+          SizedBox(height: 30),
+          Row(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(AppIcons.fire),
+                iconSize: 55,
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => FireScreen()));
+                },
+              ),
+              IconButton(
+                icon: Icon(AppIcons.symbols),
+                iconSize: 55,
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SymbolsScreen()));
+                },
+              ),
+            ],
+          )
+        ]),
       ),
+
+      // FLOATINGACTIONBUTTON
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 30.0),
         child: FloatingActionButton(
-            onPressed: () {openPage(context);
+            onPressed: () {
+              openPage(context);
             },
             tooltip: 'Start',
             backgroundColor: Colors.green[200],
             child: Icon(Icons.play_arrow_outlined)),
       ),
+
+      // BOTTOMNAVIVGATIONBAR
       bottomNavigationBar: SizedBox(
         height: 60,
         child: BottomAppBar(
@@ -137,6 +165,22 @@ class InformationScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+
+      // APPBAR
+      appBar: AppBar(
+        title: Text('Information'),
+        backgroundColor: Colors.red[600],
+        elevation: 0.0,
+        actions: <Widget>[
+          ElevatedButton.icon(
+              onPressed: () async {
+                await _auth.signOut();
+              },
+              style: ElevatedButton.styleFrom(primary: Colors.deepOrange[600]),
+              icon: Icon(Icons.lock_open),
+              label: Text('Logga ut'))
+        ],
       ),
     );
   }

@@ -5,7 +5,7 @@ import 'package:kayak_sthlm/screens/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -18,7 +18,10 @@ class MyApp extends StatelessWidget {
       initialData: null,
       value: AuthService().user,
       child: MaterialApp(
-      home: Wrapper(),
+        title: 'Custom Fonts',
+        // Set Montserrat as the default app font.
+        theme: ThemeData(fontFamily: 'Montserrat'),
+        home: Wrapper(),
       ),
     );
   }
