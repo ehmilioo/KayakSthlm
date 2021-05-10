@@ -19,11 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1476fab6-59af-40fe-aeaf-a49f811b7866" name="Default Changelist" comment="Youtube videos fixade. Guide för symboler (sälar, fåglar), förberett men måste fortfarande arbetas på.">
+    <list default="true" id="1476fab6-59af-40fe-aeaf-a49f811b7866" name="Default Changelist" comment="Playing with api">
+      <change afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/Example.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-05-06_14_29__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-05-06_14_29__Default_Changelist_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/home/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/home/home.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/information.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/information.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/reserve.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/reserve.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +30,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Pixel_XL_API_30]" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -118,7 +124,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Youtube videos fixade." />
     <MESSAGE value="Youtube videos fixade. Guide för symboler (sälar, fåglar), förberett men måste fortfarande arbetas på." />
-    <option name="LAST_COMMIT_MESSAGE" value="Youtube videos fixade. Guide för symboler (sälar, fåglar), förberett men måste fortfarande arbetas på." />
+    <MESSAGE value="Playing with api" />
+    <option name="LAST_COMMIT_MESSAGE" value="Playing with api" />
   </component>
   <component name="WindowStateProjectService">
     <state x="305" y="38" key="#Inspections" timestamp="1619517360896">
