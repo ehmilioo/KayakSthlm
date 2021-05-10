@@ -13,6 +13,20 @@ class Database {
     'username': ''
   };
 
+//Gör färdigt dessa auth samt usertable
+
+  void deleteUser(){
+    print('deleted user');
+  }
+
+  void saveUserSettings(){
+    print('saved user');
+  }
+
+  void changePassword(){
+    print('changed password');
+  }
+
 
   Map<String, dynamic> mapData(){
     var myMap = Map<String, dynamic>.from(data);

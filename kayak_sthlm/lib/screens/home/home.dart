@@ -6,6 +6,7 @@ import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
+import 'package:kayak_sthlm/screens/settings.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
 
 class Home extends StatefulWidget  {
@@ -243,7 +244,11 @@ class MapSampleState extends State<Home> {
                 // Navigationsknapp 4: Settings
                 icon: Icon(Icons.settings_outlined),
                 iconSize: 35,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return Settings();
+                  }));
+                },
               ),
             ],
           ),
