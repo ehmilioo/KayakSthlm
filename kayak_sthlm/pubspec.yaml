@@ -14,22 +14,23 @@ dependencies:
   provider: ^5.0.0
   cupertino_icons: ^1.0.2
   flutter_material_pickers: ^2.1.1
+  google_maps_flutter: ^2.0.3
+  location: ^2.3.5
+  http: ^0.13.2
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
   assets:
     - assets/kayak1.png
     - assets/bakgrund.png
+    - assets/arrow_final.png
+    - assets/weatherType.json
   fonts:
     - family: FugazOne
       fonts:
