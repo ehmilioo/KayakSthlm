@@ -1,0 +1,139 @@
+{
+    "types" : [
+        {
+            "id": "1",
+            "desc": "Clear sky",
+            "icon": "Icons.wb_sunny"
+        },
+        {
+            "id": "2",
+            "desc": "Nearly clear sky",
+            "icon": "Icons.wb_sunny"
+        },
+        {
+            "id": "3",
+            "desc": "Variable cloudiness", 
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "4",
+            "desc": "Halfclear sky",
+            "icon": "Icons.wb_sunny"
+        },
+        {
+            "id": "5",
+            "desc": "Cloudy sky",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "6",
+            "desc": "Overcast",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "7",
+            "desc": "Fog",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "8",
+            "desc": "Light rain showers",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "9",
+            "desc": "Moderate rain showers",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "10",
+            "desc": "Heavy rain showers",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "11",
+            "desc": "Thunderstorm",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "12",
+            "desc": "Light sleet showers",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "13",
+            "desc": "Moderate sleet showers",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "14",
+            "desc": "Heavy sleet showers",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "15",
+            "desc": "Light snow showers",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "16",
+            "desc": "Moderate snow showers",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "17",
+            "desc": "Heavy snow showers",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "18",
+            "desc": "Light rain",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "19",
+            "desc": "Moderate rain",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "20",
+            "desc": "Heavy rain",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "21",
+            "desc": "Thunder",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "22",
+            "desc": "Light sleet",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "23",
+            "desc": "Moderate sleet",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "24",
+            "desc": "Heavy sleet",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "25",
+            "desc": "Light snowfall",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "26",
+            "desc": "Moderate snowfall",
+            "icon": "Icons.wb_cloudy"
+        },
+        {
+            "id": "27",
+            "desc": "Heavy snowfall",
+            "icon": "Icons.wb_cloudy"
+        }
+    ]
+}

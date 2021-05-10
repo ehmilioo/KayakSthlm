@@ -14,30 +14,33 @@ class Database {
   };
 
 
-  Map<String, dynamic> getUser(){
-    getUser();
+  Map<String, dynamic> mapData(){
     var myMap = Map<String, dynamic>.from(data);
     return myMap;
   }
 
-  void getMap() async {
-    final user = await _fetchUserInfo();
-    print(data);
+  Map<String, dynamic> getUser() {
+    _fetchUserInfo();
+    if(data['age'] == 0){
+      print('Havent fetched yet');
+    }else{
+      Map<String,dynamic> myMap = mapData();
+      return myMap;
+    }
+    return null;
   }
 
   void _fetchUserInfo() async {
-    var snapshot = await FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
-        .get();
-    data['age'] = snapshot['age'];
-    data['email'] = snapshot['email'];
-    data['experience'] = snapshot['experience'];
-    data['gender'] = snapshot['gender'];
-    data['username'] = snapshot['username'];
+        .get()
+        .then((value) {
+          data['age'] = value['age'];
+          data['email'] = value['email'];
+          data['experience'] = value['experience'];
+          data['gender'] = value['gender'];
+          data['username'] = value['username'];
+        });
   }
-  //toDO
-  //Fetch user table
-  //Fetch fetch events table
-  //Write & update tables
 }
