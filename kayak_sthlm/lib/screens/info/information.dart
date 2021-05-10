@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:kayak_sthlm/screens/info/information.dart';
+import 'package:kayak_sthlm/screens/info/fire_info.dart';
+import 'package:kayak_sthlm/screens/info/guides.dart';
+import 'package:kayak_sthlm/screens/info/reserve.dart';
 import 'package:kayak_sthlm/services/auth.dart';
+import 'package:kayak_sthlm/screens/info/symbols_info.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
+import 'app_icons.dart';
 
-class Home extends StatelessWidget {
+class InformationScreen extends StatelessWidget {
   final AuthService _auth = AuthService();
   final Database db = new Database();
 
@@ -22,9 +25,9 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(242, 248, 255, 1),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Welcome back'),
+        title: Text('Information'),
         backgroundColor: Colors.red[600],
         elevation: 0.0,
         actions: <Widget>[
@@ -38,19 +41,50 @@ class Home extends StatelessWidget {
         ],
       ),
       body: Container(
-        color: Colors.black,
-        child: Column(
-          children: <Widget>[],
+        color: Colors.white,
+        child: GridView.count(
+          crossAxisCount: 2,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(AppIcons.guide),
+              iconSize: 90,
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => GuideScreen()));
+              },
+            ),
+            IconButton(
+              icon: Icon(AppIcons.reserves),
+              iconSize: 90,
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ReserveScreen()));
+              },
+            ),
+            IconButton(
+              icon: Icon(AppIcons.fire),
+              iconSize: 90,
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => FireScreen()));
+              },
+            ),
+            IconButton(
+              icon: Icon(AppIcons.symbols),
+              iconSize: 90,
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SymbolsScreen()));
+              },
+            ),
+          ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 30.0),
         child: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Home()));
+            onPressed: () {openPage(context);
             },
             tooltip: 'Start',
             backgroundColor: Colors.green[200],
@@ -88,7 +122,7 @@ class Home extends StatelessWidget {
                 icon: Icon(Icons.info_outline),
                 iconSize: 35,
                 onPressed: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => InformationScreen()));
@@ -96,7 +130,7 @@ class Home extends StatelessWidget {
               ),
               IconButton(
                 // Navigationsknapp 4: Settings
-                icon: Icon(Icons.settings_outlined),
+                icon: Icon(Icons.follow_the_signs),
                 iconSize: 35,
                 onPressed: () {},
               ),
