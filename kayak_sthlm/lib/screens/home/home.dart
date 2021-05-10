@@ -8,13 +8,12 @@ import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
 
-class Home extends StatefulWidget  {
+class Home extends StatefulWidget {
   @override
   State<Home> createState() => MapSampleState();
 }
 
 class MapSampleState extends State<Home> {
-
   final Database db = new Database();
   Marker marker;
   Circle circle;
@@ -46,52 +45,54 @@ class MapSampleState extends State<Home> {
   );
 
   Future<Uint8List> getMarker() async {
-    ByteData byteData = await DefaultAssetBundle.of(context).load("assets/arrow_final.png");
+    ByteData byteData =
+        await DefaultAssetBundle.of(context).load("assets/arrow_final.png");
     return byteData.buffer.asUint8List();
   }
 
-  void updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData){
+  void updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData) {
     LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
     this.setState(() {
-          marker = Marker(
-            markerId: MarkerId("user"),
-            position: latlng,
-            rotation: newLocalData.heading,
-            draggable: false,
-            zIndex: 2,
-            flat: true,
-            anchor: Offset(0.5,0.5),
-            icon: BitmapDescriptor.fromBytes(imageData));
-          circle = Circle(
-            circleId: CircleId("radius"),
-            radius: newLocalData.accuracy+100,
-            zIndex: 1,
-            strokeColor: Colors.blue,
-            center: latlng,
-            fillColor: Colors.blue.withAlpha(70));
-        });
+      marker = Marker(
+          markerId: MarkerId("user"),
+          position: latlng,
+          rotation: newLocalData.heading,
+          draggable: false,
+          zIndex: 2,
+          flat: true,
+          anchor: Offset(0.5, 0.5),
+          icon: BitmapDescriptor.fromBytes(imageData));
+      circle = Circle(
+          circleId: CircleId("radius"),
+          radius: newLocalData.accuracy + 100,
+          zIndex: 1,
+          strokeColor: Colors.blue,
+          center: latlng,
+          fillColor: Colors.blue.withAlpha(70));
+    });
   }
 
   void getCurrentLocation() async {
-    try{
+    try {
       Uint8List imageData = await getMarker();
       var location = await _locationTracker.getLocation();
 
       updateMarkerAndCircle(location, imageData);
 
-      if(_locationSubscription != null){
+      if (_locationSubscription != null) {
         _locationSubscription.cancel();
       }
 
-      _locationSubscription = _locationTracker.onLocationChanged().listen((newLocalData) {
+      _locationSubscription =
+          _locationTracker.onLocationChanged().listen((newLocalData) {
         locationData = newLocalData;
-        if(_controller != null){
+        if (_controller != null) {
           updateMarkerAndCircle(newLocalData, imageData);
         }
       });
     } on PlatformException catch (e) {
       print(e);
-      if(e.code == 'PERMISSION_DENID') {
+      if (e.code == 'PERMISSION_DENID') {
         debugPrint('Permission Denied');
       }
     }
@@ -114,87 +115,88 @@ class MapSampleState extends State<Home> {
     return new Scaffold(
       body: Stack(
         children: <Widget>[
-          locationData == null ? 
-          Center(
-            child: CircularProgressIndicator(
-                backgroundColor: Colors.black,
-              ),
-          )
-
-          : GoogleMap(
-          mapType: MapType.hybrid,
-          zoomControlsEnabled: false,
-          mapToolbarEnabled: false,
-          compassEnabled: false,
-          initialCameraPosition: _startPosition,
-          markers: Set.of((marker != null) ? [marker] : []),
-          circles: Set.of((circle != null) ? [circle] : []),
-          onMapCreated: (GoogleMapController controller) {
-            _controller = controller;
-            _controller.animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
-              bearing: locationData.heading,
-              target: LatLng(locationData.latitude, locationData.longitude),
-              zoom: 15.00))
-            );
-          },
-          cameraTargetBounds: new CameraTargetBounds(
-                new LatLngBounds(
-                  northeast: sthlmNE,
-                  southwest: sthlmSW,
+          locationData == null
+              ? Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.black,
+                  ),
+                )
+              : GoogleMap(
+                  mapType: MapType.hybrid,
+                  zoomControlsEnabled: false,
+                  mapToolbarEnabled: false,
+                  compassEnabled: false,
+                  initialCameraPosition: _startPosition,
+                  markers: Set.of((marker != null) ? [marker] : []),
+                  circles: Set.of((circle != null) ? [circle] : []),
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller = controller;
+                    _controller.animateCamera(CameraUpdate.newCameraPosition(
+                        new CameraPosition(
+                            bearing: locationData.heading,
+                            target: LatLng(
+                                locationData.latitude, locationData.longitude),
+                            zoom: 15.00)));
+                  },
+                  cameraTargetBounds: new CameraTargetBounds(
+                    new LatLngBounds(
+                      northeast: sthlmNE,
+                      southwest: sthlmSW,
+                    ),
+                  ),
                 ),
+          Positioned(
+            top: 40,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: RawMaterialButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => WeatherDialog(
+                        longitude: locationData.longitude,
+                        latitude: locationData.latitude),
+                  );
+                },
+                elevation: 5.0,
+                fillColor: Colors.white,
+                child: Icon(
+                  Icons.wb_cloudy_rounded,
+                  size: 35.0,
+                ),
+                padding: EdgeInsets.all(10.0),
+                shape: CircleBorder(),
               ),
-        ),
-        Positioned(
-          top: 40,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: RawMaterialButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (_) => WeatherDialog(longitude: locationData.longitude, latitude: locationData.latitude),
-                );
-              },
-              elevation: 5.0,
-              fillColor: Colors.white,
-              child: Icon(
-                Icons.wb_cloudy_rounded,
-                size: 35.0,
-              ),
-              padding: EdgeInsets.all(10.0),
-              shape: CircleBorder(),
             ),
           ),
-        ),
-        Positioned(
-          bottom: 20,
-          right: 5,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: RawMaterialButton(
-              onPressed: () {
-                getCurrentLocation();
-                _controller.animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
-                  bearing: locationData.heading,
-                  target: LatLng(locationData.latitude, locationData.longitude),
-                  zoom: 15.00))
-                );
-              },
-              elevation: 5.0,
-              fillColor: Colors.white,
-              child: Icon(
-                Icons.location_searching,
-                size: 35.0,
+          Positioned(
+            bottom: 20,
+            right: 5,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: RawMaterialButton(
+                onPressed: () {
+                  getCurrentLocation();
+                  _controller.animateCamera(CameraUpdate.newCameraPosition(
+                      new CameraPosition(
+                          bearing: locationData.heading,
+                          target: LatLng(
+                              locationData.latitude, locationData.longitude),
+                          zoom: 15.00)));
+                },
+                elevation: 5.0,
+                fillColor: Colors.white,
+                child: Icon(
+                  Icons.location_searching,
+                  size: 35.0,
+                ),
+                padding: EdgeInsets.all(10.0),
+                shape: CircleBorder(),
               ),
-              padding: EdgeInsets.all(10.0),
-              shape: CircleBorder(),
             ),
           ),
-        ),
-        
         ],
       ),
-        
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 30.0),

@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         // Set Montserrat as the default app font.
         theme: ThemeData(fontFamily: 'Montserrat'),
         home: Wrapper(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
