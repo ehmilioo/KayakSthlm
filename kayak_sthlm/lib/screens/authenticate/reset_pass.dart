@@ -80,7 +80,7 @@ class _ResetPass extends State<ResetPass> {
                         elevation: 10,
                         shape: const RoundedRectangleBorder(
                             borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
+                                BorderRadius.all(Radius.circular(50))),
                         textStyle: TextStyle(
                             fontSize: 18, fontFamily: 'HammersmithOne'),
                       ),
@@ -180,7 +180,7 @@ class _ResetPassOk extends State<ResetPassOk> {
                         elevation: 10,
                         shape: const RoundedRectangleBorder(
                             borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
+                                BorderRadius.all(Radius.circular(50))),
                         textStyle: TextStyle(
                             fontSize: 18, fontFamily: 'HammersmithOne'),
                       ),

@@ -110,7 +110,7 @@ class _SignInState extends State<SignIn> {
                             elevation: 10,
                             shape: const RoundedRectangleBorder(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
+                                    BorderRadius.all(Radius.circular(50))),
                             textStyle: TextStyle(
                                 fontSize: 18, fontFamily: 'HammersmithOne'),
                           ),
@@ -155,7 +155,7 @@ class _SignInState extends State<SignIn> {
                             elevation: 10,
                             shape: const RoundedRectangleBorder(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
+                                    BorderRadius.all(Radius.circular(50))),
                             textStyle: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
