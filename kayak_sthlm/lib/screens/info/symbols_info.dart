@@ -106,7 +106,7 @@ class SymbolsScreen extends StatelessWidget {
               child: ElevatedButton(
                 child: Text('Back'),
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => InformationScreen()));
