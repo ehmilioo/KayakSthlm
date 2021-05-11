@@ -2,6 +2,8 @@ import 'dart:typed_data';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
+import 'package:kayak_sthlm/screens/info/information.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
@@ -218,11 +220,13 @@ class MapSampleState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               IconButton(
-                // Navigationsknapp 1: Routes
-                icon: Icon(Icons.place_outlined),
-                iconSize: 35,
-                onPressed: () {},
-              ),
+                  // Navigationsknapp 1: Routes
+                  icon: Icon(Icons.place_outlined),
+                  iconSize: 35,
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => SignIn()));
+                  }),
               IconButton(
                 // Navigationsknapp 2: Events
                 icon: Icon(Icons.calendar_today_outlined),
@@ -239,7 +243,12 @@ class MapSampleState extends State<Home> {
                 // Navigationsknapp 3: Info
                 icon: Icon(Icons.info_outline),
                 iconSize: 35,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => InformationScreen()));
+                },
               ),
               IconButton(
                 // Navigationsknapp 4: Settings

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kayak_sthlm/screens/authenticate/register.dart';
+import 'package:kayak_sthlm/screens/home/home.dart';
 import 'package:kayak_sthlm/screens/info/fire_info.dart';
 import 'package:kayak_sthlm/screens/info/guides.dart';
 import 'package:kayak_sthlm/screens/info/reserve.dart';
@@ -33,74 +35,170 @@ class InformationScreen extends StatelessWidget {
           image: AssetImage("assets/bakgrund.png"),
           fit: BoxFit.cover,
         )),
-        padding: EdgeInsets.symmetric(horizontal: 45.0),
+        padding: EdgeInsets.symmetric(horizontal: 45),
         child: Column(children: <Widget>[
-          SizedBox(height: 50),
+          SizedBox(height: 90),
           Container(
-              width: 322,
+              width: 270,
               height: 56,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 3.0,
+                      offset: Offset(2.0, 3))
+                ],
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                color: Colors.white,
+              ),
               child: Text('INFORMATION',
                   style: TextStyle(
                     fontFamily: 'Lato',
                     fontSize: 33,
                   ))),
-          SizedBox(height: 30),
-          Row(children: <Widget>[
-            Column(
-              children: <Widget>[
-                Center(
-                  child: Ink(
-                      decoration: const ShapeDecoration(
-                        color: Colors.lightBlue,
-                        shape: CircleBorder(),
-                      ),
-                      child: IconButton(
-                        icon: Icon(AppIcons.guide),
-                        iconSize: 55,
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => GuideScreen()));
-                        },
-                      )),
-                )
-              ],
-            ),
-            IconButton(
-              icon: Icon(AppIcons.reserves),
-              iconSize: 55,
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ReserveScreen()));
-              },
-            ),
-          ]),
-          SizedBox(height: 30),
+          SizedBox(height: 80),
           Row(
-            children: <Widget>[
-              IconButton(
-                icon: Icon(AppIcons.fire),
-                iconSize: 55,
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => FireScreen()));
-                },
-              ),
-              IconButton(
-                icon: Icon(AppIcons.symbols),
-                iconSize: 55,
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SymbolsScreen()));
-                },
-              ),
-            ],
-          )
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(children: <Widget>[
+                  Container(
+                    height: 87,
+                    width: 133,
+                    decoration: BoxDecoration(
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 3.0,
+                            offset: Offset(2.0, 3))
+                      ],
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      color: Colors.white,
+                    ),
+                    child: IconButton(
+                      iconSize: 56,
+                      icon: Icon(Icons.lightbulb_outline, size: 55),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => GuideScreen()));
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Text('Tips\n',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25,
+                      ))
+                ]),
+                Column(children: <Widget>[
+                  Container(
+                    height: 87,
+                    width: 133,
+                    decoration: BoxDecoration(
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 3.0,
+                            offset: Offset(2.0, 3))
+                      ],
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      color: Colors.white,
+                    ),
+                    child: IconButton(
+                      iconSize: 56,
+                      icon: Icon(AppIcons.reserves, size: 55),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ReserveScreen()));
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Text('Wildlife\nPreserves',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25,
+                      ))
+                ]),
+              ]),
+          SizedBox(height: 40),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(children: <Widget>[
+                  Container(
+                    height: 87,
+                    width: 133,
+                    decoration: BoxDecoration(
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 3.0,
+                            offset: Offset(2.0, 3))
+                      ],
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      color: Colors.white,
+                    ),
+                    child: IconButton(
+                      iconSize: 56,
+                      icon: Icon(AppIcons.fire, size: 55),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FireScreen()));
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Text('Fire Bans\n',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25,
+                      ))
+                ]),
+                Column(children: <Widget>[
+                  Container(
+                    height: 87,
+                    width: 133,
+                    decoration: BoxDecoration(
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 3.0,
+                            offset: Offset(2.0, 3))
+                      ],
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      color: Colors.white,
+                    ),
+                    child: IconButton(
+                      iconSize: 56,
+                      icon: Icon(AppIcons.symbols, size: 55),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SymbolsScreen()));
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Text('Symbols\n',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25,
+                      ))
+                ]),
+              ]),
         ]),
       ),
 
@@ -110,7 +208,8 @@ class InformationScreen extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 30.0),
         child: FloatingActionButton(
             onPressed: () {
-              openPage(context);
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => Home()));
             },
             tooltip: 'Start',
             backgroundColor: Colors.green[200],
@@ -131,7 +230,10 @@ class InformationScreen extends StatelessWidget {
                 // Navigationsknapp 1: Routes
                 icon: Icon(Icons.place_outlined),
                 iconSize: 35,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Register()));
+                },
               ),
               IconButton(
                 // Navigationsknapp 2: Events
@@ -167,21 +269,21 @@ class InformationScreen extends StatelessWidget {
         ),
       ),
 
-      // APPBAR
-      appBar: AppBar(
-        title: Text('Information'),
-        backgroundColor: Colors.red[600],
-        elevation: 0.0,
-        actions: <Widget>[
-          ElevatedButton.icon(
-              onPressed: () async {
-                await _auth.signOut();
-              },
-              style: ElevatedButton.styleFrom(primary: Colors.deepOrange[600]),
-              icon: Icon(Icons.lock_open),
-              label: Text('Logga ut'))
-        ],
-      ),
+      // // APPBAR
+      // appBar: AppBar(
+      //   title: Text('Information'),
+      //   backgroundColor: Colors.red[600],
+      //   elevation: 0.0,
+      //   actions: <Widget>[
+      //     ElevatedButton.icon(
+      //         onPressed: () async {
+      //           await _auth.signOut();
+      //         },
+      //         style: ElevatedButton.styleFrom(primary: Colors.deepOrange[600]),
+      //         icon: Icon(Icons.lock_open),
+      //         label: Text('Logga ut'))
+      //   ],
+      // ),
     );
   }
 }

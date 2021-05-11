@@ -13,18 +13,17 @@ class Database {
     'username': ''
   };
 
-
-  Map<String, dynamic> mapData(){
+  Map<String, dynamic> mapData() {
     var myMap = Map<String, dynamic>.from(data);
     return myMap;
   }
 
   Map<String, dynamic> getUser() {
     _fetchUserInfo();
-    if(data['age'] == 0){
+    if (data['age'] == 0) {
       print('Havent fetched yet');
-    }else{
-      Map<String,dynamic> myMap = mapData();
+    } else {
+      Map<String, dynamic> myMap = mapData();
       return myMap;
     }
     return null;
@@ -36,11 +35,13 @@ class Database {
         .doc(uid)
         .get()
         .then((value) {
-          data['age'] = value['age'];
-          data['email'] = value['email'];
-          data['experience'] = value['experience'];
-          data['gender'] = value['gender'];
-          data['username'] = value['username'];
-        });
+      data['age'] = value['age'];
+      data['email'] = value['email'];
+      data['experience'] = value['experience'];
+      data['gender'] = value['gender'];
+      data['username'] = value['username'];
+    });
   }
+
+  void getMap() {}
 }
