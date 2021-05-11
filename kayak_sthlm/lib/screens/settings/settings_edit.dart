@@ -1,32 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_material_pickers/flutter_material_pickers.dart';
-import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
-import 'package:kayak_sthlm/services/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:kayak_sthlm/services/database.dart';
+import 'package:kayak_sthlm/screens/home/home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Register extends StatefulWidget {
-  final Function toggleView;
-  Register({this.toggleView});
+class SettingsEdit extends StatefulWidget {
+  SettingsEdit();
 
   @override
-  _RegisterState createState() => _RegisterState();
+  _SettingsEdit createState() => _SettingsEdit();
 }
 
-class _RegisterState extends State<Register> {
-  final AuthService _auth = AuthService();
-  final _formKey = GlobalKey<FormState>();
+class _SettingsEdit extends State<SettingsEdit> {
+  String uid = FirebaseAuth.instance.currentUser.uid;
+  final Database db = Database();
 
-  //Text field state
-  String username = '';
-  String email = '';
-  String password = '';
-  String error = '';
+  @override
+  void initState() {
+    super.initState();
+  }
 
-  //Imported package vars
-  var age = 'Age';
-  var selectedExperienceLevel = "Skill level";
-  var selectedGender = "Gender";
 
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("Go back!"),
+      onPressed: () {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+          return Home();
+        }));
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Saved"),
+      content: Text("Saved user changes successfully."),
+      actions: [
+        okButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  var selectedExperienceLevel = '';
+  var newUsername = '';
+  var age = '';
+  var selectedGender = '';
+
+  bool _editMode = false;
+  bool _ageSelected = false;
+  bool _genderSelected = false;
+  bool _expSelected = false;
   List<String> experienceLevels = <String>[
     'Beginner',
     'Average',
@@ -34,116 +65,76 @@ class _RegisterState extends State<Register> {
     'Specialist',
     'Expert',
   ];
-
   List<int> ageNumbers = Iterable<int>.generate(101).toList();
   List<String> genders = <String>['Male', 'Female', 'Other'];
 
-  //Bool
-  bool hidePassword = true; //Obscure passwords with buttons and icons
-  bool validatedInput = false;
-  bool _expSelected = false;
-  bool _genderSelected = false;
-  bool _ageSelected = false;
-
-  //Check e-mail
-  bool validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    return (!regex.hasMatch(value)) ? true : false;
-  }
-
-  bool validatePassword(String value) {
-    Pattern pattern = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$';
-    RegExp regex = new RegExp(pattern);
-    return (!regex.hasMatch(value)) ? true : false;
-  }
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
     return Scaffold(
-        backgroundColor: Color.fromRGBO(242, 248, 255, 1),
-        body: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-              image: AssetImage("assets/bakgrund.png"),
-              fit: BoxFit.cover,
-            )),
-            padding: EdgeInsets.symmetric(horizontal: 60.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 180),
-                  Text(
-                    'Create Account',
-                    style:
-                        TextStyle(fontFamily: 'HammersmithOne', fontSize: 35),
-                  ),
-                  SizedBox(height: 0),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
-                    child: TextFormField(
-                        style: TextStyle(
-                            fontFamily: 'HammersmithOne', fontSize: 18),
-                        validator: (val) =>
-                            val.length < 3 ? 'Användarnamn för kort' : null,
-                        decoration: InputDecoration(
-                            labelText: 'Username',
-                            contentPadding: EdgeInsets.only(top: 20),
-                            labelStyle: TextStyle(
-                                color: Color.fromRGBO(136, 134, 134, 1))),
-                        onChanged: (val) {
-                          setState(() => username = val);
-                        }),
-                  ),
-                  ConstrainedBox(
-                      constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
-                      child: TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          style: TextStyle(
-                              fontFamily: 'HammersmithOne', fontSize: 18),
-                          validator: (val) => validateEmail(val)
-                              ? 'Ange en giltig e-post'
-                              : null,
-                          decoration: InputDecoration(
-                              labelText: 'Email',
-                              contentPadding: EdgeInsets.only(top: 20),
-                              labelStyle: TextStyle(
-                                  color: Color.fromRGBO(136, 134, 134, 1))),
-                          onChanged: (val) {
-                            setState(() => email = val);
-                          })),
-                  ConstrainedBox(
-                      constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
-                      child: TextFormField(
-                          style: TextStyle(
-                              fontFamily: 'HammersmithOne', fontSize: 18),
-                          validator: (val) => validatePassword(val)
-                              ? 'Ange ett giltigt lösenord, minst 8 tecken 1 siffra'
-                              : null,
-                          obscureText: hidePassword,
-                          decoration: InputDecoration(
-                              labelText: 'Password',
-                              contentPadding: EdgeInsets.only(top: 20),
-                              labelStyle: TextStyle(
-                                  color: Color.fromRGBO(136, 134, 134, 1)),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  setState(() => hidePassword = !hidePassword);
-                                },
-                                icon: Icon(hidePassword
-                                    ? Icons.remove_red_eye
-                                    : Icons.remove_red_eye_outlined),
-                              )),
-                          onChanged: (val) {
-                            setState(() => password = val);
-                          })),
-                  SizedBox(height: 5),
-                  //EXPERIENCE
-                  Container(
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                ElevatedButton(
+                  child: Text('Edit'),
+                  onPressed: (){
+                    setState(() {
+                      _editMode = !_editMode;      
+                    });
+                    print(_editMode);
+                  }
+                ),
+              ],
+            ),
+            
+            StreamBuilder<DocumentSnapshot>(
+              stream: usersCollection.doc(uid).snapshots(),
+              builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                var user = snapshot.data.data();
+                return Container(
+                  height: MediaQuery.of(context).size.height,
+                  padding: EdgeInsets.symmetric(horizontal: 60.0),
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 150),
+                      Text('Account'),
+                      ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
+                        child: TextFormField(
+                            enabled: _editMode,
+                            initialValue: user['username'],
+                            style: TextStyle(
+                                fontFamily: 'HammersmithOne', fontSize: 18),
+                            decoration: InputDecoration(
+                                labelText: 'Username',
+                                contentPadding: EdgeInsets.only(top: 20),
+                                labelStyle: TextStyle(
+                                    color: Color.fromRGBO(136, 134, 134, 1))),
+                            onChanged: (val) {
+                              newUsername = val;
+                            }),
+                      ),
+                      ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
+                        child: TextFormField(
+                            enabled: false,
+                            initialValue: user['email'],
+                            style: TextStyle(
+                                fontFamily: 'HammersmithOne', fontSize: 18),
+                            decoration: InputDecoration(
+                                labelText: 'E-mail (Can not change!)',
+                                contentPadding: EdgeInsets.only(top: 20),
+                                labelStyle: TextStyle(
+                                    color: Color.fromRGBO(136, 134, 134, 0.7))
+                            ),
+                            onChanged: (val) {
+                              
+                            }),
+                      ),
+                      Container(
                       alignment: Alignment.center,
                       width: 259,
                       height: 28,
@@ -175,19 +166,18 @@ class _RegisterState extends State<Register> {
                                     )))
                             : Align(
                                 alignment: Alignment.center,
-                                child: Text('Experience',
+                                child: Text(user['experience'],
                                     style: TextStyle(
                                       fontFamily: 'HammersmithOne',
                                       fontSize: 16,
                                     ))),
-                        onChanged: (String value) {
-                          _expSelected = true;
-                          setState(() {
-                            selectedExperienceLevel = value;
-                          });
-                        },
+                        onChanged: _editMode ? (String value) => setState(() => {
+                          selectedExperienceLevel = value,
+                          _expSelected = true
+                          }) 
+                          : null
                       ))),
-                  SizedBox(height: 20),
+                      SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -217,24 +207,24 @@ class _RegisterState extends State<Register> {
                             hint: _ageSelected == true
                                 ? Align(
                                     alignment: Alignment.center,
-                                    child: Text(age + ' years',
+                                    child: Text(age,
                                         style: TextStyle(
                                           fontFamily: 'HammersmithOne',
                                           fontSize: 16,
                                         )))
                                 : Align(
                                     alignment: Alignment.center,
-                                    child: Text('Age',
+                                    child: Text(user['age'],
                                         style: TextStyle(
                                           fontFamily: 'HammersmithOne',
                                           fontSize: 16,
                                         ))),
-                            onChanged: (int value) {
+                            onChanged: _editMode ? (int value) {
                               _ageSelected = true;
                               setState(() {
                                 age = value.toString();
                               });
-                            },
+                            }: null,
                           ))),
 
                       SizedBox(
@@ -274,23 +264,24 @@ class _RegisterState extends State<Register> {
                                         )))
                                 : Align(
                                     alignment: Alignment.center,
-                                    child: Text('Gender',
+                                    child: Text(user['gender'],
                                         style: TextStyle(
                                           fontFamily: 'HammersmithOne',
                                           fontSize: 16,
                                         ))),
-                            onChanged: (String value) {
+                            onChanged: _editMode ? (String value) {
                               _genderSelected = true;
                               setState(() {
                                 selectedGender = value;
                               });
-                            },
+                            }: null,
                           ))),
                     ],
                   ),
-                  SizedBox(height: 20.0),
-
-                  OutlinedButton(
+                      SizedBox(
+                        height: 33,
+                      ),
+                      OutlinedButton(
                       style: OutlinedButton.styleFrom(
                         minimumSize: Size(281, 48),
                         primary: _expSelected &&
@@ -298,7 +289,9 @@ class _RegisterState extends State<Register> {
                                 _genderSelected == true
                             ? Colors.white
                             : Colors.black,
-                        backgroundColor: _expSelected &&
+                        backgroundColor: 
+                                _editMode &&
+                                _expSelected &&
                                 _ageSelected &&
                                 _genderSelected == true
                             ? Color.fromRGBO(86, 151, 211, 1)
@@ -311,45 +304,21 @@ class _RegisterState extends State<Register> {
                         textStyle: TextStyle(
                             fontSize: 18, fontFamily: 'HammersmithOne'),
                       ),
-                      child: Text('Sign Up'),
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          dynamic result = await _auth.registerMail(
-                              email,
-                              password,
-                              username,
-                              selectedExperienceLevel,
-                              age,
-                              selectedGender);
-                          if (result == null) {
-                            setState(() => error = 'Ett fel uppstod');
-                          }
-                        }
+                      child: Text('Save Changes'),
+                      onPressed: (){
+                        _editMode ? db.updateUser(newUsername, age, selectedExperienceLevel, selectedGender): null;
+                        _editMode = false;
+                        showAlertDialog(context);
                       }
                     ),
-
-                  //Preliminär errorhandling
-                  Text(
-                    error,
-                    style: TextStyle(color: Colors.red, fontSize: 14.0),
+                    ],
                   ),
-
-                  SizedBox(
-                    height: 65,
-                  ),
-                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                    TextButton(
-                        style: TextButton.styleFrom(
-                            primary: Color.fromRGBO(136, 134, 134, 1),
-                            textStyle: TextStyle(
-                                fontFamily: 'HammersmithOne', fontSize: 18)),
-                        onPressed: widget.toggleView,
-                        child: Text('Log In')),
-                  ]),
-                ],
-              ),
+                );
+              }
             ),
-          ),
-        ));
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -1,50 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:kayak_sthlm/services/database.dart';
-import 'package:kayak_sthlm/screens/home/home.dart';
+import 'package:kayak_sthlm/screens/settings/settings_edit.dart';
+import 'package:kayak_sthlm/dialogs/saved_dialog.dart';
 
-class Settings extends StatefulWidget {
-  Settings();
-
+class Settings extends StatefulWidget  {
   @override
-  _Settings createState() => _Settings();
+  State<Settings> createState() => SettingsPage();
 }
 
-class _Settings extends State<Settings> {
-  final _auth = FirebaseAuth.instance;
-  final Database db = Database();
-
-  @override
-  void initState() {
-    super.initState();
-    flutterIsShit();
-  }
-
-  void flutterIsShit() {
-    Map<String, dynamic> myMap = db.getUser();
-    print(myMap);
-  }
-
-
+class SettingsPage extends State<Settings> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Text('Welcome'),
-            ElevatedButton(
-              child: Text('Sign out'),
-              onPressed: (){
-                _auth.signOut();
-                Navigator.pop(context, MaterialPageRoute(builder: (context) {
-                  return Home();
-                }));
-              }
+    return new Scaffold(
+      body: Column(
+        children: <Widget>[
+          Center(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 150),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return SettingsEdit();
+                    }));
+                  },
+                  child: new Text("Account"),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, "myRoute");
+                  },
+                  child: new Text("Password"),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => SavedDialog(desc: 'Saved user succesfully'),
+                    );
+                  },
+                  child: new Text("Delete Account"),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
         
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -52,13 +51,10 @@ class _Settings extends State<Settings> {
         padding: const EdgeInsets.only(bottom: 30.0),
         child: FloatingActionButton(
             onPressed: () {
-              Navigator.pop(context, MaterialPageRoute(builder: (context) {
-                return Home();
-              }));
             },
-            tooltip: 'Home',
+            tooltip: 'Start',
             backgroundColor: Colors.green[200],
-            child: Icon(Icons.map_outlined)),
+            child: Icon(Icons.play_arrow_outlined)),
       ),
       bottomNavigationBar: SizedBox(
         height: 60,
@@ -82,9 +78,9 @@ class _Settings extends State<Settings> {
                 onPressed: () {},
               ),
               Container(
-                  child: Text("Home",
+                  child: Text("Start",
                       style: TextStyle(fontWeight: FontWeight.bold)),
-                  width: 40,
+                  width: 32,
                   height:
                       30), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
               IconButton(
@@ -98,9 +94,6 @@ class _Settings extends State<Settings> {
                 icon: Icon(Icons.settings_outlined),
                 iconSize: 35,
                 onPressed: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                    return Settings();
-                  }));
                 },
               ),
             ],

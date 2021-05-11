@@ -3,39 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Database {
   String uid = FirebaseAuth.instance.currentUser.uid;
-  final _auth = FirebaseAuth.instance;
-  final _user = FirebaseAuth.instance.currentUser;
 
-  var data = {
-    'age': 0,
-    'email': '',
-    'experience': '',
-    'gender': '',
-    'username': ''
-  };
-
-//Gör färdigt dessa auth samt usertable
-
-  void deleteUser(String pw) async{
-    try{
-      String email = data['email'];
-      String password = pw;
-      EmailAuthCredential credential = EmailAuthProvider.credential(email: email, password: password);
-      var result = await _user.reauthenticateWithCredential(credential);
-      await result.user.delete();
-      print('auth user deleted');
-
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .delete();
-      print('tog bort dokument');
-      _auth.signOut();
-      print('loggade ut');
-    }
-    catch(e){
-      print(e);
-    }
+  void deleteUser(){
+    print('lol');
   }
 
   void saveUserSettings(){
@@ -46,32 +16,14 @@ class Database {
     print('changed password');
   }
 
+  Future<void> updateUser(String username, String age, String experience, String gender) {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+  return users
+    .doc(uid)
+    .update({'age': age, 'username': username, 'experience': experience, 'gender': gender})
+    .then((value) => print("User updated"))
+    .catchError((error) => print("Failed to update user's property: $error"));
+}
 
-  Map<String, dynamic> mapData(){
-    var myMap = Map<String, dynamic>.from(data);
-    return myMap;
-  }
 
-  Map<String, dynamic> getUser() {
-    _fetchUserInfo();
-    while(data == null){
-      Map<String,dynamic> myMap = mapData();
-      return myMap;
-    }
-    return data;
-  }
-
-  Future<void> _fetchUserInfo() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .get()
-        .then((value) {
-          data['age'] = value['age'];
-          data['email'] = value['email'];
-          data['experience'] = value['experience'];
-          data['gender'] = value['gender'];
-          data['username'] = value['username'];
-        });
-  }
 }

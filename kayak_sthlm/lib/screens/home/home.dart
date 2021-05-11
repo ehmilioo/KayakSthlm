@@ -6,7 +6,7 @@ import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
-import 'package:kayak_sthlm/screens/settings.dart';
+import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
 
 class Home extends StatefulWidget  {
@@ -34,11 +34,6 @@ class MapSampleState extends State<Home> {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return ResetPass();
     }));
-  }
-
-  void flutterIsShit() {
-    Map<String, dynamic> myMap = db.getUser();
-    print(myMap);
   }
 
   static final CameraPosition _startPosition = CameraPosition(
@@ -201,7 +196,6 @@ class MapSampleState extends State<Home> {
         padding: const EdgeInsets.only(bottom: 30.0),
         child: FloatingActionButton(
             onPressed: () {
-              flutterIsShit();
             },
             tooltip: 'Start',
             backgroundColor: Colors.green[200],
