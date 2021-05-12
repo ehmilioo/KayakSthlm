@@ -5,6 +5,10 @@ import 'package:kayak_sthlm/screens/info/fire_info.dart';
 import 'information.dart';
 import 'dart:convert';
 
+//Så kan man skriva över deras värde när vi får till en getUserLocation att funka tänker jag.
+String lat = '59.377990';
+String long = '18.037960';
+
 Future<FireInfo> fetchFireInfo(String lat, String long) async {
   var response = await http.get(Uri.https(
       'api.msb.se', ('/brandrisk/v2/FireProhibition/' + lat + '/' + long)));
@@ -24,7 +28,7 @@ class _FireScreenState extends State<FireScreen> {
     super.initState();
 
     // Koordinaterna till området vi vill ha eldningsförbuds info från i latitude/longitude
-    getFireInfo = fetchFireInfo('59.377990', '18.037960');
+    getFireInfo = fetchFireInfo(lat, long);
   }
 
   @override
