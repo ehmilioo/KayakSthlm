@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kayak_sthlm/screens/settings/settings_edit.dart';
-import 'package:kayak_sthlm/dialogs/saved_dialog.dart';
+import 'package:kayak_sthlm/services/auth.dart';
+import 'package:kayak_sthlm/screens/settings/delete_user.dart';
+import 'package:kayak_sthlm/screens/settings/change_pass.dart';
 
 class Settings extends StatefulWidget  {
   @override
@@ -8,6 +10,9 @@ class Settings extends StatefulWidget  {
 }
 
 class SettingsPage extends State<Settings> {
+  final AuthService _auth = AuthService();
+
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -27,18 +32,26 @@ class SettingsPage extends State<Settings> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, "myRoute");
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return ChangePass();
+                    }));
                   },
                   child: new Text("Password"),
                 ),
                 GestureDetector(
                   onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (_) => SavedDialog(desc: 'Saved user succesfully'),
-                    );
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return DeleteUser();
+                    }));
                   },
                   child: new Text("Delete Account"),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _auth.signOut();
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                  },
+                  child: new Text("Sign out"),
                 ),
               ],
             ),

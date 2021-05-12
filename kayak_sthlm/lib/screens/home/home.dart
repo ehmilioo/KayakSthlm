@@ -48,24 +48,26 @@ class MapSampleState extends State<Home> {
 
   void updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData){
     LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
-    this.setState(() {
-          marker = Marker(
-            markerId: MarkerId("user"),
-            position: latlng,
-            rotation: newLocalData.heading,
-            draggable: false,
-            zIndex: 2,
-            flat: true,
-            anchor: Offset(0.5,0.5),
-            icon: BitmapDescriptor.fromBytes(imageData));
-          circle = Circle(
-            circleId: CircleId("radius"),
-            radius: newLocalData.accuracy+100,
-            zIndex: 1,
-            strokeColor: Colors.blue,
-            center: latlng,
-            fillColor: Colors.blue.withAlpha(70));
-        });
+    if(this.mounted){
+      this.setState(() {
+        marker = Marker(
+          markerId: MarkerId("user"),
+          position: latlng,
+          rotation: newLocalData.heading,
+          draggable: false,
+          zIndex: 2,
+          flat: true,
+          anchor: Offset(0.5,0.5),
+          icon: BitmapDescriptor.fromBytes(imageData));
+        circle = Circle(
+          circleId: CircleId("radius"),
+          radius: newLocalData.accuracy+100,
+          zIndex: 1,
+          strokeColor: Colors.blue,
+          center: latlng,
+          fillColor: Colors.blue.withAlpha(70));
+      });
+    }  
   }
 
   void getCurrentLocation() async {

@@ -93,8 +93,7 @@ class _SettingsEdit extends State<SettingsEdit> {
             StreamBuilder<DocumentSnapshot>(
               stream: usersCollection.doc(uid).snapshots(),
               builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                var user = snapshot.data.data();
-                return Container(
+                return snapshot.hasData ? Container(
                   height: MediaQuery.of(context).size.height,
                   padding: EdgeInsets.symmetric(horizontal: 60.0),
                   child: Column(
@@ -105,7 +104,7 @@ class _SettingsEdit extends State<SettingsEdit> {
                         constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
                         child: TextFormField(
                             enabled: _editMode,
-                            initialValue: user['username'],
+                            initialValue: snapshot.data.data()['username'],
                             style: TextStyle(
                                 fontFamily: 'HammersmithOne', fontSize: 18),
                             decoration: InputDecoration(
@@ -121,7 +120,7 @@ class _SettingsEdit extends State<SettingsEdit> {
                         constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
                         child: TextFormField(
                             enabled: false,
-                            initialValue: user['email'],
+                            initialValue: snapshot.data.data()['email'],
                             style: TextStyle(
                                 fontFamily: 'HammersmithOne', fontSize: 18),
                             decoration: InputDecoration(
@@ -166,7 +165,7 @@ class _SettingsEdit extends State<SettingsEdit> {
                                     )))
                             : Align(
                                 alignment: Alignment.center,
-                                child: Text(user['experience'],
+                                child: Text(snapshot.data.data()['experience'],
                                     style: TextStyle(
                                       fontFamily: 'HammersmithOne',
                                       fontSize: 16,
@@ -214,7 +213,7 @@ class _SettingsEdit extends State<SettingsEdit> {
                                         )))
                                 : Align(
                                     alignment: Alignment.center,
-                                    child: Text(user['age'],
+                                    child: Text(snapshot.data.data()['age'],
                                         style: TextStyle(
                                           fontFamily: 'HammersmithOne',
                                           fontSize: 16,
@@ -264,7 +263,7 @@ class _SettingsEdit extends State<SettingsEdit> {
                                         )))
                                 : Align(
                                     alignment: Alignment.center,
-                                    child: Text(user['gender'],
+                                    child: Text(snapshot.data.data()['gender'],
                                         style: TextStyle(
                                           fontFamily: 'HammersmithOne',
                                           fontSize: 16,
@@ -313,7 +312,11 @@ class _SettingsEdit extends State<SettingsEdit> {
                     ),
                     ],
                   ),
-                );
+                ): Center(
+            child: CircularProgressIndicator(
+                backgroundColor: Colors.black,
+              ),
+          );
               }
             ),
           ],

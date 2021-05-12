@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_material_pickers/flutter_material_pickers.dart';
-import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 import 'package:kayak_sthlm/services/auth.dart';
 
 class Register extends StatefulWidget {
@@ -140,7 +138,8 @@ class _RegisterState extends State<Register> {
                               )),
                           onChanged: (val) {
                             setState(() => password = val);
-                          })),
+                          })
+                  ),
                   SizedBox(height: 5),
                   //EXPERIENCE
                   Container(
