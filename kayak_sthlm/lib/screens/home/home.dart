@@ -149,6 +149,7 @@ class MapSampleState extends State<Home> {
                 ),
           Positioned(
             top: 40,
+            left: 10,
             child: Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: RawMaterialButton(
@@ -160,11 +161,12 @@ class MapSampleState extends State<Home> {
                         latitude: locationData.latitude),
                   );
                 },
-                elevation: 5.0,
+                constraints: BoxConstraints(minWidth: 80, minHeight: 80),
+                elevation: 10.0,
                 fillColor: Colors.white,
                 child: Icon(
-                  Icons.wb_cloudy_rounded,
-                  size: 35.0,
+                  Icons.wb_sunny_outlined,
+                  size: 50.0,
                 ),
                 padding: EdgeInsets.all(10.0),
                 shape: CircleBorder(),
@@ -172,8 +174,8 @@ class MapSampleState extends State<Home> {
             ),
           ),
           Positioned(
-            bottom: 20,
-            right: 5,
+            top: 140,
+            left: 21.5,
             child: Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: RawMaterialButton(
@@ -186,11 +188,12 @@ class MapSampleState extends State<Home> {
                               locationData.latitude, locationData.longitude),
                           zoom: 15.00)));
                 },
+                constraints: BoxConstraints(minWidth: 51, minHeight: 51),
                 elevation: 5.0,
                 fillColor: Colors.white,
                 child: Icon(
-                  Icons.location_searching,
-                  size: 35.0,
+                  Icons.my_location_outlined,
+                  size: 40.0,
                 ),
                 padding: EdgeInsets.all(10.0),
                 shape: CircleBorder(),
@@ -200,29 +203,30 @@ class MapSampleState extends State<Home> {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 30.0),
-        child: FloatingActionButton(
-            onPressed: () {
-              flutterIsShit();
-            },
-            tooltip: 'Start',
-            backgroundColor: Colors.green[200],
-            child: Icon(Icons.play_arrow_outlined)),
-      ),
+      floatingActionButton: Container(
+          height: 85.0,
+          width: 85.0,
+          child: FittedBox(
+            child: FloatingActionButton(
+                onPressed: () {
+                  flutterIsShit();
+                },
+                backgroundColor: Color.fromRGBO(139, 239, 123, 1),
+                elevation: 10,
+                child: Icon(Icons.play_arrow_outlined, size: 50)),
+          )),
       bottomNavigationBar: SizedBox(
-        height: 60,
+        height: 70,
         child: BottomAppBar(
-          shape: CircularNotchedRectangle(),
-          notchMargin: 10.0,
           child: new Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               IconButton(
                   // Navigationsknapp 1: Routes
                   icon: Icon(Icons.place_outlined),
-                  iconSize: 35,
+                  iconSize: 30,
                   onPressed: () {
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => SignIn()));
@@ -230,19 +234,23 @@ class MapSampleState extends State<Home> {
               IconButton(
                 // Navigationsknapp 2: Events
                 icon: Icon(Icons.calendar_today_outlined),
-                iconSize: 35,
+                iconSize: 30,
                 onPressed: () {},
               ),
-              Container(
-                  child: Text("Start",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  width: 32,
-                  height:
-                      30), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                      child: Text("START",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 12)),
+                      width: 105,
+                      height:
+                          25)), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
               IconButton(
                 // Navigationsknapp 3: Info
                 icon: Icon(Icons.info_outline),
-                iconSize: 35,
+                iconSize: 30,
                 onPressed: () {
                   Navigator.pushReplacement(
                       context,
@@ -253,7 +261,7 @@ class MapSampleState extends State<Home> {
               IconButton(
                 // Navigationsknapp 4: Settings
                 icon: Icon(Icons.settings_outlined),
-                iconSize: 35,
+                iconSize: 30,
                 onPressed: () {},
               ),
             ],

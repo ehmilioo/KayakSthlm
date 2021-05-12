@@ -202,72 +202,132 @@ class InformationScreen extends StatelessWidget {
         ]),
       ),
 
-      // FLOATINGACTIONBUTTON
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 30.0),
-        child: FloatingActionButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => Home()));
-            },
-            tooltip: 'Start',
-            backgroundColor: Colors.green[200],
-            child: Icon(Icons.play_arrow_outlined)),
-      ),
-
-      // BOTTOMNAVIVGATIONBAR
+      floatingActionButton: Container(
+          height: 85.0,
+          width: 85.0,
+          child: FittedBox(
+            child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (context) => Home()));
+                },
+                backgroundColor: Color.fromRGBO(86, 151, 211, 1),
+                elevation: 10,
+                child: Icon(Icons.map_outlined, size: 50)),
+          )),
       bottomNavigationBar: SizedBox(
-        height: 60,
+        height: 70,
         child: BottomAppBar(
-          shape: CircularNotchedRectangle(),
-          notchMargin: 10.0,
           child: new Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               IconButton(
-                // Navigationsknapp 1: Routes
-                icon: Icon(Icons.place_outlined),
-                iconSize: 35,
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Register()));
-                },
-              ),
+                  // Navigationsknapp 1: Routes
+                  icon: Icon(Icons.place_outlined),
+                  iconSize: 30,
+                  onPressed: () {}),
               IconButton(
                 // Navigationsknapp 2: Events
                 icon: Icon(Icons.calendar_today_outlined),
-                iconSize: 35,
+                iconSize: 30,
                 onPressed: () {},
               ),
-              Container(
-                  child: Text("Start",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  width: 32,
-                  height:
-                      30), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                      child: Text("HOME",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 12)),
+                      width: 105,
+                      height:
+                          25)), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
               IconButton(
                 // Navigationsknapp 3: Info
                 icon: Icon(Icons.info_outline),
-                iconSize: 35,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => InformationScreen()));
-                },
+                iconSize: 30,
+                onPressed: () {},
               ),
               IconButton(
                 // Navigationsknapp 4: Settings
-                icon: Icon(Icons.follow_the_signs),
-                iconSize: 35,
+                icon: Icon(Icons.settings_outlined),
+                iconSize: 30,
                 onPressed: () {},
               ),
             ],
           ),
         ),
       ),
+
+      // // FLOATINGACTIONBUTTON
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: Padding(
+      //   padding: const EdgeInsets.only(bottom: 30.0),
+      //   child: FloatingActionButton(
+      //       onPressed: () {
+      //         Navigator.pushReplacement(
+      //             context, MaterialPageRoute(builder: (context) => Home()));
+      //       },
+      //       tooltip: 'Start',
+      //       backgroundColor: Colors.green[200],
+      //       child: Icon(Icons.play_arrow_outlined)),
+      // ),
+
+      // // BOTTOMNAVIVGATIONBAR
+      // bottomNavigationBar: SizedBox(
+      //   height: 60,
+      //   child: BottomAppBar(
+      //     shape: CircularNotchedRectangle(),
+      //     notchMargin: 10.0,
+      //     child: new Row(
+      //       mainAxisSize: MainAxisSize.max,
+      //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //       children: <Widget>[
+      //         IconButton(
+      //           // Navigationsknapp 1: Routes
+      //           icon: Icon(Icons.place_outlined),
+      //           iconSize: 35,
+      //           onPressed: () {
+      //             Navigator.push(context,
+      //                 MaterialPageRoute(builder: (context) => Register()));
+      //           },
+      //         ),
+      //         IconButton(
+      //           // Navigationsknapp 2: Events
+      //           icon: Icon(Icons.calendar_today_outlined),
+      //           iconSize: 35,
+      //           onPressed: () {},
+      //         ),
+      //         Container(
+      //             child: Text("Start",
+      //                 style: TextStyle(fontWeight: FontWeight.bold)),
+      //             width: 32,
+      //             height:
+      //                 30), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
+      //         IconButton(
+      //           // Navigationsknapp 3: Info
+      //           icon: Icon(Icons.info_outline),
+      //           iconSize: 35,
+      //           onPressed: () {
+      //             Navigator.push(
+      //                 context,
+      //                 MaterialPageRoute(
+      //                     builder: (context) => InformationScreen()));
+      //           },
+      //         ),
+      //         IconButton(
+      //           // Navigationsknapp 4: Settings
+      //           icon: Icon(Icons.follow_the_signs),
+      //           iconSize: 35,
+      //           onPressed: () {},
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
 
       // // APPBAR
       // appBar: AppBar(
