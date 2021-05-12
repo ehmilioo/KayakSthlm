@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kayak_sthlm/screens/info/fire_info.dart';
+import 'package:kayak_sthlm/screens/info/fire_screen.dart';
 import 'package:kayak_sthlm/screens/info/guides.dart';
 import 'package:kayak_sthlm/screens/info/reserve.dart';
 import 'package:kayak_sthlm/services/auth.dart';
@@ -49,7 +49,7 @@ class InformationScreen extends StatelessWidget {
               icon: Icon(AppIcons.guide),
               iconSize: 90,
               onPressed: () {
-                Navigator.push(context,
+                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => GuideScreen()));
               },
             ),
@@ -57,7 +57,7 @@ class InformationScreen extends StatelessWidget {
               icon: Icon(AppIcons.reserves),
               iconSize: 90,
               onPressed: () {
-                Navigator.push(context,
+                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => ReserveScreen()));
               },
             ),
@@ -65,7 +65,7 @@ class InformationScreen extends StatelessWidget {
               icon: Icon(AppIcons.fire),
               iconSize: 90,
               onPressed: () {
-                Navigator.push(context,
+                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => FireScreen()));
               },
             ),
@@ -73,7 +73,7 @@ class InformationScreen extends StatelessWidget {
               icon: Icon(AppIcons.symbols),
               iconSize: 90,
               onPressed: () {
-                Navigator.push(context,
+                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => SymbolsScreen()));
               },
             ),
@@ -84,7 +84,8 @@ class InformationScreen extends StatelessWidget {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 30.0),
         child: FloatingActionButton(
-            onPressed: () {openPage(context);
+            onPressed: () {
+              openPage(context);
             },
             tooltip: 'Start',
             backgroundColor: Colors.green[200],
