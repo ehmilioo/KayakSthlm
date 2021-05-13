@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
@@ -64,15 +66,11 @@ class WeatherOverlayState extends State<WeatherDialog> {
               snapshot.data.timeSeries[0]['parameters'][18]['values'][0] -
                   1); //-1 eftersom SMHI API börjar på 1 och listor på 0 :-)
           return Container(
-            alignment: Alignment.center,
-            child: Positioned(
-                child: Container(
-              // padding: EdgeInsets.only(
-              //     left: Constants.padding,
-              //     top: Constants.padding,
-              //     right: Constants.padding,
-              //     bottom: Constants.padding),
-              margin: EdgeInsets.only(top: Constants.avatarRadius),
+              child: Stack(children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(
+                  bottom: Constants.padding, top: Constants.padding),
+              margin: EdgeInsets.fromLTRB(63, 196, 63, 196),
               decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   color: Colors.white,
@@ -83,57 +81,215 @@ class WeatherOverlayState extends State<WeatherDialog> {
                         offset: Offset(0, 10),
                         blurRadius: 10),
                   ]),
-              child: Stack(
-                children: <Widget>[
-                  Card(
-                      child: IconButton(
-                          icon: Icon(
-                            Icons.exit_to_app,
-                            size: 35,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          })),
-                  Column(
-                      // mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(
-                          'Temp: ${snapshot.data.timeSeries[0]['parameters'][10]['level']} °C',
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          'Wind: ${snapshot.data.timeSeries[0]['parameters'][14]['level']} m/s',
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          'Weather type: ${response['desc']}',
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          'Rain: ${snapshot.data.timeSeries[0]['parameters'][0]['level']}%',
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 22,
-                        )
-                      ]),
-                ],
+              child: Material(
+                child: Stack(
+                  children: <Widget>[
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                      Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border(
+                                  bottom: BorderSide(
+                                      width: 1,
+                                      color:
+                                          Color.fromRGBO(214, 214, 214, 1)))),
+                          alignment: Alignment.center,
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Text('Stockholm',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 24,
+                                        fontFamily: 'Montserrat')),
+                                Text('Today',
+                                    style: TextStyle(
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12,
+                                        fontFamily: 'Montserrat')),
+                                SizedBox(height: 7)
+                              ])),
+                      Container(
+                          height: 151,
+                          color: Color.fromRGBO(212, 230, 251, 0.4),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      '${snapshot.data.timeSeries[0]['parameters'][10]['level']}',
+                                      style: TextStyle(fontSize: 72)),
+                                  Text('°C', style: TextStyle(fontSize: 24)),
+                                ],
+                              ),
+                              SizedBox(width: 20),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.cloud, size: 40),
+                                  Icon(Icons.waves_outlined, size: 40),
+                                  Icon(Icons.wb_cloudy_outlined, size: 40)
+                                ],
+                              ),
+                              SizedBox(width: 10),
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('${response['desc']}',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold)),
+                                  RichText(
+                                      text: TextSpan(
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 13,
+                                              color: Colors.black),
+                                          children: <TextSpan>[
+                                        TextSpan(
+                                            text: 'Wind: ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        TextSpan(
+                                            text:
+                                                '${snapshot.data.timeSeries[0]['parameters'][14]['level']} m/s')
+                                      ])),
+                                  RichText(
+                                      text: TextSpan(
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 13,
+                                              color: Colors.black),
+                                          children: <TextSpan>[
+                                        TextSpan(
+                                            text: 'Rain: ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        TextSpan(
+                                            text:
+                                                '${snapshot.data.timeSeries[0]['parameters'][0]['level']}%')
+                                      ])),
+                                ],
+                              )
+                            ],
+                          )),
+                      Container(
+                          height: 100,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border(
+                                  top: BorderSide(
+                                      width: 1,
+                                      color:
+                                          Color.fromRGBO(214, 214, 214, 1)))),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text('grader',
+                                      style: TextStyle(fontSize: 12)),
+                                  Icon(Icons.wb_sunny, size: 45),
+                                  Text('tid', style: TextStyle(fontSize: 14))
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text('grader',
+                                      style: TextStyle(fontSize: 12)),
+                                  Icon(Icons.wb_sunny, size: 45),
+                                  Text('tid', style: TextStyle(fontSize: 14))
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text('grader',
+                                      style: TextStyle(fontSize: 12)),
+                                  Icon(Icons.wb_sunny, size: 45),
+                                  Text('tid', style: TextStyle(fontSize: 14))
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text('grader',
+                                      style: TextStyle(fontSize: 12)),
+                                  Icon(Icons.wb_sunny, size: 45),
+                                  Text('tid', style: TextStyle(fontSize: 14))
+                                ],
+                              )
+                            ],
+                          )),
+                      // Text(
+                      //   'Temp: ${snapshot.data.timeSeries[0]['parameters'][10]['level']} °C',
+                      //   style: TextStyle(
+                      //       fontSize: 22, fontWeight: FontWeight.w600),
+                      // ),
+                      // SizedBox(
+                      //   height: 15,
+                      // ),
+                      // Text(
+                      //   'Wind: ${snapshot.data.timeSeries[0]['parameters'][14]['level']} m/s',
+                      //   style: TextStyle(
+                      //       fontSize: 22, fontWeight: FontWeight.w600),
+                      // ),
+                      // SizedBox(
+                      //   height: 15,
+                      // ),
+                      // Text(
+                      //   'Weather type: ${response['desc']}',
+                      //   style: TextStyle(
+                      //       fontSize: 22, fontWeight: FontWeight.w600),
+                      // ),
+                      // SizedBox(
+                      //   height: 15,
+                      // ),
+                      // Text(
+                      //   'Rain: ${snapshot.data.timeSeries[0]['parameters'][0]['level']}%',
+                      //   style: TextStyle(
+                      //       fontSize: 22, fontWeight: FontWeight.w600),
+                      // ),
+                      // SizedBox(
+                      //   height: 22,
+                      // )
+                    ]),
+                  ],
+                ),
               ),
-            )),
-          );
+            ),
+            Positioned(
+                top: 168,
+                right: 35,
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Card(
+                      elevation: 20,
+                      shape: CircleBorder(),
+                      child: CircleAvatar(
+                        radius: 24.0,
+                        backgroundColor: Colors.blue,
+                        child: Icon(
+                          Icons.close,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                      ),
+                    )))
+          ]));
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
