@@ -27,7 +27,7 @@ class WeatherOverlayState extends State<WeatherDialog> {
   }
 
   Future<Weather> fetchWeather() async {
-    String userLongitude = widget.longitude.toStringAsFixed(6).toString();
+    String userLongitude = widget.longitude.toStringAsFixed(6).toString(); //Korta ner stringsen eftersom SMHI tar odokumenterat in endast 6 decimaler.
     String userLatitude = widget.latitude.toStringAsFixed(6).toString();
     String url = "opendata-download-metfcst.smhi.se";
     final response = await http.get(Uri.https(url,
