@@ -4,6 +4,7 @@ import 'package:kayak_sthlm/screens/home/home.dart';
 import 'package:kayak_sthlm/screens/info/fire_info.dart';
 import 'package:kayak_sthlm/screens/info/guides.dart';
 import 'package:kayak_sthlm/screens/info/reserve.dart';
+import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:kayak_sthlm/services/auth.dart';
 import 'package:kayak_sthlm/screens/info/symbols_info.dart';
 import 'package:kayak_sthlm/services/database.dart';
@@ -20,16 +21,13 @@ class InformationScreen extends StatelessWidget {
     }));
   }
 
-  void flutterIsShit() {
-    db.getMap();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(242, 248, 255, 1),
       body: Container(
         height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             image: DecorationImage(
           image: AssetImage("assets/bakgrund.png"),
@@ -204,18 +202,29 @@ class InformationScreen extends StatelessWidget {
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
-          height: 85.0,
-          width: 85.0,
-          child: FittedBox(
-            child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (context) => Home()));
-                },
-                backgroundColor: Color.fromRGBO(86, 151, 211, 1),
-                elevation: 10,
-                child: Icon(Icons.map_outlined, size: 50)),
-          )),
+        height: 85.0,
+        width: 85.0,
+        child: FloatingActionButton(
+          elevation: 10,
+          child: Container(
+              height: 85.0,
+              width: 85.0,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                      colors: [Color.fromRGBO(86, 151, 211, 1), Colors.black],
+                      stops: [0.44, 1],
+                      radius: 1)),
+              child: Icon(
+                Icons.map_outlined,
+                size: 50,
+              )),
+          onPressed: () {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => Home()));
+          },
+        ),
+      ),
       bottomNavigationBar: SizedBox(
         height: 70,
         child: BottomAppBar(
@@ -252,11 +261,13 @@ class InformationScreen extends StatelessWidget {
                 onPressed: () {},
               ),
               IconButton(
-                // Navigationsknapp 4: Settings
-                icon: Icon(Icons.settings_outlined),
-                iconSize: 30,
-                onPressed: () {},
-              ),
+                  // Navigationsknapp 4: Settings
+                  icon: Icon(Icons.settings_outlined),
+                  iconSize: 30,
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => Settings()));
+                  }),
             ],
           ),
         ),

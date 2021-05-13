@@ -38,12 +38,13 @@ class _SignInState extends State<SignIn> {
         body: SingleChildScrollView(
             child: Container(
                 height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                   image: AssetImage("assets/bakgrund.png"),
                   fit: BoxFit.cover,
                 )),
-                padding: EdgeInsets.symmetric(horizontal: 60.0),
+                padding: EdgeInsets.symmetric(horizontal: 57.0),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -54,8 +55,7 @@ class _SignInState extends State<SignIn> {
                               BoxConstraints(maxHeight: 82, minHeight: 82),
                           child: TextFormField(
                               keyboardType: TextInputType.emailAddress,
-                              style: TextStyle(
-                                  fontFamily: 'HammersmithOne', fontSize: 18),
+                              style: TextStyle(fontSize: 18),
                               validator: (val) => validateEmail(val)
                                   ? 'Ange en giltig e-post'
                                   : null,
@@ -72,8 +72,7 @@ class _SignInState extends State<SignIn> {
                           constraints:
                               BoxConstraints(maxHeight: 82, minHeight: 82),
                           child: TextFormField(
-                              style: TextStyle(
-                                  fontFamily: 'HammersmithOne', fontSize: 18),
+                              style: TextStyle(fontSize: 18),
                               validator: (val) => val.length < 6
                                   ? 'Ange ett giltigt lösenord'
                                   : null,
@@ -106,13 +105,12 @@ class _SignInState extends State<SignIn> {
                             backgroundColor: _loginEnabled == true
                                 ? Color.fromRGBO(86, 151, 211, 1)
                                 : Color.fromRGBO(217, 221, 224, 1),
-                            shadowColor: Colors.black54,
-                            elevation: 10,
+                            shadowColor: Colors.black,
+                            elevation: 5,
                             shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(50))),
-                            textStyle: TextStyle(
-                                fontSize: 18, fontFamily: 'HammersmithOne'),
+                            textStyle: TextStyle(fontSize: 18),
                           ),
                           child: Text('Log in'),
                           onPressed: () async {
@@ -137,7 +135,6 @@ class _SignInState extends State<SignIn> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Color.fromRGBO(136, 134, 134, 1),
-                                      fontFamily: 'HammersmithOne',
                                       fontSize: 18))),
                           SizedBox(
                               width: 90.9,
@@ -151,15 +148,13 @@ class _SignInState extends State<SignIn> {
                             minimumSize: Size(281, 48),
                             primary: Color.fromRGBO(86, 151, 211, 1),
                             backgroundColor: Colors.white,
-                            shadowColor: Colors.black54,
-                            elevation: 10,
+                            shadowColor: Colors.black,
+                            elevation: 5,
                             shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(50))),
-                            textStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontFamily: 'HammersmithOne'),
+                            textStyle:
+                                TextStyle(color: Colors.white, fontSize: 18),
                           ),
                           child: Text('Create Account'),
                           onPressed: () async {
@@ -176,9 +171,7 @@ class _SignInState extends State<SignIn> {
                         TextButton(
                             style: TextButton.styleFrom(
                                 primary: Color.fromRGBO(136, 134, 134, 1),
-                                textStyle: TextStyle(
-                                    fontFamily: 'HammersmithOne',
-                                    fontSize: 18)),
+                                textStyle: TextStyle(fontSize: 18)),
                             onPressed: () {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {

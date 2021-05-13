@@ -65,12 +65,13 @@ class _RegisterState extends State<Register> {
         body: SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 image: DecorationImage(
               image: AssetImage("assets/bakgrund.png"),
               fit: BoxFit.cover,
             )),
-            padding: EdgeInsets.symmetric(horizontal: 60.0),
+            padding: EdgeInsets.symmetric(horizontal: 57.0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -78,15 +79,13 @@ class _RegisterState extends State<Register> {
                   SizedBox(height: 180),
                   Text(
                     'Create Account',
-                    style:
-                        TextStyle(fontFamily: 'HammersmithOne', fontSize: 35),
+                    style: TextStyle(fontSize: 35),
                   ),
                   SizedBox(height: 0),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
                     child: TextFormField(
-                        style: TextStyle(
-                            fontFamily: 'HammersmithOne', fontSize: 18),
+                        style: TextStyle(fontSize: 18),
                         validator: (val) =>
                             val.length < 3 ? 'Användarnamn för kort' : null,
                         decoration: InputDecoration(
@@ -102,8 +101,7 @@ class _RegisterState extends State<Register> {
                       constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
                       child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
-                          style: TextStyle(
-                              fontFamily: 'HammersmithOne', fontSize: 18),
+                          style: TextStyle(fontSize: 18),
                           validator: (val) => validateEmail(val)
                               ? 'Ange en giltig e-post'
                               : null,
@@ -118,8 +116,7 @@ class _RegisterState extends State<Register> {
                   ConstrainedBox(
                       constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
                       child: TextFormField(
-                          style: TextStyle(
-                              fontFamily: 'HammersmithOne', fontSize: 18),
+                          style: TextStyle(fontSize: 18),
                           validator: (val) => validatePassword(val)
                               ? 'Ange ett giltigt lösenord, minst 8 tecken 1 siffra'
                               : null,
@@ -139,8 +136,7 @@ class _RegisterState extends State<Register> {
                               )),
                           onChanged: (val) {
                             setState(() => password = val);
-                          })
-                  ),
+                          })),
                   SizedBox(height: 5),
                   //EXPERIENCE
                   Container(
@@ -170,14 +166,12 @@ class _RegisterState extends State<Register> {
                                 alignment: Alignment.center,
                                 child: Text(selectedExperienceLevel,
                                     style: TextStyle(
-                                      fontFamily: 'HammersmithOne',
                                       fontSize: 16,
                                     )))
                             : Align(
                                 alignment: Alignment.center,
                                 child: Text('Experience',
                                     style: TextStyle(
-                                      fontFamily: 'HammersmithOne',
                                       fontSize: 16,
                                     ))),
                         onChanged: (String value) {
@@ -219,14 +213,12 @@ class _RegisterState extends State<Register> {
                                     alignment: Alignment.center,
                                     child: Text(age + ' years',
                                         style: TextStyle(
-                                          fontFamily: 'HammersmithOne',
                                           fontSize: 16,
                                         )))
                                 : Align(
                                     alignment: Alignment.center,
                                     child: Text('Age',
                                         style: TextStyle(
-                                          fontFamily: 'HammersmithOne',
                                           fontSize: 16,
                                         ))),
                             onChanged: (int value) {
@@ -269,14 +261,12 @@ class _RegisterState extends State<Register> {
                                     alignment: Alignment.center,
                                     child: Text(selectedGender,
                                         style: TextStyle(
-                                          fontFamily: 'HammersmithOne',
                                           fontSize: 16,
                                         )))
                                 : Align(
                                     alignment: Alignment.center,
                                     child: Text('Gender',
                                         style: TextStyle(
-                                          fontFamily: 'HammersmithOne',
                                           fontSize: 16,
                                         ))),
                             onChanged: (String value) {
@@ -303,13 +293,12 @@ class _RegisterState extends State<Register> {
                                 _genderSelected == true
                             ? Color.fromRGBO(86, 151, 211, 1)
                             : Color.fromRGBO(217, 221, 224, 1),
-                        shadowColor: Colors.black54,
-                        elevation: 10,
+                        shadowColor: Colors.black,
+                        elevation: 5,
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(50))),
-                        textStyle: TextStyle(
-                            fontSize: 18, fontFamily: 'HammersmithOne'),
+                        textStyle: TextStyle(fontSize: 18),
                       ),
                       child: Text('Sign Up'),
                       onPressed: () async {
@@ -325,8 +314,7 @@ class _RegisterState extends State<Register> {
                             setState(() => error = 'Ett fel uppstod');
                           }
                         }
-                      }
-                    ),
+                      }),
 
                   //Preliminär errorhandling
                   Text(
@@ -341,8 +329,7 @@ class _RegisterState extends State<Register> {
                     TextButton(
                         style: TextButton.styleFrom(
                             primary: Color.fromRGBO(136, 134, 134, 1),
-                            textStyle: TextStyle(
-                                fontFamily: 'HammersmithOne', fontSize: 18)),
+                            textStyle: TextStyle(fontSize: 18)),
                         onPressed: widget.toggleView,
                         child: Text('Log In')),
                   ]),

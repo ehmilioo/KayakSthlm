@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 import 'package:kayak_sthlm/screens/info/information.dart';
+import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
@@ -34,11 +35,6 @@ class MapSampleState extends State<Home> {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return ResetPass();
     }));
-  }
-
-  void flutterIsShit() {
-    Map<String, dynamic> myMap = db.getUser();
-    print(myMap);
   }
 
   static final CameraPosition _startPosition = CameraPosition(
@@ -204,17 +200,28 @@ class MapSampleState extends State<Home> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
-          height: 85.0,
-          width: 85.0,
-          child: FittedBox(
-            child: FloatingActionButton(
-                onPressed: () {
-                  flutterIsShit();
-                },
-                backgroundColor: Color.fromRGBO(139, 239, 123, 1),
-                elevation: 10,
-                child: Icon(Icons.play_arrow_outlined, size: 50)),
-          )),
+        height: 85.0,
+        width: 85.0,
+        child: FloatingActionButton(
+          elevation: 10,
+          child: Container(
+              height: 85.0,
+              width: 85.0,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                      colors: [Color.fromRGBO(139, 239, 123, 1), Colors.black],
+                      stops: [0.44, 1],
+                      radius: 1)),
+              child: Icon(
+                Icons.play_arrow_outlined,
+                size: 50,
+              )),
+          onPressed: () {
+            // START
+          },
+        ),
+      ),
       bottomNavigationBar: SizedBox(
         height: 70,
         child: BottomAppBar(
@@ -262,7 +269,10 @@ class MapSampleState extends State<Home> {
                 // Navigationsknapp 4: Settings
                 icon: Icon(Icons.settings_outlined),
                 iconSize: 30,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Settings()));
+                },
               ),
             ],
           ),

@@ -31,29 +31,33 @@ class _ResetPass extends State<ResetPass> {
         body: SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 image: DecorationImage(
               image: AssetImage("assets/bakgrund.png"),
               fit: BoxFit.cover,
             )),
-            padding: EdgeInsets.symmetric(horizontal: 60.0),
+            padding: EdgeInsets.symmetric(horizontal: 57.0),
             child: Form(
               key: _formKey,
               child: Column(
                 children: <Widget>[
                   SizedBox(height: 180),
-                  Text(
-                    'Reset Password',
-                    style:
-                        TextStyle(fontFamily: 'HammersmithOne', fontSize: 35),
-                  ),
+                  RichText(
+                      text: TextSpan(
+                          style: TextStyle(color: Colors.black, fontSize: 35),
+                          children: <TextSpan>[
+                        TextSpan(text: 'Reset '),
+                        TextSpan(
+                            text: 'Password',
+                            style: TextStyle(fontWeight: FontWeight.bold))
+                      ])),
                   SizedBox(height: 110),
                   ConstrainedBox(
                       constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
                       child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
-                          style: TextStyle(
-                              fontFamily: 'HammersmithOne', fontSize: 18),
+                          style: TextStyle(fontSize: 18),
                           validator: (val) => validateEmail(val)
                               ? 'Ange en giltig e-post'
                               : null,
@@ -76,13 +80,12 @@ class _ResetPass extends State<ResetPass> {
                         backgroundColor: _requestEnabled == true
                             ? Color.fromRGBO(86, 151, 211, 1)
                             : Color.fromRGBO(217, 221, 224, 1),
-                        shadowColor: Colors.black54,
-                        elevation: 10,
+                        shadowColor: Colors.black,
+                        elevation: 5,
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(50))),
-                        textStyle: TextStyle(
-                            fontSize: 18, fontFamily: 'HammersmithOne'),
+                        textStyle: TextStyle(fontSize: 18),
                       ),
                       child: Text('Reset Password'),
                       onPressed: () async {
@@ -121,8 +124,7 @@ class _ResetPass extends State<ResetPass> {
                     TextButton(
                         style: TextButton.styleFrom(
                             primary: Color.fromRGBO(136, 134, 134, 1),
-                            textStyle: TextStyle(
-                                fontFamily: 'HammersmithOne', fontSize: 18)),
+                            textStyle: TextStyle(fontSize: 18)),
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -156,19 +158,22 @@ class _ResetPassOk extends State<ResetPassOk> {
               fit: BoxFit.cover,
             )),
             child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 60.0),
+                padding: EdgeInsets.symmetric(horizontal: 57.0),
                 child: Column(children: [
                   SizedBox(height: 180),
-                  Text(
-                    'Reset  Password',
-                    style:
-                        TextStyle(fontFamily: 'HammersmithOne', fontSize: 35),
-                  ),
+                  RichText(
+                      text: TextSpan(
+                          style: TextStyle(color: Colors.black, fontSize: 35),
+                          children: <TextSpan>[
+                        TextSpan(text: 'Reset '),
+                        TextSpan(
+                            text: 'Password',
+                            style: TextStyle(fontWeight: FontWeight.bold))
+                      ])),
                   SizedBox(height: 110),
                   Text(
                     'A new password has been sent to your email.',
-                    style:
-                        TextStyle(fontFamily: 'HammersmithOne', fontSize: 20),
+                    style: TextStyle(fontSize: 20),
                   ),
                   SizedBox(height: 63),
                   OutlinedButton(
@@ -176,13 +181,12 @@ class _ResetPassOk extends State<ResetPassOk> {
                         minimumSize: Size(281, 48),
                         primary: Color.fromRGBO(86, 151, 211, 1),
                         backgroundColor: Colors.white,
-                        shadowColor: Colors.black54,
-                        elevation: 10,
+                        shadowColor: Colors.black,
+                        elevation: 5,
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(50))),
-                        textStyle: TextStyle(
-                            fontSize: 18, fontFamily: 'HammersmithOne'),
+                        textStyle: TextStyle(fontSize: 18),
                       ),
                       child: Text('Log In'),
                       onPressed: () async {

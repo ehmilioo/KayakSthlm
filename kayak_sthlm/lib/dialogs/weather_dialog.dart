@@ -27,7 +27,9 @@ class WeatherOverlayState extends State<WeatherDialog> {
   }
 
   Future<Weather> fetchWeather() async {
-    String userLongitude = widget.longitude.toStringAsFixed(6).toString(); //Korta ner stringsen eftersom SMHI tar odokumenterat in endast 6 decimaler.
+    String userLongitude = widget.longitude
+        .toStringAsFixed(6)
+        .toString(); //Korta ner stringsen eftersom SMHI tar odokumenterat in endast 6 decimaler.
     String userLatitude = widget.latitude.toStringAsFixed(6).toString();
     String url = "opendata-download-metfcst.smhi.se";
     final response = await http.get(Uri.https(url,
@@ -197,7 +199,8 @@ class WeatherOverlayState extends State<WeatherDialog> {
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text('grader',
+                                  Text(
+                                      '               ${snapshot.data.timeSeries[1]['parameters'][10]['level']}°',
                                       style: TextStyle(fontSize: 12)),
                                   Icon(Icons.wb_sunny, size: 45),
                                   Text('tid', style: TextStyle(fontSize: 14))
@@ -206,7 +209,8 @@ class WeatherOverlayState extends State<WeatherDialog> {
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text('grader',
+                                  Text(
+                                      '               ${snapshot.data.timeSeries[2]['parameters'][10]['level']}°',
                                       style: TextStyle(fontSize: 12)),
                                   Icon(Icons.wb_sunny, size: 45),
                                   Text('tid', style: TextStyle(fontSize: 14))
@@ -215,7 +219,8 @@ class WeatherOverlayState extends State<WeatherDialog> {
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text('grader',
+                                  Text(
+                                      '               ${snapshot.data.timeSeries[3]['parameters'][10]['level']}°',
                                       style: TextStyle(fontSize: 12)),
                                   Icon(Icons.wb_sunny, size: 45),
                                   Text('tid', style: TextStyle(fontSize: 14))
@@ -224,7 +229,8 @@ class WeatherOverlayState extends State<WeatherDialog> {
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text('grader',
+                                  Text(
+                                      '               ${snapshot.data.timeSeries[4]['parameters'][10]['level']}°',
                                       style: TextStyle(fontSize: 12)),
                                   Icon(Icons.wb_sunny, size: 45),
                                   Text('tid', style: TextStyle(fontSize: 14))
