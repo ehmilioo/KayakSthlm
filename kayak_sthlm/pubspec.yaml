@@ -16,6 +16,8 @@ dependencies:
   flutter_material_pickers: ^2.1.1
   youtube_player_flutter:
   http:
+  url_launcher:
+
   
 
 
@@ -39,5 +41,7 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
-  assets:
-   - assets/images/
+assets:
+  - assets/images/birdProtectionArea.jpg
+  - assets/images/sealProtectionArea.png
+  - assets/images/mapNatureReserves.png
