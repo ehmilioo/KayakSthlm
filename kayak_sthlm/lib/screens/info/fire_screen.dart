@@ -109,8 +109,10 @@ class _FireScreenState extends State<FireScreen> {
       const Kommuner('Österåker', '59.5', '18.45'),
     ];
 
-    _getCurrentLocation();
-
+    //så att den bara gettar första gången vi går in
+    if (position == null) {
+      _getCurrentLocation();
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Fire Info'),
@@ -134,7 +136,7 @@ class _FireScreenState extends State<FireScreen> {
                 top: 15.0,
                 left: 15.0,
                 right: 15.0,
-                bottom: 15.0,
+                bottom: 5.0,
               ),
               decoration: BoxDecoration(
                 color: Colors.green,
@@ -181,6 +183,20 @@ class _FireScreenState extends State<FireScreen> {
                       }
                       return CircularProgressIndicator();
                     },
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 25,
+                    child: ElevatedButton(
+                      child: Text("My position"),
+                      onPressed: () {
+                        _getCurrentLocation();
+                      },
+                      autofocus: true,
+                      clipBehavior: Clip.none,
+                    ),
                   ),
                 ],
               ),
@@ -262,6 +278,8 @@ class _FireScreenState extends State<FireScreen> {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => InformationScreen()));
             },
+            autofocus: true,
+            clipBehavior: Clip.none,
           ),
         ),
       ),
