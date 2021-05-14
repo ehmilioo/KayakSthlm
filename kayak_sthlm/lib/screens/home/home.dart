@@ -24,6 +24,7 @@ class MapSampleState extends State<Home> {
   GoogleMapController _controller;
   LocationData locationData;
   CameraPosition currentPosition;
+  bool isStarted = false;
 
   @override
   void initState() {
@@ -198,17 +199,52 @@ class MapSampleState extends State<Home> {
         padding: const EdgeInsets.only(bottom: 30.0),
         child: FloatingActionButton(
             onPressed: () {
+              setState(() {
+                if(isStarted){
+                  print('Pause or save');
+                }else{
+                  isStarted = !isStarted;
+                }
+              });
             },
             tooltip: 'Start',
             backgroundColor: Colors.green[200],
-            child: Icon(Icons.play_arrow_outlined)),
+            child: isStarted ? Icon(Icons.pause): Icon(Icons.play_arrow_outlined)),
       ),
       bottomNavigationBar: SizedBox(
         height: 60,
         child: BottomAppBar(
           shape: CircularNotchedRectangle(),
           notchMargin: 10.0,
-          child: new Row(
+          child: isStarted ? 
+          
+
+          new Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Container(
+                child: Text("Dist",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                width: 40,
+                height:30
+              ),
+              Container(
+                  child: Text("Pause",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  width: 40,
+                  height:
+                      30),
+              Container(
+                child: Text("Time",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                width: 40,
+                height:30
+              ),
+            ]
+          )
+          : 
+          new Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
