@@ -26,7 +26,6 @@ class _DeleteUser extends State<DeleteUser> {
         .then((value) => print("User deleted"))
         .catchError((error) => print("Failed: $error"));
       await user.delete();
-      print('Tog bort horungen');
     }catch(e){
       print(e);
     }
