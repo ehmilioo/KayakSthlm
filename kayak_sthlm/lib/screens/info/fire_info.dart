@@ -17,11 +17,13 @@ class FireInfo {
     this.municipality = map['municipality'];
     this.municipalityCode = map['municipalityCode'];
     this.fireProhibition = map['fireProhibition'];
-    this.status = fireProhibition['status'];
-    this.startDate = fireProhibition['startDate'];
-    this.revisionDate = fireProhibition['revisionDate'];
-    this.description = fireProhibition['description'];
-    this.authority = fireProhibition['authority'];
-    this.url = fireProhibition['url'];
+    if (fireProhibition != null) {
+      this.status = fireProhibition['status'];
+      this.startDate = fireProhibition['startDate'];
+      this.revisionDate = fireProhibition['revisionDate'];
+      this.description = fireProhibition['description'];
+      this.authority = fireProhibition['authority'];
+      this.url = fireProhibition['url'];
+    }
   }
 }
