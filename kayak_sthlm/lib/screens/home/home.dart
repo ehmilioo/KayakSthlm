@@ -111,16 +111,17 @@ class MapSampleState extends State<Home> {
   Widget build(BuildContext context) {
     getCurrentLocation();
     return new Scaffold(
-      body: Stack(
-        children: <Widget>[
-          locationData == null ? 
+      body: locationData == null ? 
           Center(
             child: CircularProgressIndicator(
                 backgroundColor: Colors.black,
               ),
           )
 
-          : GoogleMap(
+          :
+          Stack(
+          children: <Widget>[
+          GoogleMap(
           mapType: MapType.hybrid,
           zoomControlsEnabled: false,
           mapToolbarEnabled: false,
@@ -195,7 +196,9 @@ class MapSampleState extends State<Home> {
       ),
         
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
+      floatingActionButton: locationData == null ? 
+          null:
+          Padding(
         padding: const EdgeInsets.only(bottom: 30.0),
         child: FloatingActionButton(
             onPressed: () {
@@ -211,7 +214,15 @@ class MapSampleState extends State<Home> {
             backgroundColor: Colors.green[200],
             child: isStarted ? Icon(Icons.pause): Icon(Icons.play_arrow_outlined)),
       ),
-      bottomNavigationBar: SizedBox(
+      bottomNavigationBar: locationData == null ? 
+          Center(
+            child: CircularProgressIndicator(
+                backgroundColor: Colors.black,
+              ),
+          )
+
+          :
+          SizedBox(
         height: 60,
         child: BottomAppBar(
           shape: CircularNotchedRectangle(),

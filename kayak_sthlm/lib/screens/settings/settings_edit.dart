@@ -305,7 +305,7 @@ class _SettingsEdit extends State<SettingsEdit> {
                       ),
                       child: Text('Save Changes'),
                       onPressed: (){
-                        _editMode ? db.updateUser(newUsername, age, selectedExperienceLevel, selectedGender): null;
+                        _editMode ? db.updateUser(newUsername, age, selectedExperienceLevel, selectedGender): null; //Error handla detta
                         _editMode = false;
                         showAlertDialog(context);
                       }
