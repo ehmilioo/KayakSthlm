@@ -8,13 +8,22 @@ class SymbolsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Symbols Info'),
+        title: Text('Information and symbols'),
       ),
       body: ListView(children: <Widget>[
         SizedBox(height: 20),
         Container(
+          padding: EdgeInsets.all(5),
+          margin: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.blueAccent,
+              width: 5,
+            ),
+          ),
           child: Image(
-            image: AssetImage('assets/images/birdProtectionArea.jpg'),
+            image: AssetImage('assets/images/sealProtectionArea.png'),
             height: 200,
           ),
         ),
@@ -40,7 +49,7 @@ class SymbolsScreen extends StatelessWidget {
                   size: 60.0,
                 ),
                 Text(
-                  "This symbol represents areas that are meant for seals to live undisturbed from human life. Typically, this is at the time of year when seals have babies. These areas are forbidden for kayakers to enter with their boat.",
+                  "This symbol will be present in areas that are meant for seals to live undisturbed from humans. Typically, this is at the time of year when seals have babies. These areas are forbidden for kayakers, and humans in general, to disturb.",
                   style: TextStyle(color: Colors.white, fontSize: 18),
                   textAlign: TextAlign.center,
                 ),
@@ -50,8 +59,17 @@ class SymbolsScreen extends StatelessWidget {
         ),
         SizedBox(height: 20),
         Container(
+          padding: EdgeInsets.all(5),
+          margin: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.blueAccent,
+              width: 5,
+            ),
+          ),
           child: Image(
-            image: AssetImage('assets/images/sealProtectionArea.png'),
+            image: AssetImage('assets/images/birdProtectionArea.jpg'),
             height: 200,
           ),
         ),
@@ -77,7 +95,7 @@ class SymbolsScreen extends StatelessWidget {
                   size: 60.0,
                 ),
                 Text(
-                  "This symbol represents areas that are meant to preserve a habitat important for birds. These areas are either areas that attract many birds or imortant for the endangered species. These areas are forbidden for kayakers to enter.",
+                  "This symbol will be present in areas that are meant to preserve a habitat important for birds. These areas are either areas that attract many birds or important for endangered species. These areas are forbidden for kayakers, and humans in general, to disturb.",
                   style: TextStyle(color: Colors.white, fontSize: 18),
                   textAlign: TextAlign.center,
                 ),
@@ -85,15 +103,12 @@ class SymbolsScreen extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          width: 100,
-          child: ElevatedButton(
-            child: Text('Back'),
-            onPressed: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => InformationScreen()));
-            },
-          ),
+        ElevatedButton(
+          child: Text('Back'),
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => InformationScreen()));
+          },
         ),
       ]),
     );

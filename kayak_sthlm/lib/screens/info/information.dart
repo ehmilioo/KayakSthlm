@@ -49,7 +49,7 @@ class InformationScreen extends StatelessWidget {
               icon: Icon(AppIcons.guide),
               iconSize: 90,
               onPressed: () {
-                Navigator.pushReplacement(context,
+                Navigator.push(context,
                     MaterialPageRoute(builder: (context) => GuideScreen()));
               },
             ),
@@ -73,7 +73,7 @@ class InformationScreen extends StatelessWidget {
               icon: Icon(AppIcons.symbols),
               iconSize: 90,
               onPressed: () {
-                Navigator.pushReplacement(context,
+                Navigator.push(context,
                     MaterialPageRoute(builder: (context) => SymbolsScreen()));
               },
             ),
