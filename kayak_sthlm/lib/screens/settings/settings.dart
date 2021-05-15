@@ -1,4 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kayak_sthlm/dialogs/delete_dialog.dart';
+import 'package:kayak_sthlm/dialogs/logout_dialog.dart';
+import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 import 'package:kayak_sthlm/screens/home/home.dart';
 import 'package:kayak_sthlm/screens/info/information.dart';
 import 'package:kayak_sthlm/screens/settings/settings_edit.dart';
@@ -12,8 +16,6 @@ class Settings extends StatefulWidget {
 }
 
 class SettingsPage extends State<Settings> {
-  final AuthService _auth = AuthService();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,56 +129,55 @@ class SettingsPage extends State<Settings> {
                           ),
                         ),
                         child: TextButton(
-                            style: TextButton.styleFrom(
-                                padding: EdgeInsets.only(left: 8)),
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Align(
-                                      alignment: Alignment.bottomLeft,
-                                      child: Text('Delete Account',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 18,
-                                            color: Color.fromRGBO(189, 0, 0, 1),
-                                            fontFamily: 'Montserrat',
-                                          ))),
-                                  Icon(Icons.arrow_forward_ios_rounded,
-                                      color: Color.fromRGBO(136, 134, 134, 1))
-                                ]),
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return DeleteUser();
-                              }));
-                            })),
+                          style: TextButton.styleFrom(
+                              padding: EdgeInsets.only(left: 8)),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Text('Delete Account',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18,
+                                          color: Color.fromRGBO(189, 0, 0, 1),
+                                          fontFamily: 'Montserrat',
+                                        ))),
+                                Icon(Icons.arrow_forward_ios_rounded,
+                                    color: Color.fromRGBO(136, 134, 134, 1))
+                              ]),
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (_) => DeleteDialog());
+                          },
+                        )),
                     SizedBox(height: 158),
                     OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          minimumSize: Size(281, 48),
-                          primary: Colors.white,
-                          backgroundColor: Color.fromRGBO(86, 151, 211, 1),
-                          shadowColor: Colors.black,
-                          elevation: 5,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50))),
-                          textStyle: TextStyle(fontSize: 18),
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 45),
-                            Icon(Icons.logout, color: Colors.white),
-                            SizedBox(width: 10),
-                            Text('Log Out'),
-                          ],
-                        ),
-                        onPressed: () {
-                          _auth.signOut();
-                          Navigator.of(context)
-                              .popUntil((route) => route.isFirst);
-                        }),
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: Size(281, 48),
+                        primary: Colors.white,
+                        backgroundColor: Color.fromRGBO(86, 151, 211, 1),
+                        shadowColor: Colors.black,
+                        elevation: 5,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50))),
+                        textStyle: TextStyle(fontSize: 18),
+                      ),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 45),
+                          Icon(Icons.logout, color: Colors.white),
+                          SizedBox(width: 10),
+                          Text('Log Out'),
+                        ],
+                      ),
+                      onPressed: () {
+                        showDialog(
+                            context: context, builder: (_) => LogoutDialog());
+                      },
+                    ),
                   ],
                 ),
               )

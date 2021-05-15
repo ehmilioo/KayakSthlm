@@ -72,7 +72,7 @@ class WeatherOverlayState extends State<WeatherDialog> {
             Container(
               padding: EdgeInsets.only(
                   bottom: Constants.padding, top: Constants.padding),
-              margin: EdgeInsets.fromLTRB(63, 196, 63, 196),
+              margin: EdgeInsets.fromLTRB(50, 196, 50, 196),
               decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   color: Colors.white,
@@ -277,7 +277,7 @@ class WeatherOverlayState extends State<WeatherDialog> {
             ),
             Positioned(
                 top: 168,
-                right: 35,
+                right: 22,
                 child: GestureDetector(
                     onTap: () {
                       Navigator.of(context).pop();

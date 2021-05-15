@@ -33,156 +33,171 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Color.fromRGBO(242, 248, 255, 1),
-        body: SingleChildScrollView(
-            child: Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                  image: AssetImage("assets/bakgrund.png"),
-                  fit: BoxFit.cover,
-                )),
-                padding: EdgeInsets.symmetric(horizontal: 57.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      kayakImageText,
-                      ConstrainedBox(
-                          constraints:
-                              BoxConstraints(maxHeight: 82, minHeight: 82),
-                          child: TextFormField(
-                              keyboardType: TextInputType.emailAddress,
-                              style: TextStyle(fontSize: 18),
-                              validator: (val) => validateEmail(val)
-                                  ? 'Ange en giltig e-post'
-                                  : null,
-                              decoration: InputDecoration(
-                                  labelText: 'Email',
-                                  contentPadding: EdgeInsets.only(top: 20),
-                                  labelStyle: TextStyle(
-                                      color: Color.fromRGBO(136, 134, 134, 1))),
-                              onChanged: (val) {
-                                _loginEnabled = true;
-                                setState(() => email = val);
-                              })),
-                      ConstrainedBox(
-                          constraints:
-                              BoxConstraints(maxHeight: 82, minHeight: 82),
-                          child: TextFormField(
-                              style: TextStyle(fontSize: 18),
-                              validator: (val) => val.length < 6
-                                  ? 'Ange ett giltigt lösenord'
-                                  : null,
-                              obscureText: hidePassword,
-                              decoration: InputDecoration(
-                                  labelText: 'Password',
-                                  contentPadding: EdgeInsets.only(top: 20),
-                                  labelStyle: TextStyle(
-                                      color: Color.fromRGBO(136, 134, 134, 1)),
-                                  suffixIcon: IconButton(
-                                    onPressed: () {
-                                      setState(
-                                          () => hidePassword = !hidePassword);
-                                    },
-                                    icon: Icon(hidePassword
-                                        ? Icons.remove_red_eye
-                                        : Icons.remove_red_eye_outlined),
-                                  )),
-                              onChanged: (val) {
-                                _loginEnabled = true;
-                                setState(() => password = val);
-                              })),
-                      SizedBox(height: 10),
-                      OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            minimumSize: Size(281, 48),
-                            primary: _loginEnabled == true
-                                ? Colors.white
-                                : Colors.black,
-                            backgroundColor: _loginEnabled == true
-                                ? Color.fromRGBO(86, 151, 211, 1)
-                                : Color.fromRGBO(217, 221, 224, 1),
-                            shadowColor: Colors.black,
-                            elevation: 5,
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50))),
-                            textStyle: TextStyle(fontSize: 18),
-                          ),
-                          child: Text('Log in'),
-                          onPressed: () async {
-                            if (_formKey.currentState.validate()) {
-                              dynamic result =
-                                  await _auth.signInMail(email, password);
-                              if (result == null) {
-                                setState(() => error = 'Ett fel uppstod');
-                              }
-                            }
-                          }),
-                      SizedBox(height: 20),
-                      Row(
+    return GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus &&
+              currentFocus.focusedChild != null) {
+            FocusManager.instance.primaryFocus.unfocus();
+          }
+        },
+        child: Scaffold(
+            backgroundColor: Color.fromRGBO(242, 248, 255, 1),
+            body: SingleChildScrollView(
+                child: Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      image: AssetImage("assets/bakgrund.png"),
+                      fit: BoxFit.cover,
+                    )),
+                    padding: EdgeInsets.symmetric(horizontal: 57.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
                         children: <Widget>[
+                          kayakImageText,
+                          ConstrainedBox(
+                              constraints:
+                                  BoxConstraints(maxHeight: 82, minHeight: 82),
+                              child: TextFormField(
+                                  keyboardType: TextInputType.emailAddress,
+                                  style: TextStyle(fontSize: 18),
+                                  validator: (val) => validateEmail(val)
+                                      ? 'Ange en giltig e-post'
+                                      : null,
+                                  decoration: InputDecoration(
+                                      labelText: 'Email',
+                                      contentPadding: EdgeInsets.only(top: 20),
+                                      labelStyle: TextStyle(
+                                          color: Color.fromRGBO(
+                                              136, 134, 134, 1))),
+                                  onChanged: (val) {
+                                    _loginEnabled = true;
+                                    setState(() => email = val);
+                                  })),
+                          ConstrainedBox(
+                              constraints:
+                                  BoxConstraints(maxHeight: 82, minHeight: 82),
+                              child: TextFormField(
+                                  style: TextStyle(fontSize: 18),
+                                  validator: (val) => val.length < 6
+                                      ? 'Ange ett giltigt lösenord'
+                                      : null,
+                                  obscureText: hidePassword,
+                                  decoration: InputDecoration(
+                                      labelText: 'Password',
+                                      contentPadding: EdgeInsets.only(top: 20),
+                                      labelStyle: TextStyle(
+                                          color:
+                                              Color.fromRGBO(136, 134, 134, 1)),
+                                      suffixIcon: IconButton(
+                                        onPressed: () {
+                                          setState(() =>
+                                              hidePassword = !hidePassword);
+                                        },
+                                        icon: Icon(hidePassword
+                                            ? Icons.remove_red_eye
+                                            : Icons.remove_red_eye_outlined),
+                                      )),
+                                  onChanged: (val) {
+                                    _loginEnabled = true;
+                                    setState(() => password = val);
+                                  })),
+                          SizedBox(height: 10),
+                          Text(
+                            error,
+                            style: TextStyle(color: Colors.red, fontSize: 14.0),
+                          ),
+                          OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                minimumSize: Size(281, 48),
+                                primary: _loginEnabled == true
+                                    ? Colors.white
+                                    : Colors.black,
+                                backgroundColor: _loginEnabled == true
+                                    ? Color.fromRGBO(86, 151, 211, 1)
+                                    : Color.fromRGBO(217, 221, 224, 1),
+                                shadowColor: Colors.black,
+                                elevation: 5,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(50))),
+                                textStyle: TextStyle(fontSize: 18),
+                              ),
+                              child: Text('Log in'),
+                              onPressed: () async {
+                                if (_formKey.currentState.validate()) {
+                                  dynamic result =
+                                      await _auth.signInMail(email, password);
+                                  if (result == null) {
+                                    setState(() =>
+                                        error = 'Invalid Email or password');
+                                  }
+                                }
+                              }),
+                          SizedBox(height: 20),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                  width: 90.9,
+                                  child: CustomPaint(
+                                      painter: Drawhorizontalline(true))),
+                              SizedBox(
+                                  width: 90.9,
+                                  child: Text('or',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(136, 134, 134, 1),
+                                          fontSize: 18))),
+                              SizedBox(
+                                  width: 90.9,
+                                  child: CustomPaint(
+                                      painter: Drawhorizontalline(false)))
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                minimumSize: Size(281, 48),
+                                primary: Color.fromRGBO(86, 151, 211, 1),
+                                backgroundColor: Colors.white,
+                                shadowColor: Colors.black,
+                                elevation: 5,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(50))),
+                                textStyle: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                              child: Text('Create Account'),
+                              onPressed: () async {
+                                widget.toggleView();
+                              }),
                           SizedBox(
-                              width: 90.9,
-                              child: CustomPaint(
-                                  painter: Drawhorizontalline(true))),
-                          SizedBox(
-                              width: 90.9,
-                              child: Text('or',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(136, 134, 134, 1),
-                                      fontSize: 18))),
-                          SizedBox(
-                              width: 90.9,
-                              child: CustomPaint(
-                                  painter: Drawhorizontalline(false)))
+                            height: 65,
+                          ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                TextButton(
+                                    style: TextButton.styleFrom(
+                                        primary:
+                                            Color.fromRGBO(136, 134, 134, 1),
+                                        textStyle: TextStyle(fontSize: 18)),
+                                    onPressed: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return ResetPass();
+                                      }));
+                                    },
+                                    child: Text('Forgot Password?')),
+                              ]),
                         ],
                       ),
-                      SizedBox(height: 20),
-                      OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            minimumSize: Size(281, 48),
-                            primary: Color.fromRGBO(86, 151, 211, 1),
-                            backgroundColor: Colors.white,
-                            shadowColor: Colors.black,
-                            elevation: 5,
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50))),
-                            textStyle:
-                                TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                          child: Text('Create Account'),
-                          onPressed: () async {
-                            widget.toggleView();
-                          }),
-                      Text(
-                        error,
-                        style: TextStyle(color: Colors.red, fontSize: 14.0),
-                      ),
-                      SizedBox(
-                        height: 65,
-                      ),
-                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                        TextButton(
-                            style: TextButton.styleFrom(
-                                primary: Color.fromRGBO(136, 134, 134, 1),
-                                textStyle: TextStyle(fontSize: 18)),
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return ResetPass();
-                              }));
-                            },
-                            child: Text('Forgot Password?')),
-                      ]),
-                    ],
-                  ),
-                ))));
+                    )))));
   }
 }
 
