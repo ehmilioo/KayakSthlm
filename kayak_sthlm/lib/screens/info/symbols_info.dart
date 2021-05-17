@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'information.dart';
@@ -8,114 +10,111 @@ class SymbolsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Symbols Info'),
+        title: Text('Information and symbols'),
       ),
-      body: Center(
-        child: ListView(children: <Widget>[
-          SizedBox(height: 20),
-          Container(
-            decoration: BoxDecoration(
-              color: const Color(0xff7c94b6),
-              image: const DecorationImage(
-                image: AssetImage('asset/images/birdProtectionArea.jpg'),
-                fit: BoxFit.cover,
-              ),
-              border: Border.all(
-                color: Colors.black,
-                width: 40,
-              ),
-            ),
-          ),
-          Container(
-            height: 260.0,
-            width: 300.0,
+      body: ListView(children: <Widget>[
+        SizedBox(height: 20),
+        Container(
+          padding: EdgeInsets.all(5),
+          margin: EdgeInsets.all(5),
+          decoration: BoxDecoration(
             color: Colors.transparent,
-            child: Container(
-              padding: EdgeInsets.only(
-                top: 15.0,
-                left: 15.0,
-                right: 15.0,
-                bottom: 15.0,
-              ),
-              decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-              child: Column(
-                children: [
-                  Icon(
-                    AppIcons.seal,
-                    color: Colors.black,
-                    size: 60.0,
-                  ),
-                  Text(
-                    "This symbol represents areas that are meant for seals to live undisturbed from human life. Typically, this is at the time of year when seals have babies. These areas are forbidden for kayakers to enter with their boat.",
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.blueAccent,
+              width: 5,
             ),
           ),
-          SizedBox(height: 20),
-          Container(
+          child: Image(
+            image: AssetImage('assets/images/sealProtectionArea.png'),
+            height: 200,
+          ),
+        ),
+        Container(
+          height: 260.0,
+          width: 300.0,
+          color: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.only(
+              top: 15.0,
+              left: 15.0,
+              right: 15.0,
+              bottom: 15.0,
+            ),
             decoration: BoxDecoration(
-              color: const Color(0xff7c94b6),
-              image: const DecorationImage(
-                image: AssetImage('asset/images/sealProtectionArea.jpg'),
-                fit: BoxFit.cover,
-              ),
-              border: Border.all(
-                color: Colors.black,
-                width: 40,
-              ),
+                color: Colors.green,
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            child: Column(
+              children: [
+                Icon(
+                  AppIcons.seal,
+                  color: Colors.black,
+                  size: 60.0,
+                ),
+                Text(
+                  "This symbol will be present in areas that are meant for seals to live undisturbed from humans. Typically, this is at the time of year when seals have babies. These areas are forbidden for kayakers, and humans in general, to disturb.",
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
           ),
-          Container(
-            height: 260.0,
-            width: 300.0,
+        ),
+        SizedBox(height: 20),
+        Container(
+          padding: EdgeInsets.all(5),
+          margin: EdgeInsets.all(5),
+          decoration: BoxDecoration(
             color: Colors.transparent,
-            child: Container(
-              padding: EdgeInsets.only(
-                top: 15.0,
-                left: 15.0,
-                right: 15.0,
-                bottom: 15.0,
-              ),
-              decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-              child: Column(
-                children: [
-                  Icon(
-                    AppIcons.bird,
-                    color: Colors.black,
-                    size: 60.0,
-                  ),
-                  Text(
-                    "This symbol represents areas that are meant to preserve a habitat important for birds. These areas are either areas that attract many birds or imortant for the endangered species. These areas are forbidden for kayakers to enter.",
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.blueAccent,
+              width: 5,
             ),
           ),
-          Expanded(
-            child: Align(
-              alignment: FractionalOffset.bottomCenter,
-              child: ElevatedButton(
-                child: Text('Back'),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => InformationScreen()));
-                },
-              ),
+          child: Image(
+            image: AssetImage('assets/images/birdProtectionArea.jpg'),
+            height: 200,
+          ),
+        ),
+        Container(
+          height: 260.0,
+          width: 300.0,
+          color: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.only(
+              top: 15.0,
+              left: 15.0,
+              right: 15.0,
+              bottom: 15.0,
+            ),
+            decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            child: Column(
+              children: [
+                Icon(
+                  AppIcons.bird,
+                  color: Colors.black,
+                  size: 60.0,
+                ),
+                Text(
+                  "This symbol will be present in areas that are meant to preserve a habitat important for birds. These areas are either areas that attract many birds or important for endangered species. These areas are forbidden for kayakers, and humans in general, to disturb.",
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
           ),
-        ]),
-      ),
+        ),
+        ElevatedButton(
+          child: Text('Back'),
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => InformationScreen()));
+          },
+        ),
+      ]),
     );
   }
 }
