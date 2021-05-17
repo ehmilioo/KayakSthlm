@@ -7,8 +7,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
-import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -17,35 +17,44 @@ class Home extends StatefulWidget {
 
 class MapSampleState extends State<Home> {
   final Database db = new Database();
+  Location _locationTracker = Location();
   Marker marker;
   Circle circle;
-  Location _locationTracker = Location();
   StreamSubscription _locationSubscription;
   GoogleMapController _controller;
   LocationData locationData;
   CameraPosition currentPosition;
   bool isStarted = false;
+  bool pausedRoute = false;
+  Timer timer;
+  List<dynamic> routeCoords = [];
+  double totalDistance = 0;
+
+  static final sthlmNE = LatLng(60.380987, 19.644660);
+  static final sthlmSW = LatLng(58.653765, 17.205695);
+  static final CameraPosition _startPosition = CameraPosition(
+    target: LatLng(59.33879, 18.08487),
+    zoom: 14.4746,
+  );
+  final StopWatchTimer _stopWatchTimer = StopWatchTimer(
+    mode: StopWatchMode.countUp,
+  );
 
   @override
   void initState() {
     super.initState();
   }
 
-  final StopWatchTimer _stopWatchTimer = StopWatchTimer(
-    mode: StopWatchMode.countUp,
-  );
-
-  void openPage(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return ResetPass();
-    }));
+  @override
+  void dispose() async {
+    if (_locationSubscription != null) {
+      _locationSubscription.cancel();
+    }
+    super.dispose();
+    await _stopWatchTimer.dispose();
   }
 
-  static final CameraPosition _startPosition = CameraPosition(
-    target: LatLng(59.33879, 18.08487),
-    zoom: 14.4746,
-  );
-
+  
   Future<Uint8List> getMarker() async {
     ByteData byteData =
         await DefaultAssetBundle.of(context).load("assets/arrow_final.png");
@@ -99,19 +108,43 @@ class MapSampleState extends State<Home> {
       if (e.code == 'PERMISSION_DENID') {
         debugPrint('Permission Denied');
       }
+    } catch(e){
+      print(e);
     }
   }
+  
 
-  static final sthlmNE = LatLng(60.380987, 19.644660);
-  static final sthlmSW = LatLng(58.653765, 17.205695);
-
-  @override
-  void dispose() async {
-    if (_locationSubscription != null) {
-      _locationSubscription.cancel();
+  bool checkCoordsRadius(double cachedLon, double cachedLat){
+    if(cachedLon == null || cachedLat == null){
+      return false;
     }
-    super.dispose();
-    await _stopWatchTimer.dispose();
+    if(locationData.latitude > cachedLat+0.00003 || cachedLat-0.00003 > locationData.latitude){
+      if(locationData.longitude > cachedLon+0.00003 || cachedLon-0.00003 > locationData.longitude){
+        return false;
+      }
+    }
+    return true;
+  }
+
+
+  void startRoute(){
+    double cachedLon;
+    double cachedLat;
+    timer = Timer.periodic(Duration(seconds: 2), (Timer t) => {
+      if(cachedLat == locationData.latitude && cachedLon == locationData.longitude){
+        print('duplicate')
+      }else if(checkCoordsRadius(cachedLon, cachedLat)){
+        print('Too close to latest coords')
+      }else{
+        cachedLon = locationData.longitude,
+        cachedLat = locationData.latitude,
+        routeCoords.add({
+          'lat': locationData.latitude,
+          'lon': locationData.longitude,
+        }),
+        totalDistance += Geolocator.distanceBetween(routeCoords[routeCoords.length-2]["lat"], routeCoords[routeCoords.length-2]["lon"], routeCoords[routeCoords.length-1]["lat"], routeCoords[routeCoords.length-1]["lon"]),
+      }
+    });
   }
 
   @override
@@ -125,7 +158,7 @@ class MapSampleState extends State<Home> {
               ),
             )
           : Stack(
-              children: <Widget>[
+              children: <Widget>[                 
                 GoogleMap(
                   mapType: MapType.hybrid,
                   zoomControlsEnabled: false,
@@ -203,7 +236,7 @@ class MapSampleState extends State<Home> {
               ],
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: locationData == null
+      floatingActionButton: locationData == null || pausedRoute
           ? null
           : Padding(
               padding: const EdgeInsets.only(bottom: 30.0),
@@ -212,10 +245,17 @@ class MapSampleState extends State<Home> {
                     setState(() {
                       if (isStarted) {
                         _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-                        isStarted = !isStarted;
+                        timer.cancel();
+                        pausedRoute = !pausedRoute;
                       } else {
                         _stopWatchTimer.onExecute.add(StopWatchExecute.start);
                         isStarted = !isStarted;
+                        dynamic firstPos = {
+                          'lat' : locationData.latitude,
+                          'lon' : locationData.longitude,
+                        };
+                        routeCoords.add(firstPos);
+                        startRoute();
                       }
                     });
                   },
@@ -243,7 +283,7 @@ class MapSampleState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                             Container(
-                                child: Text("Dist",
+                                child: Text((totalDistance/1000).toString(),
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold)),
                                 width: 40,
