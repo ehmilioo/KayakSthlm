@@ -2,38 +2,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:kayak_sthlm/dialogs/deleteOk_dialog.dart';
 import 'package:kayak_sthlm/dialogs/reauth_dialog.dart';
 import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 
-class DeleteDialog extends StatefulWidget {
+class DeleteOkDialog extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => DeleteOverlayState();
+  State<StatefulWidget> createState() => DeleteOkOverlayState();
 }
 
-class DeleteOverlayState extends State<DeleteDialog> {
+class DeleteOkOverlayState extends State<DeleteOkDialog> {
   final User user = FirebaseAuth.instance.currentUser;
   String uid = FirebaseAuth.instance.currentUser.uid;
 
   @override
   void initState() {
     super.initState();
-  }
-
-  void deleteUser() async {
-    try {
-      CollectionReference users =
-          FirebaseFirestore.instance.collection('users');
-      users
-          .doc(uid)
-          .delete()
-          .then((value) => print("User deleted"))
-          .catchError((error) => print("Failed: $error"));
-      await user.delete();
-      print('Tog bort användaren :)');
-    } catch (e) {
-      print(e);
-    }
   }
 
   @override
@@ -64,7 +47,7 @@ class DeleteOverlayState extends State<DeleteDialog> {
                                 width: 1,
                                 color: Color.fromRGBO(214, 214, 214, 1)))),
                     alignment: Alignment.topCenter,
-                    child: Text('ATTENTION',
+                    child: Text('CONFIRMATION',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.black,
@@ -76,19 +59,18 @@ class DeleteOverlayState extends State<DeleteDialog> {
                     height: 275,
                     color: Colors.white,
                     child: Column(children: <Widget>[
-                      SizedBox(height: 20),
+                      SizedBox(height: 25),
                       ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: 250),
-                          child: Text(
-                              'Are you sure you want to delete your account?',
+                          constraints: BoxConstraints(maxWidth: 220),
+                          child: Text('Your account has been deleted',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: Colors.black,
+                                  color: Color.fromRGBO(239, 14, 14, 1),
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.w400,
                                   fontSize: 27,
                                   fontFamily: 'Montserrat'))),
-                      SizedBox(height: 30),
+                      SizedBox(height: 80),
                       OutlinedButton(
                           style: OutlinedButton.styleFrom(
                               minimumSize: Size(195, 48),
@@ -101,33 +83,9 @@ class DeleteOverlayState extends State<DeleteDialog> {
                                       BorderRadius.all(Radius.circular(50))),
                               textStyle: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w600)),
-                          child: Text('Cancel'),
+                          child: Text('Close'),
                           onPressed: () {
                             Navigator.of(context).pop();
-                          }),
-                      SizedBox(height: 20),
-                      OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                              minimumSize: Size(195, 48),
-                              primary: Color.fromRGBO(250, 70, 81, 1),
-                              backgroundColor: Colors.white,
-                              shadowColor: Colors.black,
-                              elevation: 10,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(50))),
-                              textStyle: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              )),
-                          child: Text('Delete Account'),
-                          onPressed: () {
-                            deleteUser();
-                            showDialog(
-                                context: context,
-                                builder: (_) => DeleteOkDialog()).then((value) {
-                              Navigator.of(context).pop();
-                            });
                           }),
                       SizedBox(height: 10)
                     ]))

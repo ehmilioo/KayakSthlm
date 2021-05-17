@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kayak_sthlm/dialogs/delete_dialog.dart';
@@ -16,6 +17,8 @@ class Settings extends StatefulWidget {
 }
 
 class SettingsPage extends State<Settings> {
+  final User user = FirebaseAuth.instance.currentUser;
+  String uid = FirebaseAuth.instance.currentUser.uid;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,7 +152,14 @@ class SettingsPage extends State<Settings> {
                           onPressed: () {
                             showDialog(
                                 context: context,
-                                builder: (_) => DeleteDialog());
+                                builder: (_) => DeleteDialog()).then((value) {
+                              if (AuthService().getUser() == null) {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignIn()));
+                              }
+                            });
                           },
                         )),
                     SizedBox(height: 158),
