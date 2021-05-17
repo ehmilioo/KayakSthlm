@@ -206,49 +206,55 @@ class MapSampleState extends State<Home> {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: locationData == null ? null : Container(
-        height: 85.0,
-        width: 85.0,
-        child: FloatingActionButton(
-          elevation: 10,
-          child: Container(
+      floatingActionButton: locationData == null
+          ? null
+          : Container(
               height: 85.0,
               width: 85.0,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: RadialGradient(
-                      colors: isStarted ? [Color.fromRGBO(139, 239, 123, 1), Colors.black] : [Colors.yellow, Colors.black],
-                      stops: [0.44, 1],
-                      radius: 1)),
-              child:  isStarted ? Icon(
-                Icons.pause_outlined,
-                size: 50) : Icon(Icons.play_arrow_outlined, size: 50)
+              child: FloatingActionButton(
+                elevation: 10,
+                child: Container(
+                    height: 85.0,
+                    width: 85.0,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: RadialGradient(
+                            colors: isStarted
+                                ? [Colors.yellow, Colors.black]
+                                : [
+                                    Color.fromRGBO(139, 239, 123, 1),
+                                    Colors.black
+                                  ],
+                            stops: [0.44, 1],
+                            radius: 1)),
+                    child: isStarted
+                        ? Icon(Icons.pause_outlined, size: 50)
+                        : Icon(Icons.play_arrow_outlined, size: 50)),
+                onPressed: () {
+                  setState(() {
+                    if (isStarted) {
+                      _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+                      isStarted = !isStarted;
+                    } else {
+                      _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+                      isStarted = !isStarted;
+                    }
+                  });
+                },
               ),
-          onPressed: () {
-              setState(() {
-                      if (isStarted) {
-                        _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-                        isStarted = !isStarted;
-                      } else {
-                        _stopWatchTimer.onExecute.add(StopWatchExecute.start);
-                        isStarted = !isStarted;
-                      }
-                    });
-          },
-        ),
-      ),
+            ),
       bottomNavigationBar: locationData == null
-      ? Center(
-        child: CircularProgressIndicator(
-          backgroundColor: Colors.black,
-        ),
-      ) : SizedBox(
-        height: 70,
-        child: BottomAppBar(
-          child: isStarted
-          ?
-           new Row(
-              mainAxisSize: MainAxisSize.max,
+          ? Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.black,
+              ),
+            )
+          : SizedBox(
+              height: 70,
+              child: BottomAppBar(
+                child: isStarted
+                    ? new Row(
+                        mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                             Container(
@@ -285,59 +291,65 @@ class MapSampleState extends State<Home> {
                                 width: 80,
                                 height: 30),
                           ])
-                          : new Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              IconButton(
-                  // Navigationsknapp 1: Routes
-                  icon: Icon(Icons.place_outlined),
-                  iconSize: 30,
-                  onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => SignIn()));
-                  }),
-              IconButton(
-                // Navigationsknapp 2: Events
-                icon: Icon(Icons.calendar_today_outlined),
-                iconSize: 30,
-                onPressed: () {},
+                    : new Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          IconButton(
+                              // Navigationsknapp 1: Routes
+                              icon: Icon(Icons.place_outlined),
+                              iconSize: 30,
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignIn()));
+                              }),
+                          IconButton(
+                            // Navigationsknapp 2: Events
+                            icon: Icon(Icons.calendar_today_outlined),
+                            iconSize: 30,
+                            onPressed: () {},
+                          ),
+                          Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                  child: Text("START",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12)),
+                                  width: 105,
+                                  height:
+                                      25)), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
+                          IconButton(
+                            // Navigationsknapp 3: Info
+                            icon: Icon(Icons.info_outline),
+                            iconSize: 30,
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          InformationScreen()));
+                            },
+                          ),
+                          IconButton(
+                            // Navigationsknapp 4: Settings
+                            icon: Icon(Icons.settings_outlined),
+                            iconSize: 30,
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Settings()));
+                            },
+                          ),
+                        ],
+                      ),
               ),
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                      child: Text("START",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 12)),
-                      width: 105,
-                      height:
-                          25)), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
-              IconButton(
-                // Navigationsknapp 3: Info
-                icon: Icon(Icons.info_outline),
-                iconSize: 30,
-                onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => InformationScreen()));
-                },
-              ),
-              IconButton(
-                // Navigationsknapp 4: Settings
-                icon: Icon(Icons.settings_outlined),
-                iconSize: 30,
-                onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Settings()));
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }
