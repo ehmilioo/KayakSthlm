@@ -10,6 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -25,11 +26,16 @@ class MapSampleState extends State<Home> {
   GoogleMapController _controller;
   LocationData locationData;
   CameraPosition currentPosition;
+  bool isStarted = false;
 
   @override
   void initState() {
     super.initState();
   }
+
+  final StopWatchTimer _stopWatchTimer = StopWatchTimer(
+    mode: StopWatchMode.countUp,
+  );
 
   void openPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -100,11 +106,12 @@ class MapSampleState extends State<Home> {
   static final sthlmSW = LatLng(58.653765, 17.205695);
 
   @override
-  void dispose() {
+  void dispose() async {
     if (_locationSubscription != null) {
       _locationSubscription.cancel();
     }
     super.dispose();
+    await _stopWatchTimer.dispose();
   }
 
   @override
@@ -199,7 +206,7 @@ class MapSampleState extends State<Home> {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
+      floatingActionButton: locationData == null ? null : Container(
         height: 85.0,
         width: 85.0,
         child: FloatingActionButton(
@@ -210,22 +217,75 @@ class MapSampleState extends State<Home> {
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
-                      colors: [Color.fromRGBO(139, 239, 123, 1), Colors.black],
+                      colors: isStarted ? [Color.fromRGBO(139, 239, 123, 1), Colors.black] : [Colors.yellow, Colors.black],
                       stops: [0.44, 1],
                       radius: 1)),
-              child: Icon(
-                Icons.play_arrow_outlined,
-                size: 50,
-              )),
+              child:  isStarted ? Icon(
+                Icons.pause_outlined,
+                size: 50) : Icon(Icons.play_arrow_outlined, size: 50)
+              ),
           onPressed: () {
-            // START
+              setState(() {
+                      if (isStarted) {
+                        _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+                        isStarted = !isStarted;
+                      } else {
+                        _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+                        isStarted = !isStarted;
+                      }
+                    });
           },
         ),
       ),
-      bottomNavigationBar: SizedBox(
+      bottomNavigationBar: locationData == null
+      ? Center(
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.black,
+        ),
+      ) : SizedBox(
         height: 70,
         child: BottomAppBar(
-          child: new Row(
+          child: isStarted
+          ?
+           new Row(
+              mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                            Container(
+                                child: Text("Dist",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                                width: 40,
+                                height: 30),
+                            Container(
+                                child: Text("Pause",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                                width: 40,
+                                height: 30),
+                            Container(
+                                child: StreamBuilder<int>(
+                                    stream: _stopWatchTimer.rawTime,
+                                    initialData: _stopWatchTimer
+                                        .rawTime.valueWrapper?.value,
+                                    builder: (context, snap) {
+                                      final value = snap.data;
+                                      final displayTime =
+                                          StopWatchTimer.getDisplayTime(value)
+                                              .substring(0, 8);
+                                      return Container(
+                                          child: Text(
+                                        displayTime,
+                                        style: const TextStyle(
+                                            fontSize: 12,
+                                            fontFamily: 'Helvetica',
+                                            fontWeight: FontWeight.bold),
+                                      ));
+                                    }),
+                                width: 80,
+                                height: 30),
+                          ])
+                          : new Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
