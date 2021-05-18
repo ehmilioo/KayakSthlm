@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kayak_sthlm/models/route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui';
@@ -18,7 +20,8 @@ class SaveRoute extends StatefulWidget {
 }
 
 class _SaveRoute extends State<SaveRoute> {
-  
+  FirestoreService _firestoreAuth = FirestoreService();
+
   @override
   void initState() {
     super.initState();
@@ -26,7 +29,8 @@ class _SaveRoute extends State<SaveRoute> {
 
   String routeName = '';
   bool favoriteRoute = false;
-  String date = DateFormat('EEEE dd MMMM yyyy').format(DateTime.now()); // Tuesday 18 May 2021 -- Format-Dag-DagensDatum-Månad-År
+  String date = DateFormat('EEEE dd MMMM yyyy').format(DateTime.now()); // Tuesday 18 May 2021 -- Dag-Datum-Månad-År
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +71,7 @@ class _SaveRoute extends State<SaveRoute> {
                                   color: Color.fromRGBO(136, 134, 134, 1)),
                               ),
                           onChanged: (val) {
-
+                            routeName = val;
                           })
                     ),
                     SizedBox(height: 22,),
@@ -79,8 +83,7 @@ class _SaveRoute extends State<SaveRoute> {
                             icon: favoriteRoute ? Icon(Icons.star_rate_rounded, color: Colors.yellow[700]) : Icon(Icons.star_border_rounded, color: Colors.black),
                             onPressed: (){
                               setState(() =>{
-                                favoriteRoute = !favoriteRoute,
-                                print(date),
+                                favoriteRoute = !favoriteRoute
                               });
                             },
                           ),
@@ -109,7 +112,19 @@ class _SaveRoute extends State<SaveRoute> {
                         ),
                         child: Text('Save Route'),
                         onPressed: () async {
-                          print('test');
+                          var mappedRouteList = widget.routeList.map((coord) {
+                              return { "lat": coord.latitude, "lon" : coord.longitude };
+                            }).toList();
+                          try{
+                            await _firestoreAuth.createUser(MyRoute(
+                                name: routeName,
+                                favorite: favoriteRoute,
+                                coordinates: mappedRouteList,
+                                date: date,
+                              ));
+                          }catch(e){
+                            print(e);
+                          }
                         }
                         ),
                     ),
@@ -150,4 +165,16 @@ class Constants{
   Constants._();
   static const double padding =20;
   static const double avatarRadius =45;
+}
+
+class FirestoreService {
+  final CollectionReference _usersCollectionReference = FirebaseFirestore.instance.collection("routes");
+  Future createUser(MyRoute route) async {
+    try {
+      await _usersCollectionReference.doc().set(route.toJson());
+      print('doc built');
+    } catch (e) {
+      return e.message;
+    }
+  }
 }

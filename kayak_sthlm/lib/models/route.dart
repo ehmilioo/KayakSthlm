@@ -1,27 +1,26 @@
-class Route {
+class MyRoute {
   final String name;
   final bool favorite;
   final List<dynamic> coordinates;
-  final DateTime date;
-  Route({
+  final String date;
+
+  MyRoute({
     this.name,
     this.favorite,
     this.coordinates,
     this.date,
   });
 
-  Route.fromData(Map<String, dynamic> data)
-      : name = data['username'],
-        favorite = data['email'],
-        coordinates = data['experience'],
-        date = data['age'];
+  MyRoute.fromData(Map<String, dynamic> data)
+      : name = data['name'],
+        favorite = data['favorite'],
+        coordinates = data['coordinates'],
+        date = data['date'];
 
   Map<String, dynamic> toJson() => {
       'name': name,
-      'favorite': favorite.toString(),
+      'favorite': favorite,
       'coordinates': coordinates,
       'date' : date,
-    };
+  };
 }
-
-
