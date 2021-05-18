@@ -73,7 +73,7 @@ class _AuthDialog extends State<AuthDialog> {
                           onChanged: (val) {
                             setState(() => _userProvidedPassword = val);
                           })
-                  ),
+                    ),
                     ElevatedButton(
                       child: Text('Authenticate'),
                       onPressed:(){
