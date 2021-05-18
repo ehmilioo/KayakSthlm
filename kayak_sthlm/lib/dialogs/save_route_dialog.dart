@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kayak_sthlm/models/route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -21,7 +22,7 @@ class SaveRoute extends StatefulWidget {
 
 class _SaveRoute extends State<SaveRoute> {
   FirestoreService _firestoreAuth = FirestoreService();
-
+  String uid = FirebaseAuth.instance.currentUser.uid;
   @override
   void initState() {
     super.initState();
@@ -39,13 +40,13 @@ class _SaveRoute extends State<SaveRoute> {
       child: Stack(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.only(left: Constants.padding,top: 120, right: Constants.padding,bottom: Constants.padding
+                padding: EdgeInsets.only(left: 20,top: 120, right: 20,bottom: 20
                 ),
-                margin: EdgeInsets.only(top: Constants.avatarRadius),
+                margin: EdgeInsets.only(top: 45),
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(Constants.padding),
+                  borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(color: Colors.black,offset: Offset(0,10),
                     blurRadius: 10
@@ -121,10 +122,14 @@ class _SaveRoute extends State<SaveRoute> {
                                 favorite: favoriteRoute,
                                 coordinates: mappedRouteList,
                                 date: date,
+                                timeTaken: widget.time,
+                                distance: widget.distance.toString(),
+                                userUid: uid,
                               ));
                           }catch(e){
                             print(e);
                           }
+                          Navigator.pop(context);
                         }
                         ),
                     ),
@@ -161,18 +166,11 @@ class _SaveRoute extends State<SaveRoute> {
   }
 }
 
-class Constants{
-  Constants._();
-  static const double padding =20;
-  static const double avatarRadius =45;
-}
-
 class FirestoreService {
   final CollectionReference _usersCollectionReference = FirebaseFirestore.instance.collection("routes");
   Future createUser(MyRoute route) async {
     try {
       await _usersCollectionReference.doc().set(route.toJson());
-      print('doc built');
     } catch (e) {
       return e.message;
     }

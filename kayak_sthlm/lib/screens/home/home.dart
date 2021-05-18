@@ -40,6 +40,7 @@ class MapSampleState extends State<Home> {
   );
   final StopWatchTimer _stopWatchTimer = StopWatchTimer(
     mode: StopWatchMode.countUp,
+
   );
 
   @override
@@ -227,7 +228,7 @@ class MapSampleState extends State<Home> {
                         onPressed: () {
                           showDialog(
                           context: context,
-                          builder: (_) => SaveRoute(routeList: routeCoords , distance: totalDistance , time: _stopWatchTimer.rawTime),
+                          builder: (_) => SaveRoute(routeList: routeCoords , distance: totalDistance , time: StopWatchTimer.getDisplayTimeSecond(_stopWatchTimer.rawTime.valueWrapper?.value)),
                         );
                         },
                         elevation: 5.0,
