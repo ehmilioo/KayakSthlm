@@ -54,7 +54,6 @@ class MapSampleState extends State<Home> {
     await _stopWatchTimer.dispose();
   }
 
-  
   Future<Uint8List> getMarker() async {
     ByteData byteData =
         await DefaultAssetBundle.of(context).load("assets/arrow_final.png");
@@ -108,43 +107,51 @@ class MapSampleState extends State<Home> {
       if (e.code == 'PERMISSION_DENID') {
         debugPrint('Permission Denied');
       }
-    } catch(e){
+    } catch (e) {
       print(e);
     }
   }
-  
 
-  bool checkCoordsRadius(double cachedLon, double cachedLat){
-    if(cachedLon == null || cachedLat == null){
+  bool checkCoordsRadius(double cachedLon, double cachedLat) {
+    if (cachedLon == null || cachedLat == null) {
       return false;
     }
-    if(locationData.latitude > cachedLat+0.00003 || cachedLat-0.00003 > locationData.latitude){
-      if(locationData.longitude > cachedLon+0.00003 || cachedLon-0.00003 > locationData.longitude){
+    if (locationData.latitude > cachedLat + 0.00003 ||
+        cachedLat - 0.00003 > locationData.latitude) {
+      if (locationData.longitude > cachedLon + 0.00003 ||
+          cachedLon - 0.00003 > locationData.longitude) {
         return false;
       }
     }
     return true;
   }
 
-
-  void startRoute(){
+  void startRoute() {
     double cachedLon;
     double cachedLat;
-    timer = Timer.periodic(Duration(seconds: 2), (Timer t) => {
-      if(cachedLat == locationData.latitude && cachedLon == locationData.longitude){
-        print('duplicate')
-      }else if(checkCoordsRadius(cachedLon, cachedLat)){
-        print('Too close to latest coords')
-      }else{
-        cachedLon = locationData.longitude,
-        cachedLat = locationData.latitude,
-        routeCoords.add({
-          'lat': locationData.latitude,
-          'lon': locationData.longitude,
-        }),
-        totalDistance += Geolocator.distanceBetween(routeCoords[routeCoords.length-2]["lat"], routeCoords[routeCoords.length-2]["lon"], routeCoords[routeCoords.length-1]["lat"], routeCoords[routeCoords.length-1]["lon"]),
-      }
-    });
+    timer = Timer.periodic(
+        Duration(seconds: 2),
+        (Timer t) => {
+              if (cachedLat == locationData.latitude &&
+                  cachedLon == locationData.longitude)
+                {print('duplicate')}
+              else if (checkCoordsRadius(cachedLon, cachedLat))
+                {print('Too close to latest coords')}
+              else
+                {
+                  cachedLon = locationData.longitude,
+                  cachedLat = locationData.latitude,
+                  routeCoords.add({
+                    'lat': locationData.latitude,
+                    'lon': locationData.longitude,
+                  }),
+                  totalDistance += Geolocator.distanceBetween(
+                      routeCoords[routeCoords.length - 2]["lat"],
+                      routeCoords[routeCoords.length - 2]["lon"],
+                      routeCoords[routeCoords.length - 1]["lat"],
+                      routeCoords[routeCoords.length - 1]["lon"]),
+                }
+            });
   }
 
   @override
@@ -158,15 +165,15 @@ class MapSampleState extends State<Home> {
               ),
             )
           : Stack(
-              children: <Widget>[                 
+              children: <Widget>[
                 GoogleMap(
                   mapType: MapType.hybrid,
                   zoomControlsEnabled: false,
                   mapToolbarEnabled: false,
                   compassEnabled: false,
                   onLongPress: (latlang) {
-                        print('Markerad pos: ${latlang}'); //Jobba vidare på detta?
-                    },
+                    print('Markerad pos: ${latlang}'); //Jobba vidare på detta?
+                  },
                   initialCameraPosition: _startPosition,
                   markers: Set.of((marker != null) ? [marker] : []),
                   circles: Set.of((circle != null) ? [circle] : []),
@@ -254,8 +261,8 @@ class MapSampleState extends State<Home> {
                         _stopWatchTimer.onExecute.add(StopWatchExecute.start);
                         isStarted = !isStarted;
                         dynamic firstPos = {
-                          'lat' : locationData.latitude,
-                          'lon' : locationData.longitude,
+                          'lat': locationData.latitude,
+                          'lon': locationData.longitude,
                         };
                         routeCoords.add(firstPos);
                         startRoute();
@@ -286,7 +293,7 @@ class MapSampleState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                             Container(
-                                child: Text((totalDistance/1000).toString(),
+                                child: Text((totalDistance / 1000).toString(),
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold)),
                                 width: 40,
