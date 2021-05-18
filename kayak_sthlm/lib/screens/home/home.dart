@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
+import 'package:kayak_sthlm/dialogs/save_route_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
@@ -17,6 +18,7 @@ class Home extends StatefulWidget {
 
 class MapSampleState extends State<Home> {
   final Database db = new Database();
+  final Set<Polyline>_polyline={};
   Location _locationTracker = Location();
   Marker marker;
   Circle circle;
@@ -27,7 +29,7 @@ class MapSampleState extends State<Home> {
   bool isStarted = false;
   bool pausedRoute = false;
   Timer timer;
-  List<dynamic> routeCoords = [];
+  List<LatLng> routeCoords = [];
   double totalDistance = 0;
 
   static final sthlmNE = LatLng(60.380987, 19.644660);
@@ -114,7 +116,7 @@ class MapSampleState extends State<Home> {
   }
   
 
-  bool checkCoordsRadius(double cachedLon, double cachedLat){
+  bool checkCoordsRadius(double cachedLon, double cachedLat){ //Prevent massive list of similar coords, make a radius of 3m
     if(cachedLon == null || cachedLat == null){
       return false;
     }
@@ -125,7 +127,6 @@ class MapSampleState extends State<Home> {
     }
     return true;
   }
-
 
   void startRoute(){
     double cachedLon;
@@ -138,11 +139,16 @@ class MapSampleState extends State<Home> {
       }else{
         cachedLon = locationData.longitude,
         cachedLat = locationData.latitude,
-        routeCoords.add({
-          'lat': locationData.latitude,
-          'lon': locationData.longitude,
-        }),
-        totalDistance += Geolocator.distanceBetween(routeCoords[routeCoords.length-2]["lat"], routeCoords[routeCoords.length-2]["lon"], routeCoords[routeCoords.length-1]["lat"], routeCoords[routeCoords.length-1]["lon"]),
+        routeCoords.add(LatLng(locationData.latitude, locationData.longitude)),
+        totalDistance += Geolocator.distanceBetween(routeCoords[routeCoords.length-2].latitude, routeCoords[routeCoords.length-2].longitude, routeCoords[routeCoords.length-1].latitude, routeCoords[routeCoords.length-1].longitude),
+        _polyline.add(Polyline(
+            polylineId: PolylineId('lat${locationData.latitude}'),
+            visible: true,
+            //latlng is List<LatLng>
+            points: routeCoords,
+            width: 3,
+            color: Colors.red,
+        )),
       }
     });
   }
@@ -158,10 +164,11 @@ class MapSampleState extends State<Home> {
               ),
             )
           : Stack(
-              children: <Widget>[                 
+              children: <Widget>[            
                 GoogleMap(
                   mapType: MapType.hybrid,
                   zoomControlsEnabled: false,
+                  polylines:_polyline,
                   mapToolbarEnabled: false,
                   compassEnabled: false,
                   onLongPress: (latlang) {
@@ -186,6 +193,55 @@ class MapSampleState extends State<Home> {
                     ),
                   ),
                 ),
+
+                Positioned(
+                  bottom: 20,
+                    left: 100,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: pausedRoute ? RawMaterialButton(
+                        onPressed: () {
+                          pausedRoute = !pausedRoute;
+                          _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+                          startRoute();
+                        },
+                        elevation: 5.0,
+                        fillColor: Colors.green[200],
+                        child: Icon(
+                          Icons.play_arrow,
+                          size: 35.0,
+                        ),
+                        padding: EdgeInsets.all(10.0),
+                        shape: CircleBorder(),
+                      ) : null,
+                    ),
+                ),
+
+
+                Positioned(
+                  bottom: 20,
+                    right: 100,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: pausedRoute ? RawMaterialButton(
+                        onPressed: () {
+                          showDialog(
+                          context: context,
+                          builder: (_) => SaveRoute(routeList: routeCoords , distance: totalDistance , time: _stopWatchTimer.rawTime),
+                        );
+                        },
+                        elevation: 5.0,
+                        fillColor: Colors.red[400],
+                        child: Icon(
+                          Icons.stop_rounded,
+                          size: 35.0,
+                        ),
+                        padding: EdgeInsets.all(10.0),
+                        shape: CircleBorder(),
+                      ) : null,
+                    ),
+                ),
+
                 Positioned(
                   top: 40,
                   child: Padding(
@@ -217,6 +273,7 @@ class MapSampleState extends State<Home> {
                     padding: const EdgeInsets.only(right: 8.0),
                     child: RawMaterialButton(
                       onPressed: () {
+                        print(pausedRoute);
                         getCurrentLocation();
                         _controller.animateCamera(
                             CameraUpdate.newCameraPosition(new CameraPosition(
@@ -253,10 +310,7 @@ class MapSampleState extends State<Home> {
                       } else {
                         _stopWatchTimer.onExecute.add(StopWatchExecute.start);
                         isStarted = !isStarted;
-                        dynamic firstPos = {
-                          'lat' : locationData.latitude,
-                          'lon' : locationData.longitude,
-                        };
+                        LatLng firstPos = LatLng(locationData.latitude, locationData.longitude);
                         routeCoords.add(firstPos);
                         startRoute();
                       }
@@ -292,10 +346,13 @@ class MapSampleState extends State<Home> {
                                 width: 40,
                                 height: 30),
                             Container(
-                                child: Text("Pause",
+                                child: pausedRoute ? Text("Paused",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)
+                                ) : Text('Pause',
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold)),
-                                width: 40,
+                                width: 45,
                                 height: 30),
                             Container(
                                 child: StreamBuilder<int>(
