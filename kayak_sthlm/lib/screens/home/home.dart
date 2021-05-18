@@ -220,7 +220,10 @@ class MapSampleState extends State<Home> {
                         shape: BoxShape.circle,
                         gradient: RadialGradient(
                             colors: isStarted
-                                ? [Colors.yellow, Colors.black]
+                                ? [
+                                    Color.fromRGBO(252, 216, 88, 1),
+                                    Colors.black
+                                  ]
                                 : [
                                     Color.fromRGBO(139, 239, 123, 1),
                                     Colors.black
