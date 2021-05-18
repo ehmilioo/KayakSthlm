@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +59,7 @@ class _FireScreenState extends State<FireScreen> {
   FireInfo fireInfo;
   Kommuner selectedKommun;
   Position position;
+  bool _munSelected = false;
   final Geolocator geolocator = Geolocator();
 
   _getCurrentLocation() async {
@@ -114,174 +117,247 @@ class _FireScreenState extends State<FireScreen> {
       _getCurrentLocation();
     }
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Fire Info'),
-      ),
-      body: Center(
-        child: Column(children: <Widget>[
-          Text(
-            "FIRE BANS",
-            textScaleFactor: 3,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text("Status"),
-          Container(
-            height: 120.0,
-            width: 300.0,
-            color: Colors.transparent,
+      backgroundColor: Color.fromRGBO(242, 248, 255, 1),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage("assets/bakgrund.png"),
+          fit: BoxFit.cover,
+        )),
+        padding: EdgeInsets.symmetric(horizontal: 0),
+        child: Stack(children: [
+          Align(
+            alignment: Alignment.center,
             child: Container(
-              padding: EdgeInsets.only(
-                top: 15.0,
-                left: 15.0,
-                right: 15.0,
-                bottom: 5.0,
-              ),
+              height: 650,
+              width: 324,
+              padding: EdgeInsets.fromLTRB(25, 20, 25, 20),
               decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              ),
-              child: Column(
-                children: [
-                  DropdownButton<Kommuner>(
-                    hint: Text("Välj Kommun"),
-                    value: selectedKommun,
-                    onChanged: (Kommuner kommun) {
-                      setState(() {
-                        selectedKommun = kommun;
-                        getFireInfo =
-                            fetchFireInfo(kommun.latitude, kommun.longitude);
-                      });
-                    },
-                    items: kommuner.map((Kommuner kommun) {
-                      return DropdownMenuItem<Kommuner>(
-                        value: kommun,
-                        child: Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              kommun.name,
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              child: Column(children: <Widget>[
+                Text(
+                  "FIRE BANS",
+                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Status",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                   ),
-                  FutureBuilder<FireInfo>(
-                    future: getFireInfo,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData && snapshot.data.county != null) {
-                        return Text(snapshot.data.county +
-                            " har " +
-                            snapshot.data.status);
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-                      return CircularProgressIndicator();
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    height: 25,
-                    child: ElevatedButton(
-                      child: Text("My position"),
-                      onPressed: () {
-                        _getCurrentLocation();
+                ),
+                Container(
+                  height: 87.0,
+                  width: 300.0,
+                  color: Colors.transparent,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      top: 15.0,
+                      left: 15.0,
+                      right: 15.0,
+                      bottom: 5.0,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(139, 239, 123, 1),
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    ),
+                    child: FutureBuilder<FireInfo>(
+                      future: getFireInfo,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData && snapshot.data.county != null) {
+                          return Text(snapshot.data.county +
+                              " har " +
+                              snapshot.data.status);
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+                        return CircularProgressIndicator();
                       },
-                      autofocus: true,
-                      clipBehavior: Clip.none,
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text("Start Date"),
-          Container(
-            height: 120,
-            width: 300,
-            color: Colors.transparent,
-            child: Container(
-              padding: EdgeInsets.only(
-                top: 15,
-                left: 15,
-                right: 15,
-                bottom: 15,
-              ),
-              decoration: BoxDecoration(
-                  color: Colors.lightBlueAccent,
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: Column(children: [
-                FutureBuilder<FireInfo>(
-                    future: getFireInfo,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData && snapshot.data.startDate != null) {
-                        return Text(snapshot.data.startDate);
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-                      return CircularProgressIndicator();
-                    }),
+                ),
+                Column(
+                  children: [
+                    SizedBox(height: 10),
+                    Container(
+                        alignment: Alignment.center,
+                        width: 200,
+                        height: 28,
+                        decoration: BoxDecoration(
+                            color: _munSelected == true
+                                ? Color.fromRGBO(173, 199, 173, 1)
+                                : Color.fromRGBO(218, 221, 224, 1),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50.0))),
+                        child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                          isExpanded: true,
+                          elevation: 10,
+                          style: TextStyle(color: Colors.black),
+                          items: kommuner.map<DropdownMenuItem<Kommuner>>(
+                              (Kommuner kommun) {
+                            return DropdownMenuItem<Kommuner>(
+                                value: kommun, child: Text(kommun.name));
+                          }).toList(),
+                          hint: _munSelected == true
+                              ? Align(
+                                  alignment: Alignment.center,
+                                  child: Text(selectedKommun.name,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      )),
+                                )
+                              : Align(
+                                  alignment: Alignment.center,
+                                  child: Text("Choose municipality",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      )),
+                                ),
+                          onChanged: (Kommuner kommun) {
+                            _munSelected = true;
+                            setState(() {
+                              selectedKommun = kommun;
+                              getFireInfo = fetchFireInfo(
+                                  kommun.latitude, kommun.longitude);
+                            });
+                          },
+                        ))),
+                    Text('or'),
+                    SizedBox(height: 5),
+                    Container(
+                      height: 30,
+                      width: 111,
+                      child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              primary: Color.fromRGBO(139, 239, 123, 1),
+                              backgroundColor: Colors.white,
+                              shadowColor: Colors.black,
+                              elevation: 10,
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50))),
+                              textStyle: TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.w600)),
+                          child: Row(
+                            children: [
+                              Icon(Icons.my_location_outlined,
+                                  size: 10, color: Colors.black),
+                              SizedBox(width: 5),
+                              Text('My Position'),
+                            ],
+                          ),
+                          onPressed: () {
+                            _getCurrentLocation();
+                          }),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Start Date",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                Container(
+                  height: 50,
+                  width: 300,
+                  color: Colors.transparent,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      top: 15,
+                      left: 15,
+                      right: 15,
+                      bottom: 15,
+                    ),
+                    decoration: BoxDecoration(
+                        color: Color.fromRGBO(212, 230, 251, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    child: FutureBuilder<FireInfo>(
+                        future: getFireInfo,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData &&
+                              snapshot.data.startDate != null) {
+                            return Text(snapshot.data.startDate);
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+                          return CircularProgressIndicator();
+                        }),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Description",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                Container(
+                  height: 150,
+                  width: 300,
+                  color: Colors.transparent,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      top: 15,
+                      left: 15,
+                      right: 15,
+                      bottom: 15,
+                    ),
+                    decoration: BoxDecoration(
+                        color: Color.fromRGBO(212, 230, 251, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    child: Column(children: [
+                      FutureBuilder<FireInfo>(
+                          future: getFireInfo,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData &&
+                                snapshot.data.description != null) {
+                              return Text(snapshot.data.description);
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            }
+                            return CircularProgressIndicator();
+                          }),
+                    ]),
+                  ),
+                ),
               ]),
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Text("Description"),
-          Container(
-            height: 120,
-            width: 300,
-            color: Colors.transparent,
-            child: Container(
-              padding: EdgeInsets.only(
-                top: 15,
-                left: 15,
-                right: 15,
-                bottom: 15,
-              ),
-              decoration: BoxDecoration(
-                  color: Colors.lightBlueAccent,
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: Column(children: [
-                FutureBuilder<FireInfo>(
-                    future: getFireInfo,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData &&
-                          snapshot.data.description != null) {
-                        return Text(snapshot.data.description);
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-                      return CircularProgressIndicator();
-                    }),
-              ]),
-            ),
-          ),
+          Positioned(
+              top: 26,
+              right: 7,
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Card(
+                    elevation: 20,
+                    shape: CircleBorder(),
+                    child: CircleAvatar(
+                      radius: 24.0,
+                      backgroundColor: Colors.blue,
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                    ),
+                  )))
         ]),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: SizedBox(
-          width: 50,
-          child: ElevatedButton(
-            child: Text('Back'),
-            onPressed: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => InformationScreen()));
-            },
-            autofocus: true,
-            clipBehavior: Clip.none,
-          ),
-        ),
       ),
     );
   }
