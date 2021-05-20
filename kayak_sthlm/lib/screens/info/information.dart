@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kayak_sthlm/screens/info/fire_screen.dart';
 import 'package:kayak_sthlm/screens/info/guides.dart';
-import 'package:kayak_sthlm/screens/info/reserve.dart';
 import 'package:kayak_sthlm/services/auth.dart';
 import 'package:kayak_sthlm/screens/info/symbols_info.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
 import 'app_icons.dart';
+import 'mapForReserves.dart';
 
 class InformationScreen extends StatelessWidget {
   final AuthService _auth = AuthService();
@@ -41,7 +41,6 @@ class InformationScreen extends StatelessWidget {
         ],
       ),
       body: Container(
-        color: Colors.white,
         child: GridView.count(
           crossAxisCount: 2,
           children: <Widget>[
@@ -58,7 +57,7 @@ class InformationScreen extends StatelessWidget {
               iconSize: 90,
               onPressed: () {
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => ReserveScreen()));
+                    MaterialPageRoute(builder: (context) => WildlifePreserves()));
               },
             ),
             IconButton(

@@ -10,14 +10,18 @@ String lat = '59.377990';
 String long = '18.037960';
 
 Future<FireInfo> fetchFireInfo(String lat, String long) async {
-  var response = await http.get(Uri.https(
-      'api.msb.se', ('/brandrisk/v2/FireProhibition/' + lat + '/' + long)));
+  try {
+    var response = await http.get(Uri.https(
+        'api.msb.se', ('/brandrisk/v2/FireProhibition/' + lat + '/' + long)));
 
-  if (response.statusCode == 200) {
-    return FireInfo(jsonDecode(response.body));
-  } else {
-    throw Exception('Failed to load fire info');
-  }
+    if (response.statusCode == 200) {
+      return FireInfo(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load fire info');
+    }
+  }catch (e){
+    throw Exception('Service unavailable');
+}
 }
 
 class _FireScreenState extends State<FireScreen> {

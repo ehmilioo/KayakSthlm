@@ -8,7 +8,7 @@ class SymbolsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Information and symbols'),
+        title: Text('Symbols'),
       ),
       body: ListView(children: <Widget>[
         SizedBox(height: 20),
