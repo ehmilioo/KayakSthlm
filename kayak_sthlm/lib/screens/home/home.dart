@@ -20,19 +20,19 @@ class Home extends StatefulWidget {
 class MapSampleState extends State<Home> {
   final Database db = new Database();
   final Set<Polyline>_polyline={};
+  List<LatLng> routeCoords = [];
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{}; 
+  List<dynamic> pinList;
   Location _locationTracker = Location();
   Marker marker;
   Circle circle;
   StreamSubscription _locationSubscription;
   GoogleMapController _controller;
-  List<dynamic> pinList;
   LocationData locationData;
   CameraPosition currentPosition;
   bool isStarted = false;
   bool pausedRoute = false;
   Timer timer;
-  List<LatLng> routeCoords = [];
   double totalDistance = 0;
 
   static final sthlmNE = LatLng(60.380987, 19.644660);
@@ -74,9 +74,11 @@ class MapSampleState extends State<Home> {
     for(var i=0; i<pinList.length-1; i++){ //Sista objektet är information därav minus en
       MarkerId markerId = MarkerId(pinList[i]['place_id']);
       LatLng pinLocation = LatLng(pinList[i]['geometry']['location']['lat'],pinList[i]['geometry']['location']['lng']);
+      String color = pinList[i]['color'];
       Marker marker = Marker(
         markerId: markerId,
         position: pinLocation,
+        infoWindow: InfoWindow(title: pinList[i]['name'], snippet: pinList[i]['vicinity']),
         draggable: false,
         onTap: () {
           _controller.animateCamera(CameraUpdate.newCameraPosition(
@@ -87,12 +89,11 @@ class MapSampleState extends State<Home> {
               zoom: 15.00)));
         },
         zIndex: 2,
-        icon: pinList.last['color'] == 'green' ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed) : BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
+        icon: color == 'green' ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan) : color == 'red' ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed) : BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
       );
-    setState(() {
-      markers[markerId] = marker;
-    });
-    print('Created pin: ${markerId}');
+      setState(() {
+        markers[markerId] = marker;
+      });
     }
   }
 
@@ -179,7 +180,6 @@ class MapSampleState extends State<Home> {
         _polyline.add(Polyline(
             polylineId: PolylineId('lat${locationData.latitude}'),
             visible: true,
-            //latlng is List<LatLng>
             points: routeCoords,
             width: 3,
             color: Colors.red,
