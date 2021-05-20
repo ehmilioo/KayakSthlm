@@ -164,6 +164,7 @@ class MapSampleState extends State<Home> {
                 backgroundColor: Colors.black,
               ),
             )
+            
           : Stack(
               children: <Widget>[            
                 GoogleMap(
@@ -173,8 +174,8 @@ class MapSampleState extends State<Home> {
                   mapToolbarEnabled: false,
                   compassEnabled: false,
                   onLongPress: (latlang) {
-                        print('Markerad pos: ${latlang}'); //Jobba vidare på detta?
-                    },
+                    print('Markerad pos: ${latlang}'); //Jobba vidare på detta?
+                  },
                   initialCameraPosition: _startPosition,
                   markers: Set.of((marker != null) ? [marker] : []),
                   circles: Set.of((circle != null) ? [circle] : []),
@@ -267,6 +268,7 @@ class MapSampleState extends State<Home> {
                     ),
                   ),
                 ),
+
                 Positioned(
                   bottom: 20,
                   right: 5,
