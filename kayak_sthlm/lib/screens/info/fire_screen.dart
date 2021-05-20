@@ -135,7 +135,14 @@ class _FireScreenState extends State<FireScreen> {
               width: 324,
               padding: EdgeInsets.fromLTRB(25, 20, 25, 20),
               decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black38,
+                        offset: Offset(0, 5),
+                        blurRadius: 10),
+                  ]),
               child: Column(children: <Widget>[
                 Text(
                   "FIRE BANS",
@@ -144,6 +151,92 @@ class _FireScreenState extends State<FireScreen> {
                 SizedBox(
                   height: 20,
                 ),
+                Column(
+                  children: [
+                    SizedBox(height: 5),
+                    Container(
+                      height: 29,
+                      width: 300,
+                      child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              primary: _munSelected == true
+                                  ? Colors.black
+                                  : Colors.white,
+                              backgroundColor: _munSelected == true
+                                  ? Color.fromRGBO(217, 221, 224, 1)
+                                  : Color.fromRGBO(86, 151, 211, 1),
+                              shadowColor: Colors.black,
+                              elevation: 10,
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50))),
+                              textStyle: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w500)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.my_location_outlined,
+                                  size: 10, color: Colors.black),
+                              SizedBox(width: 5),
+                              Text(
+                                'My Position',
+                              ),
+                            ],
+                          ),
+                          onPressed: () {
+                            _munSelected = false;
+                            _getCurrentLocation();
+                          }),
+                    )
+                  ],
+                ),
+                Text('or'),
+                SizedBox(height: 10),
+                Container(
+                    alignment: Alignment.center,
+                    width: 300,
+                    height: 29,
+                    decoration: BoxDecoration(
+                        color: _munSelected == true
+                            ? Color.fromRGBO(86, 151, 211, 1)
+                            : Color.fromRGBO(217, 221, 224, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(50.0))),
+                    child: DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                      isExpanded: true,
+                      elevation: 10,
+                      style: TextStyle(color: Colors.black),
+                      items: kommuner
+                          .map<DropdownMenuItem<Kommuner>>((Kommuner kommun) {
+                        return DropdownMenuItem<Kommuner>(
+                            value: kommun, child: Text(kommun.name));
+                      }).toList(),
+                      hint: _munSelected == true
+                          ? Align(
+                              alignment: Alignment.center,
+                              child: Text(selectedKommun.name,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 17,
+                                      color: Colors.white)),
+                            )
+                          : Align(
+                              alignment: Alignment.center,
+                              child: Text("Choose Municipality",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 17,
+                                      color: Colors.black)),
+                            ),
+                      onChanged: (Kommuner kommun) {
+                        _munSelected = true;
+                        setState(() {
+                          selectedKommun = kommun;
+                          getFireInfo =
+                              fetchFireInfo(kommun.latitude, kommun.longitude);
+                        });
+                      },
+                    ))),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -163,9 +256,14 @@ class _FireScreenState extends State<FireScreen> {
                       bottom: 5.0,
                     ),
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(139, 239, 123, 1),
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                    ),
+                        color: Color.fromRGBO(139, 239, 123, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black38,
+                              offset: Offset(0, 5),
+                              blurRadius: 10),
+                        ]),
                     child: FutureBuilder<FireInfo>(
                       future: getFireInfo,
                       builder: (context, snapshot) {
@@ -180,83 +278,6 @@ class _FireScreenState extends State<FireScreen> {
                       },
                     ),
                   ),
-                ),
-                Column(
-                  children: [
-                    SizedBox(height: 10),
-                    Container(
-                        alignment: Alignment.center,
-                        width: 200,
-                        height: 28,
-                        decoration: BoxDecoration(
-                            color: _munSelected == true
-                                ? Color.fromRGBO(173, 199, 173, 1)
-                                : Color.fromRGBO(218, 221, 224, 1),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(50.0))),
-                        child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                          isExpanded: true,
-                          elevation: 10,
-                          style: TextStyle(color: Colors.black),
-                          items: kommuner.map<DropdownMenuItem<Kommuner>>(
-                              (Kommuner kommun) {
-                            return DropdownMenuItem<Kommuner>(
-                                value: kommun, child: Text(kommun.name));
-                          }).toList(),
-                          hint: _munSelected == true
-                              ? Align(
-                                  alignment: Alignment.center,
-                                  child: Text(selectedKommun.name,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      )),
-                                )
-                              : Align(
-                                  alignment: Alignment.center,
-                                  child: Text("Choose municipality",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      )),
-                                ),
-                          onChanged: (Kommuner kommun) {
-                            _munSelected = true;
-                            setState(() {
-                              selectedKommun = kommun;
-                              getFireInfo = fetchFireInfo(
-                                  kommun.latitude, kommun.longitude);
-                            });
-                          },
-                        ))),
-                    Text('or'),
-                    SizedBox(height: 5),
-                    Container(
-                      height: 30,
-                      width: 111,
-                      child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                              primary: Color.fromRGBO(139, 239, 123, 1),
-                              backgroundColor: Colors.white,
-                              shadowColor: Colors.black,
-                              elevation: 10,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(50))),
-                              textStyle: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.w600)),
-                          child: Row(
-                            children: [
-                              Icon(Icons.my_location_outlined,
-                                  size: 10, color: Colors.black),
-                              SizedBox(width: 5),
-                              Text('My Position'),
-                            ],
-                          ),
-                          onPressed: () {
-                            _getCurrentLocation();
-                          }),
-                    )
-                  ],
                 ),
                 SizedBox(
                   height: 20,
@@ -281,7 +302,13 @@ class _FireScreenState extends State<FireScreen> {
                     ),
                     decoration: BoxDecoration(
                         color: Color.fromRGBO(212, 230, 251, 1),
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black38,
+                              offset: Offset(0, 5),
+                              blurRadius: 10),
+                        ]),
                     child: FutureBuilder<FireInfo>(
                         future: getFireInfo,
                         builder: (context, snapshot) {
@@ -318,7 +345,13 @@ class _FireScreenState extends State<FireScreen> {
                     ),
                     decoration: BoxDecoration(
                         color: Color.fromRGBO(212, 230, 251, 1),
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black38,
+                              offset: Offset(0, 5),
+                              blurRadius: 10),
+                        ]),
                     child: Column(children: [
                       FutureBuilder<FireInfo>(
                           future: getFireInfo,
@@ -339,7 +372,7 @@ class _FireScreenState extends State<FireScreen> {
           ),
           Positioned(
               top: 26,
-              right: 7,
+              right: 6,
               child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).pop();

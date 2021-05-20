@@ -257,11 +257,17 @@ class SettingsPage extends State<Settings> {
                             builder: (context) => InformationScreen()));
                   },
                 ),
-                IconButton(
-                  // Navigationsknapp 4: Settings
-                  icon: Icon(Icons.settings_outlined),
-                  iconSize: 30,
-                  onPressed: () {},
+                Column(
+                  children: <Widget>[
+                    IconButton(
+                      // Navigationsknapp 3: Settings
+                      icon: Icon(Icons.settings_outlined),
+                      iconSize: 30,
+                      onPressed: () {},
+                    ),
+                    Icon(Icons.circle,
+                        size: 8, color: Color.fromRGBO(86, 151, 211, 1))
+                  ],
                 ),
               ],
             ),

@@ -27,7 +27,13 @@ class GuideScreen extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                       decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black,
+                                offset: Offset(0, 5),
+                                blurRadius: 10),
+                          ]),
                       child: Column(children: <Widget>[
                         Container(
                             height: 50,
@@ -114,7 +120,7 @@ class GuideScreen extends StatelessWidget {
                       ]))),
               Positioned(
                   top: 26,
-                  right: 7,
+                  right: 6,
                   child: GestureDetector(
                       onTap: () {
                         Navigator.of(context).pop();

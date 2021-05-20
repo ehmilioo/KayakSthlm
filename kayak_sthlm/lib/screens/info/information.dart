@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kayak_sthlm/screens/authenticate/register.dart';
 import 'package:kayak_sthlm/screens/home/home.dart';
@@ -43,7 +44,7 @@ class InformationScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                      color: Colors.black26,
+                      color: Colors.black38,
                       blurRadius: 3.0,
                       offset: Offset(2.0, 3))
                 ],
@@ -66,7 +67,7 @@ class InformationScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       boxShadow: <BoxShadow>[
                         BoxShadow(
-                            color: Colors.black26,
+                            color: Colors.black38,
                             blurRadius: 3.0,
                             offset: Offset(2.0, 3))
                       ],
@@ -99,7 +100,7 @@ class InformationScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       boxShadow: <BoxShadow>[
                         BoxShadow(
-                            color: Colors.black26,
+                            color: Colors.black38,
                             blurRadius: 3.0,
                             offset: Offset(2.0, 3))
                       ],
@@ -137,7 +138,7 @@ class InformationScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       boxShadow: <BoxShadow>[
                         BoxShadow(
-                            color: Colors.black26,
+                            color: Colors.black38,
                             blurRadius: 3.0,
                             offset: Offset(2.0, 3))
                       ],
@@ -170,7 +171,7 @@ class InformationScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       boxShadow: <BoxShadow>[
                         BoxShadow(
-                            color: Colors.black26,
+                            color: Colors.black38,
                             blurRadius: 3.0,
                             offset: Offset(2.0, 3))
                       ],
@@ -189,7 +190,7 @@ class InformationScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 15),
-                  Text('Symbols\n',
+                  Text('Map\nSymbols',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -234,6 +235,7 @@ class InformationScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               IconButton(
+
                   // Navigationsknapp 1: Routes
                   icon: Icon(Icons.place_outlined),
                   iconSize: 30,
@@ -254,12 +256,19 @@ class InformationScreen extends StatelessWidget {
                       width: 105,
                       height:
                           25)), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
-              IconButton(
-                // Navigationsknapp 3: Info
-                icon: Icon(Icons.info_outline),
-                iconSize: 30,
-                onPressed: () {},
+              Column(
+                children: <Widget>[
+                  IconButton(
+                    // Navigationsknapp 3: Info
+                    icon: Icon(Icons.info_outline),
+                    iconSize: 30,
+                    onPressed: () {},
+                  ),
+                  Icon(Icons.circle,
+                      size: 8, color: Color.fromRGBO(86, 151, 211, 1))
+                ],
               ),
+
               IconButton(
                   // Navigationsknapp 4: Settings
                   icon: Icon(Icons.settings_outlined),
