@@ -203,13 +203,13 @@ class InformationScreen extends StatelessWidget {
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
-        height: 85.0,
-        width: 85.0,
+        height: 80.0,
+        width: 80.0,
         child: FloatingActionButton(
           elevation: 10,
           child: Container(
-              height: 85.0,
-              width: 85.0,
+              height: 80.0,
+              width: 80.0,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
@@ -227,50 +227,58 @@ class InformationScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: SizedBox(
-        height: 70,
+        height: 80,
         child: BottomAppBar(
           child: new Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               IconButton(
 
                   // Navigationsknapp 1: Routes
+                  padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
                   icon: Icon(Icons.place_outlined),
                   iconSize: 30,
                   onPressed: () {}),
               IconButton(
                 // Navigationsknapp 2: Events
+                padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
                 icon: Icon(Icons.calendar_today_outlined),
                 iconSize: 30,
                 onPressed: () {},
               ),
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                      child: Text("HOME",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 12)),
-                      width: 105,
-                      height:
-                          25)), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
-              Column(
-                children: <Widget>[
-                  IconButton(
-                    // Navigationsknapp 3: Info
-                    icon: Icon(Icons.info_outline),
-                    iconSize: 30,
-                    onPressed: () {},
-                  ),
-                  Icon(Icons.circle,
-                      size: 8, color: Color.fromRGBO(86, 151, 211, 1))
-                ],
+              Container(
+                padding: EdgeInsets.only(bottom: 8),
+                alignment: Alignment.bottomCenter,
+                height: 50,
+                width: 52,
+                child: Text("HOME",
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontWeight: FontWeight.w600, fontSize: 12)),
+              ), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
+              Container(
+                width: 48,
+                padding: EdgeInsets.only(top: 16),
+                child: Column(
+                  children: <Widget>[
+                    IconButton(
+                      // Navigationsknapp 3: Info
+                      padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
+                      icon: Icon(Icons.info_outline),
+                      iconSize: 30,
+                      onPressed: () {},
+                    ),
+                    Icon(Icons.circle,
+                        size: 8, color: Color.fromRGBO(86, 151, 211, 1))
+                  ],
+                ),
               ),
 
               IconButton(
                   // Navigationsknapp 4: Settings
+                  padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
                   icon: Icon(Icons.settings_outlined),
                   iconSize: 30,
                   onPressed: () {

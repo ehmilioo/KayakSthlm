@@ -237,22 +237,25 @@ class MapSampleState extends State<Home> {
               child: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: RawMaterialButton(
-                      onPressed: () {
-                        getCurrentLocation();
-                        _controller.animateCamera(
-                            CameraUpdate.newCameraPosition(new CameraPosition(
-                                bearing: locationData.heading,
-                                target: LatLng(locationData.latitude,
-                                    locationData.longitude),
-                                zoom: 15.00)));
-                      },
-                      constraints: BoxConstraints(minWidth: 51, minHeight: 51),
-                      elevation: 5.0,
-                      fillColor: Colors.white,
-                      child: Icon(
-                        Icons.my_location_outlined,
-                        size: 40.0,
-                      )))),
+                    onPressed: () {
+                      getCurrentLocation();
+                      _controller.animateCamera(CameraUpdate.newCameraPosition(
+                          new CameraPosition(
+                              bearing: locationData.heading,
+                              target: LatLng(locationData.latitude,
+                                  locationData.longitude),
+                              zoom: 15.00)));
+                    },
+                    constraints: BoxConstraints(minWidth: 51, minHeight: 51),
+                    elevation: 5.0,
+                    fillColor: Colors.white,
+                    child: Icon(
+                      Icons.my_location_outlined,
+                      size: 40.0,
+                    ),
+                    padding: EdgeInsets.all(8.0),
+                    shape: CircleBorder(),
+                  ))),
           Positioned(
             bottom: 20,
             left: 100,
@@ -312,13 +315,13 @@ class MapSampleState extends State<Home> {
       floatingActionButton: locationData == null || pausedRoute
           ? null
           : Container(
-              height: 85.0,
-              width: 85.0,
+              height: 80.0,
+              width: 80.0,
               child: FloatingActionButton(
                   elevation: 10,
                   child: Container(
-                      height: 85.0,
-                      width: 85.0,
+                      height: 80.0,
+                      width: 80.0,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           gradient: RadialGradient(
@@ -357,84 +360,116 @@ class MapSampleState extends State<Home> {
               ),
             )
           : SizedBox(
-              height: 70,
+              height: 80,
               child: BottomAppBar(
                 child: isStarted
                     ? new Row(
                         mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
+                            SizedBox(
+                              width: 125,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text('DURATION',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400)),
+                                  Container(
+                                      child: StreamBuilder<int>(
+                                          stream: _stopWatchTimer.rawTime,
+                                          initialData: _stopWatchTimer
+                                              .rawTime.valueWrapper?.value,
+                                          builder: (context, snap) {
+                                            final value = snap.data;
+                                            final displayTime =
+                                                StopWatchTimer.getDisplayTime(
+                                                        value)
+                                                    .substring(0, 8);
+                                            return Container(
+                                                child: Text(
+                                              displayTime,
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold),
+                                            ));
+                                          }),
+                                      width: 80,
+                                      height: 30),
+                                ],
+                              ),
+                            ),
                             Container(
-                                child: Text((totalDistance / 1000).toString(),
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
-                                width: 40,
-                                height: 30),
-                            Container(
+                                padding: EdgeInsets.only(bottom: 8),
+                                alignment: Alignment.bottomCenter,
+                                height: 50,
+                                width: 52,
                                 child: pausedRoute
-                                    ? Text("Paused",
+                                    ? Text("PAUSED",
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold))
-                                    : Text('Pause',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                width: 45,
-                                height: 30),
-                            Container(
-                                child: StreamBuilder<int>(
-                                    stream: _stopWatchTimer.rawTime,
-                                    initialData: _stopWatchTimer
-                                        .rawTime.valueWrapper?.value,
-                                    builder: (context, snap) {
-                                      final value = snap.data;
-                                      final displayTime =
-                                          StopWatchTimer.getDisplayTime(value)
-                                              .substring(0, 8);
-                                      return Container(
-                                          child: Text(
-                                        displayTime,
-                                        style: const TextStyle(
                                             fontSize: 12,
-                                            fontFamily: 'Helvetica',
-                                            fontWeight: FontWeight.bold),
-                                      ));
-                                    }),
-                                width: 80,
-                                height: 30),
+                                            fontWeight: FontWeight.w600))
+                                    : Text('PAUSE',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600))),
+                            SizedBox(
+                              width: 125,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text('DISTANCE (KM)',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400)),
+                                  Container(
+                                      child: Text(
+                                          (totalDistance / 1000).toString(),
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold)),
+                                      width: 40,
+                                      height: 30),
+                                ],
+                              ),
+                            ),
                           ])
                     : new Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           IconButton(
+                              padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
                               // Navigationsknapp 1: Routes
                               icon: Icon(Icons.place_outlined),
                               iconSize: 30,
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SignIn()));
-                              }),
+                              onPressed: () {}),
+
                           IconButton(
+                            padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
                             // Navigationsknapp 2: Events
                             icon: Icon(Icons.calendar_today_outlined),
                             iconSize: 30,
                             onPressed: () {},
                           ),
-                          Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Container(
-                                  child: Text("START",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12)),
-                                  width: 105,
-                                  height:
-                                      25)), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
+                          Container(
+                            padding: EdgeInsets.only(bottom: 8),
+                            alignment: Alignment.bottomCenter,
+                            height: 50,
+                            width: 52,
+                            child: Text("START",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 12)),
+                          ), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
                           IconButton(
+                            padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
                             // Navigationsknapp 3: Info
                             icon: Icon(Icons.info_outline),
                             iconSize: 30,
@@ -447,6 +482,7 @@ class MapSampleState extends State<Home> {
                             },
                           ),
                           IconButton(
+                            padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
                             // Navigationsknapp 4: Settings
                             icon: Icon(Icons.settings_outlined),
                             iconSize: 30,
