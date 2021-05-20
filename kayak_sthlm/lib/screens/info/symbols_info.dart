@@ -107,10 +107,18 @@ class SymbolsScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                              Text('Seal Protection Area',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600)),
+                              SizedBox(height: 6),
                               Text(
                                 "This symbol represents areas on the map that are meant for seals to live undisturbed from human life. Typically, this is at the time of year when seals have babies. These areas are forbidden for kayakers and humans in general to enter. ",
                                 style: TextStyle(
-                                    color: Colors.black, fontSize: 15),
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500),
                                 textAlign: TextAlign.left,
                               ),
                             ],
@@ -118,22 +126,7 @@ class SymbolsScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 20),
-                      // Container(
-                      //   padding: EdgeInsets.all(5),
-                      //   margin: EdgeInsets.all(5),
-                      //   decoration: BoxDecoration(
-                      //     color: Colors.transparent,
-                      //     borderRadius: BorderRadius.circular(10),
-                      //     border: Border.all(
-                      //       color: Colors.blueAccent,
-                      //       width: 5,
-                      //     ),
-                      //   ),
-                      //   child: Image(
-                      //     image: AssetImage('assets/images/birdProtectionArea.jpg'),
-                      //     height: 200,
-                      //   ),
-                      // ),
+
                       Container(
                         height: 266.0,
                         width: 322.0,
@@ -162,7 +155,7 @@ class SymbolsScreen extends StatelessWidget {
                             children: [
                               Container(
                                 width: 80,
-                                height: 64,
+                                height: 47,
                                 child: Stack(
                                   children: <Widget>[
                                     Positioned(
@@ -171,21 +164,29 @@ class SymbolsScreen extends StatelessWidget {
                                       child: Icon(
                                         AppIcons.bird,
                                         color: Colors.black26,
-                                        size: 60,
+                                        size: 45,
                                       ),
                                     ),
                                     Icon(
                                       AppIcons.bird,
                                       color: Colors.black,
-                                      size: 60,
+                                      size: 45,
                                     ),
                                   ],
                                 ),
                               ),
+                              Text('Bird Protection Area',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600)),
+                              SizedBox(height: 6),
                               Text(
-                                "This symbol represents areas on the map that are meant for preservation of bird habitats. These areas are either areas important for endangered species or areas that attract many birds. These areas are forbidden for kayakers and humans in genereal to enter.",
+                                "This symbol represents areas on the map that are meant for preservation of bird habitats. These areas are either areas important for endangered species or areas that attract many birds. These areas are forbidden for kayakers and humans in general to enter.",
                                 style: TextStyle(
-                                    color: Colors.black, fontSize: 15),
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500),
                                 textAlign: TextAlign.left,
                               ),
                             ],
