@@ -10,6 +10,7 @@ import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:kayak_sthlm/models/pins.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -19,11 +20,13 @@ class Home extends StatefulWidget {
 class MapSampleState extends State<Home> {
   final Database db = new Database();
   final Set<Polyline>_polyline={};
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{}; 
   Location _locationTracker = Location();
   Marker marker;
   Circle circle;
   StreamSubscription _locationSubscription;
   GoogleMapController _controller;
+  List<dynamic> pinList;
   LocationData locationData;
   CameraPosition currentPosition;
   bool isStarted = false;
@@ -58,13 +61,43 @@ class MapSampleState extends State<Home> {
   }
 
   
-  Future<Uint8List> getMarker() async {
+  Future<Uint8List> getMarker(String imagePath) async {
     ByteData byteData =
-        await DefaultAssetBundle.of(context).load("assets/arrow_final.png");
+        await DefaultAssetBundle.of(context).load("assets/${imagePath}");
     return byteData.buffer.asUint8List();
   }
 
-  void updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData) {
+  void loadMarkers() async{
+    Pins _pins = Pins(latitude: locationData.latitude, longitude: locationData.longitude);
+    pinList = await _pins.fetchAllPins();
+
+    for(var i=0; i<pinList.length-1; i++){ //Sista objektet är information därav minus en
+      MarkerId markerId = MarkerId(pinList[i]['place_id']);
+      LatLng pinLocation = LatLng(pinList[i]['geometry']['location']['lat'],pinList[i]['geometry']['location']['lng']);
+      Marker marker = Marker(
+        markerId: markerId,
+        position: pinLocation,
+        draggable: false,
+        onTap: () {
+          _controller.animateCamera(CameraUpdate.newCameraPosition(
+            new CameraPosition(
+              bearing: locationData.heading,
+              target: LatLng(
+                  pinLocation.latitude, pinLocation.longitude),
+              zoom: 15.00)));
+        },
+        zIndex: 2,
+        icon: pinList.last['color'] == 'green' ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed) : BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
+      );
+    setState(() {
+      markers[markerId] = marker;
+    });
+    print('Created pin: ${markerId}');
+    }
+  }
+
+
+  void updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData) async {
     LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
     if (this.mounted) {
       this.setState(() {
@@ -77,6 +110,7 @@ class MapSampleState extends State<Home> {
             flat: true,
             anchor: Offset(0.5, 0.5),
             icon: BitmapDescriptor.fromBytes(imageData));
+        markers[marker.markerId] = marker;
         circle = Circle(
             circleId: CircleId("radius"),
             radius: newLocalData.accuracy + 100,
@@ -90,7 +124,7 @@ class MapSampleState extends State<Home> {
 
   void getCurrentLocation() async {
     try {
-      Uint8List imageData = await getMarker();
+      Uint8List imageData = await getMarker('arrow_final.png');
       var location = await _locationTracker.getLocation();
 
       updateMarkerAndCircle(location, imageData);
@@ -177,9 +211,10 @@ class MapSampleState extends State<Home> {
                     print('Markerad pos: ${latlang}'); //Jobba vidare på detta?
                   },
                   initialCameraPosition: _startPosition,
-                  markers: Set.of((marker != null) ? [marker] : []),
+                  markers: Set<Marker>.of(markers.values),        //Set.of((marker != null) ? [marker] : []),
                   circles: Set.of((circle != null) ? [circle] : []),
                   onMapCreated: (GoogleMapController controller) {
+                    loadMarkers();
                     _controller = controller;
                     _controller.animateCamera(CameraUpdate.newCameraPosition(
                         new CameraPosition(
@@ -276,7 +311,6 @@ class MapSampleState extends State<Home> {
                     padding: const EdgeInsets.only(right: 8.0),
                     child: RawMaterialButton(
                       onPressed: () {
-                        print(pausedRoute);
                         getCurrentLocation();
                         _controller.animateCamera(
                             CameraUpdate.newCameraPosition(new CameraPosition(

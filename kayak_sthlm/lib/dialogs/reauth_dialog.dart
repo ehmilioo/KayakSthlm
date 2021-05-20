@@ -23,7 +23,6 @@ class _AuthDialog extends State<AuthDialog> {
     EmailAuthCredential credential = EmailAuthProvider.credential(email: user.email, password: password);
     try{
       user.reauthenticateWithCredential(credential);
-      print('authenticated');
       Navigator.pop(context);
     }
     catch(e){
