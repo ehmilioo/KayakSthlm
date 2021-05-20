@@ -32,14 +32,29 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/birdProtectionArea.jpg
+    - assets/images/sealProtectionArea.png
+    - assets/images/mapNatureReserves.png
     - assets/kayak1.png
     - assets/bakgrund.png
+    - assets/images/
     - assets/arrow_final.png
     - assets/weatherType.json
   fonts:
-    - family: FugazOne
-      fonts:
+   - family:  AppIcons
+     fonts:
+      - asset: fonts/AppIcons.ttf
+   - family: FugazOne
+     fonts:
         - asset: fonts/FugazOne-Regular.ttf
-    - family: HammersmithOne
-      fonts:
+   - family: HammersmithOne
+     fonts:
         - asset: fonts/HammersmithOne-Regular.ttf
+   - family: Lato
+     fonts:
+        - asset: fonts/Lato-Regular.ttf
+   - family: Montserrat
+     fonts:
+        - asset: fonts/Montserrat-Regular.ttf
+        - asset: fonts/Montserrat-SemiBold.ttf
+        - asset: fonts/Montserrat-Bold.ttf
