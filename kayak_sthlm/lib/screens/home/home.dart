@@ -8,9 +8,12 @@ import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
+import 'package:kayak_sthlm/dialogs/save_route_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
+import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -19,34 +22,43 @@ class Home extends StatefulWidget {
 
 class MapSampleState extends State<Home> {
   final Database db = new Database();
+  final Set<Polyline> _polyline = {};
+  Location _locationTracker = Location();
   Marker marker;
   Circle circle;
-  Location _locationTracker = Location();
   StreamSubscription _locationSubscription;
   GoogleMapController _controller;
   LocationData locationData;
   CameraPosition currentPosition;
   bool isStarted = false;
+  bool pausedRoute = false;
+  Timer timer;
+  List<LatLng> routeCoords = [];
+  double totalDistance = 0;
+
+  static final sthlmNE = LatLng(60.380987, 19.644660);
+  static final sthlmSW = LatLng(58.653765, 17.205695);
+  static final CameraPosition _startPosition = CameraPosition(
+    target: LatLng(59.33879, 18.08487),
+    zoom: 14.4746,
+  );
+  final StopWatchTimer _stopWatchTimer = StopWatchTimer(
+    mode: StopWatchMode.countUp,
+  );
 
   @override
   void initState() {
     super.initState();
   }
 
-  final StopWatchTimer _stopWatchTimer = StopWatchTimer(
-    mode: StopWatchMode.countUp,
-  );
-
-  void openPage(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return ResetPass();
-    }));
+  @override
+  void dispose() async {
+    if (_locationSubscription != null) {
+      _locationSubscription.cancel();
+    }
+    super.dispose();
+    await _stopWatchTimer.dispose();
   }
-
-  static final CameraPosition _startPosition = CameraPosition(
-    target: LatLng(59.33879, 18.08487),
-    zoom: 14.4746,
-  );
 
   Future<Uint8List> getMarker() async {
     ByteData byteData =
@@ -99,19 +111,58 @@ class MapSampleState extends State<Home> {
       if (e.code == 'PERMISSION_DENID') {
         debugPrint('Permission Denied');
       }
+    } catch (e) {
+      print(e);
     }
   }
 
-  static final sthlmNE = LatLng(60.380987, 19.644660);
-  static final sthlmSW = LatLng(58.653765, 17.205695);
-
-  @override
-  void dispose() async {
-    if (_locationSubscription != null) {
-      _locationSubscription.cancel();
+  bool checkCoordsRadius(double cachedLon, double cachedLat) {
+    //Prevent massive list of similar coords, make a radius of 3m
+    if (cachedLon == null || cachedLat == null) {
+      return false;
     }
-    super.dispose();
-    await _stopWatchTimer.dispose();
+    if (locationData.latitude > cachedLat + 0.00003 ||
+        cachedLat - 0.00003 > locationData.latitude) {
+      if (locationData.longitude > cachedLon + 0.00003 ||
+          cachedLon - 0.00003 > locationData.longitude) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  void startRoute() {
+    double cachedLon;
+    double cachedLat;
+    timer = Timer.periodic(
+        Duration(seconds: 2),
+        (Timer t) => {
+              if (cachedLat == locationData.latitude &&
+                  cachedLon == locationData.longitude)
+                {print('duplicate')}
+              else if (checkCoordsRadius(cachedLon, cachedLat))
+                {print('Too close to latest coords')}
+              else
+                {
+                  cachedLon = locationData.longitude,
+                  cachedLat = locationData.latitude,
+                  routeCoords.add(
+                      LatLng(locationData.latitude, locationData.longitude)),
+                  totalDistance += Geolocator.distanceBetween(
+                      routeCoords[routeCoords.length - 2].latitude,
+                      routeCoords[routeCoords.length - 2].longitude,
+                      routeCoords[routeCoords.length - 1].latitude,
+                      routeCoords[routeCoords.length - 1].longitude),
+                  _polyline.add(Polyline(
+                    polylineId: PolylineId('lat${locationData.latitude}'),
+                    visible: true,
+                    //latlng is List<LatLng>
+                    points: routeCoords,
+                    width: 3,
+                    color: Colors.red,
+                  )),
+                }
+            });
   }
 
   @override
@@ -129,8 +180,12 @@ class MapSampleState extends State<Home> {
               : GoogleMap(
                   mapType: MapType.hybrid,
                   zoomControlsEnabled: false,
+                  polylines: _polyline,
                   mapToolbarEnabled: false,
                   compassEnabled: false,
+                  onLongPress: (latlang) {
+                    print('Markerad pos: ${latlang}'); //Jobba vidare på detta?
+                  },
                   initialCameraPosition: _startPosition,
                   markers: Set.of((marker != null) ? [marker] : []),
                   circles: Set.of((circle != null) ? [circle] : []),
@@ -177,75 +232,124 @@ class MapSampleState extends State<Home> {
             ),
           ),
           Positioned(
-            top: 140,
-            left: 21.5,
+              top: 140,
+              left: 21.5,
+              child: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: RawMaterialButton(
+                      onPressed: () {
+                        getCurrentLocation();
+                        _controller.animateCamera(
+                            CameraUpdate.newCameraPosition(new CameraPosition(
+                                bearing: locationData.heading,
+                                target: LatLng(locationData.latitude,
+                                    locationData.longitude),
+                                zoom: 15.00)));
+                      },
+                      constraints: BoxConstraints(minWidth: 51, minHeight: 51),
+                      elevation: 5.0,
+                      fillColor: Colors.white,
+                      child: Icon(
+                        Icons.my_location_outlined,
+                        size: 40.0,
+                      )))),
+          Positioned(
+            bottom: 20,
+            left: 100,
             child: Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: RawMaterialButton(
-                onPressed: () {
-                  getCurrentLocation();
-                  _controller.animateCamera(CameraUpdate.newCameraPosition(
-                      new CameraPosition(
-                          bearing: locationData.heading,
-                          target: LatLng(
-                              locationData.latitude, locationData.longitude),
-                          zoom: 15.00)));
-                },
-                constraints: BoxConstraints(minWidth: 51, minHeight: 51),
-                elevation: 5.0,
-                fillColor: Colors.white,
-                child: Icon(
-                  Icons.my_location_outlined,
-                  size: 40.0,
-                ),
-                padding: EdgeInsets.all(10.0),
-                shape: CircleBorder(),
-              ),
+              child: pausedRoute
+                  ? RawMaterialButton(
+                      onPressed: () {
+                        pausedRoute = !pausedRoute;
+                        _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+                        startRoute();
+                      },
+                      elevation: 5.0,
+                      fillColor: Colors.green[200],
+                      child: Icon(
+                        Icons.play_arrow,
+                        size: 35.0,
+                      ),
+                      padding: EdgeInsets.all(10.0),
+                      shape: CircleBorder(),
+                    )
+                  : null,
+            ),
+          ),
+          Positioned(
+            bottom: 20,
+            right: 100,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: pausedRoute
+                  ? RawMaterialButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => SaveRoute(
+                              routeList: routeCoords,
+                              distance: totalDistance,
+                              time: StopWatchTimer.getDisplayTimeSecond(
+                                  _stopWatchTimer.rawTime.valueWrapper?.value)),
+                        );
+                      },
+                      elevation: 5.0,
+                      fillColor: Colors.red[400],
+                      child: Icon(
+                        Icons.stop_rounded,
+                        size: 35.0,
+                      ),
+                      padding: EdgeInsets.all(10.0),
+                      shape: CircleBorder(),
+                    )
+                  : null,
             ),
           ),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: locationData == null
+      floatingActionButton: locationData == null || pausedRoute
           ? null
           : Container(
               height: 85.0,
               width: 85.0,
               child: FloatingActionButton(
-                elevation: 10,
-                child: Container(
-                    height: 85.0,
-                    width: 85.0,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: RadialGradient(
-                            colors: isStarted
-                                ? [
-                                    Color.fromRGBO(252, 216, 88, 1),
-                                    Colors.black
-                                  ]
-                                : [
-                                    Color.fromRGBO(139, 239, 123, 1),
-                                    Colors.black
-                                  ],
-                            stops: [0.44, 1],
-                            radius: 1)),
-                    child: isStarted
-                        ? Icon(Icons.pause_outlined, size: 50)
-                        : Icon(Icons.play_arrow_outlined, size: 50)),
-                onPressed: () {
-                  setState(() {
+                  elevation: 10,
+                  child: Container(
+                      height: 85.0,
+                      width: 85.0,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: RadialGradient(
+                              colors: isStarted
+                                  ? [
+                                      Color.fromRGBO(252, 216, 88, 1),
+                                      Colors.black
+                                    ]
+                                  : [
+                                      Color.fromRGBO(139, 239, 123, 1),
+                                      Colors.black
+                                    ],
+                              stops: [0.44, 1],
+                              radius: 1)),
+                      child: isStarted
+                          ? Icon(Icons.pause_outlined, size: 50)
+                          : Icon(Icons.play_arrow_outlined, size: 50)),
+                  onPressed: () {
                     if (isStarted) {
                       _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-                      isStarted = !isStarted;
+                      timer.cancel();
+                      pausedRoute = !pausedRoute;
                     } else {
                       _stopWatchTimer.onExecute.add(StopWatchExecute.start);
                       isStarted = !isStarted;
+                      LatLng firstPos =
+                          LatLng(locationData.latitude, locationData.longitude);
+                      routeCoords.add(firstPos);
+                      startRoute();
                     }
-                  });
-                },
-              ),
-            ),
+                  })),
       bottomNavigationBar: locationData == null
           ? Center(
               child: CircularProgressIndicator(
@@ -261,16 +365,20 @@ class MapSampleState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                             Container(
-                                child: Text("Dist",
+                                child: Text((totalDistance / 1000).toString(),
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold)),
                                 width: 40,
                                 height: 30),
                             Container(
-                                child: Text("Pause",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
-                                width: 40,
+                                child: pausedRoute
+                                    ? Text("Paused",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold))
+                                    : Text('Pause',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                width: 45,
                                 height: 30),
                             Container(
                                 child: StreamBuilder<int>(
