@@ -190,7 +190,9 @@ class _FireScreenState extends State<FireScreen> {
                     )
                   ],
                 ),
-                Text('or'),
+                Text('or',
+                    style:
+                        TextStyle(fontWeight: FontWeight.w500, fontSize: 17)),
                 SizedBox(height: 10),
                 Container(
                     alignment: Alignment.center,
