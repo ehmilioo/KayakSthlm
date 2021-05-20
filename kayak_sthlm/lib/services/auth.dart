@@ -11,17 +11,6 @@ class AuthService {
   String _gender = '';
   String _age = '';
 
-  //Tappert försök till att kunna hämta den skapade profilen
-  User getUser(){
-    return FirebaseAuth.instance.currentUser;
-  }
-
-
-  //Kolla ifall det funkar, måste även ta bort all info från user tabell GDPR skit..
-  void deleteAccount(uid){
-    FirebaseAuth.instance.currentUser.delete();
-  }
-
   //Skapa ett objekt för användare
   TheUser _userFromFirebase(User user){
     return user != null ? 
