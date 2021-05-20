@@ -153,7 +153,7 @@ class SettingsPage extends State<Settings> {
                             showDialog(
                                 context: context,
                                 builder: (_) => DeleteDialog()).then((value) {
-                              if (AuthService().getUser() == null) {
+                              if (AuthService().user == null) {
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
