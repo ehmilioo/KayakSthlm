@@ -2,6 +2,9 @@ import 'dart:typed_data';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:kayak_sthlm/dialogs/EventsInfo_dialog.dart';
+import 'package:kayak_sthlm/dialogs/RoutesInfo_dialog.dart';
+import 'package:kayak_sthlm/dialogs/eventsInfo_dialog.dart';
 import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 import 'package:kayak_sthlm/screens/info/information.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
@@ -257,58 +260,118 @@ class MapSampleState extends State<Home> {
                     shape: CircleBorder(),
                   ))),
           Positioned(
-            bottom: 20,
-            left: 100,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+              bottom: 7,
+              left: 100,
               child: pausedRoute
-                  ? RawMaterialButton(
-                      onPressed: () {
-                        pausedRoute = !pausedRoute;
-                        _stopWatchTimer.onExecute.add(StopWatchExecute.start);
-                        startRoute();
-                      },
-                      elevation: 5.0,
-                      fillColor: Colors.green[200],
-                      child: Icon(
-                        Icons.play_arrow,
-                        size: 35.0,
-                      ),
-                      padding: EdgeInsets.all(10.0),
-                      shape: CircleBorder(),
+                  ? Column(
+                      children: [
+                        Container(
+                            height: 69.0,
+                            width: 69.0,
+                            child: FloatingActionButton(
+                              elevation: 10,
+                              child: Container(
+                                  height: 69.0,
+                                  width: 69.0,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      gradient: RadialGradient(colors: [
+                                        Color.fromRGBO(139, 239, 123, 1),
+                                        Colors.black
+                                      ], stops: [
+                                        0.44,
+                                        1
+                                      ], radius: 1)),
+                                  child: Icon(Icons.play_arrow_outlined,
+                                      size: 50)),
+                              onPressed: () {
+                                pausedRoute = !pausedRoute;
+                                _stopWatchTimer.onExecute
+                                    .add(StopWatchExecute.start);
+                                startRoute();
+                              },
+                            )),
+                        SizedBox(height: 4),
+                        Container(
+                            width: 79,
+                            height: 22,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 1.0,
+                                    offset: Offset(1, 1))
+                              ],
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: Colors.white,
+                            ),
+                            child: Text('RESUME',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400))),
+                      ],
                     )
-                  : null,
-            ),
-          ),
+                  : Container(height: 0, width: 0)),
           Positioned(
-            bottom: 20,
-            right: 100,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+              bottom: 7,
+              right: 100,
               child: pausedRoute
-                  ? RawMaterialButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (_) => SaveRoute(
-                              routeList: routeCoords,
-                              distance: totalDistance,
-                              time: StopWatchTimer.getDisplayTimeSecond(
-                                  _stopWatchTimer.rawTime.valueWrapper?.value)),
-                        );
-                      },
-                      elevation: 5.0,
-                      fillColor: Colors.red[400],
-                      child: Icon(
-                        Icons.stop_rounded,
-                        size: 35.0,
-                      ),
-                      padding: EdgeInsets.all(10.0),
-                      shape: CircleBorder(),
+                  ? Column(
+                      children: [
+                        Container(
+                            height: 69.0,
+                            width: 69.0,
+                            child: FloatingActionButton(
+                                elevation: 10,
+                                child: Container(
+                                    height: 69.0,
+                                    width: 69.0,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        gradient: RadialGradient(colors: [
+                                          Color.fromRGBO(248, 122, 130, 1),
+                                          Colors.black
+                                        ], stops: [
+                                          0.44,
+                                          1
+                                        ], radius: 1)),
+                                    child: Icon(Icons.stop_outlined, size: 50)),
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) => SaveRoute(
+                                          routeList: routeCoords,
+                                          distance: totalDistance,
+                                          time: StopWatchTimer
+                                              .getDisplayTimeSecond(
+                                                  _stopWatchTimer.rawTime
+                                                      .valueWrapper?.value)));
+                                })),
+                        SizedBox(height: 4),
+                        Container(
+                            width: 79,
+                            height: 22,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 1.0,
+                                    offset: Offset(1, 1))
+                              ],
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: Colors.white,
+                            ),
+                            child: Text('STOP',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400))),
+                      ],
                     )
-                  : null,
-            ),
-          ),
+                  : Container(height: 0, width: 0)),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -392,8 +455,8 @@ class MapSampleState extends State<Home> {
                                                 child: Text(
                                               displayTime,
                                               style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold),
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.w700),
                                             ));
                                           }),
                                       width: 80,
@@ -431,8 +494,8 @@ class MapSampleState extends State<Home> {
                                       child: Text(
                                           (totalDistance / 1000).toString(),
                                           style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold)),
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.w700)),
                                       width: 40,
                                       height: 30),
                                 ],
@@ -445,11 +508,18 @@ class MapSampleState extends State<Home> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           IconButton(
-                              padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
-                              // Navigationsknapp 1: Routes
-                              icon: Icon(Icons.place_outlined),
-                              iconSize: 30,
-                              onPressed: () {}),
+                            padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
+                            // Navigationsknapp 1: Routes
+                            icon: Icon(Icons.place_outlined),
+                            iconSize: 30,
+                            onPressed: () {
+                              Navigator.of(context).push(PageRouteBuilder(
+                                  pageBuilder: (context, _, __) =>
+                                      RoutesInfoDialog(),
+                                  opaque: false,
+                                  barrierColor: Colors.black.withOpacity(0.2)));
+                            },
+                          ),
 
                           IconButton(
                             padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
@@ -499,4 +569,21 @@ class MapSampleState extends State<Home> {
             ),
     );
   }
+
+// List <Dialog> dialogs = <Dialog> [
+//     RoutesInfoDialog(),
+//     RoutesInfoDialog(),
+//   ];
+
+//   void recursiveShowDialog(int index) async {
+//     if (index == 4) {
+//         return;
+//     }
+//     await showDialog(
+//       barrierDismissible: false,
+//                                         context: context,
+//                                         builder: (_) => dialogs[index]
+//     );
+//     recursiveShowDialog(index + 1);
+// }
 }

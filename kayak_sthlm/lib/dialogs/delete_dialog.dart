@@ -124,6 +124,7 @@ class DeleteOverlayState extends State<DeleteDialog> {
                           onPressed: () {
                             deleteUser();
                             showDialog(
+                                barrierDismissible: false,
                                 context: context,
                                 builder: (_) => DeleteOkDialog()).then((value) {
                               Navigator.of(context).pop();
