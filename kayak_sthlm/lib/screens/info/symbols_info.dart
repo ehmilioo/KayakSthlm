@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'information.dart';
@@ -16,6 +18,7 @@ class SymbolsScreen extends StatelessWidget {
           padding: EdgeInsets.all(5),
           margin: EdgeInsets.all(5),
           decoration: BoxDecoration(
+            color: Colors.transparent,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: Colors.blueAccent,
@@ -62,6 +65,7 @@ class SymbolsScreen extends StatelessWidget {
           padding: EdgeInsets.all(5),
           margin: EdgeInsets.all(5),
           decoration: BoxDecoration(
+            color: Colors.transparent,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: Colors.blueAccent,
