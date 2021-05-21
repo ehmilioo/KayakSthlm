@@ -2,9 +2,9 @@ import 'dart:collection';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:kayak_sthlm/screens/info/reserve.dart';
 import 'information.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 
 class WildlifePreserves extends StatelessWidget {
   @override
@@ -49,7 +49,12 @@ class MapSampleState extends State<MapSample> {
     polygonLatLngs.add(sthlmNE);
     polygonLatLngs.add(sthlmSW);
     polygonLatLngs.add(extraCorner);
-    var rpa = RPA('Skogås','Ett vackert naturreservat! /n Notes:  /n Protected since: ', 60.380987, 19.644660, polygonLatLngs);
+    var rpa = RPA(
+        'Skogås',
+        'Ett vackert naturreservat! /n Notes:  /n Protected since: ',
+        60.380987,
+        19.644660,
+        polygonLatLngs);
     rpas.add(rpa);
     _setPolygon(rpa);
     LatLng point1 = LatLng(61, 19);
@@ -66,31 +71,33 @@ class MapSampleState extends State<MapSample> {
     polygonLatLngs1.add(point5);
     polygonLatLngs1.add(point6);
     polygonLatLngs1.add(point7);
-    var rpa1 = RPA('Alingssås','Ett vackert naturreservat! /n Notes:  /n Protected since: ', 67, 18, polygonLatLngs1);
+    var rpa1 = RPA(
+        'Alingssås',
+        'Ett vackert naturreservat! /n Notes:  /n Protected since: ',
+        67,
+        18,
+        polygonLatLngs1);
     rpas.add(rpa1);
     _setPolygon(rpa1);
   }
 
   void _setPolygon(RPA rpa) {
     //var rpa = RPA('Skogås','Ett vackert naturreservat! /n Notes:  /n Protected since: ', 60.380987, 19.644660);
-      final String polygonIdVal = 'polygon_id_$rpa.id';
-      _polygons.add(Polygon(
-        polygonId: PolygonId(polygonIdVal),
-        points: rpa.polygonLatLngs,
-        strokeWidth: 2,
-        strokeColor: Colors.red,
-        fillColor: Colors.redAccent.withOpacity(0.15),
-      ));
-    _markers.add(
-      Marker(
-          markerId: MarkerId(rpa.id),
-          position: LatLng(rpa.lat, rpa.long),
-          infoWindow: InfoWindow(
-              title: rpa.id,
-            snippet: rpa.information,
-          )
-      )
-    );
+    final String polygonIdVal = 'polygon_id_$rpa.id';
+    _polygons.add(Polygon(
+      polygonId: PolygonId(polygonIdVal),
+      points: rpa.polygonLatLngs,
+      strokeWidth: 2,
+      strokeColor: Colors.red,
+      fillColor: Colors.redAccent.withOpacity(0.15),
+    ));
+    _markers.add(Marker(
+        markerId: MarkerId(rpa.id),
+        position: LatLng(rpa.lat, rpa.long),
+        infoWindow: InfoWindow(
+          title: rpa.id,
+          snippet: rpa.information,
+        )));
   }
 
   static final CameraPosition _startPosition = CameraPosition(
@@ -100,58 +107,104 @@ class MapSampleState extends State<MapSample> {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-          child: Column(
-        children: <Widget>[
-            AppBar(
-              title: Text('Wildlife Preserves'),
-      ),
-             SizedBox(
-               width: MediaQuery.of(context).size.width, // or use fixed size like 200
-               height: 500,
-                 child: GoogleMap(
-              zoomControlsEnabled: true,
-              mapToolbarEnabled: false,
-              compassEnabled: false,
-              initialCameraPosition: _startPosition,
-              mapType: MapType.hybrid,
-              markers: Set<Marker>.of(_markers),
-              polygons: _polygons,
-        cameraTargetBounds: new CameraTargetBounds(
-        new LatLngBounds(
-        northeast: sthlmNE,
-        southwest: sthlmSW,
+    return new Scaffold(
+      body: Stack(children: <Widget>[
+        GoogleMap(
+          zoomControlsEnabled: false,
+          mapToolbarEnabled: false,
+          compassEnabled: false,
+          initialCameraPosition: _startPosition,
+          mapType: MapType.hybrid,
+          markers: Set<Marker>.of(_markers),
+          polygons: _polygons,
+          cameraTargetBounds: new CameraTargetBounds(
+            new LatLngBounds(
+              northeast: sthlmNE,
+              southwest: sthlmSW,
             ),
           ),
         ),
+        Positioned(
+          top: 40,
+          child: Row(
+            children: [
+              SizedBox(width: 20),
+              Container(
+                  width: 54,
+                  height: 54,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 3.0,
+                          offset: Offset(2.0, 3))
+                    ],
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Colors.white,
+                  ),
+                  child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios_rounded,
+                        size: 30,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => InformationScreen()));
+                      })),
+              SizedBox(width: 20),
+              Container(
+                width: 260,
+                height: 54,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 3.0,
+                        offset: Offset(2.0, 3))
+                  ],
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white,
+                ),
+                child: Text('Wildlife Preserves',
+                    style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontSize: 30,
+                    )),
+              ),
+            ],
+          ),
         ),
-        Align(
-          alignment: FractionalOffset.bottomCenter,
+        Positioned(
+          bottom: 10,
+          right: 10,
           child: ElevatedButton(
-            child: Text('Rules'),
+            style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)))),
+            child: Text('Rules',
+                style: TextStyle(
+                    fontSize: 35,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black)),
             onPressed: () {
-              Navigator.pushReplacement(
+              Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => ReserveRulesScreen()));
             },
           ),
         ),
-          ElevatedButton(
-            child: Text('Back'),
-            onPressed: () {
-              Navigator.pushReplacement(context,
-                  //ändra till informationScreen
-                  MaterialPageRoute(builder: (context) => InformationScreen()));
-            },
-          ),
-     ]),
+      ]),
     );
   }
 }
 
 class RPA {
-
   // ignore: deprecated_member_use
   List<LatLng> polygonLatLngs = List<LatLng>();
   String id;
@@ -166,8 +219,7 @@ class RPA {
   bool operator ==(o) => o is RPA && o.id == id && o.information == information;
 
   @override
-  int get hashCode => id.hashCode*information.hashCode+1;
-
+  int get hashCode => id.hashCode * information.hashCode + 1;
 }
 
 class ReserveRulesScreen extends StatelessWidget {
@@ -179,40 +231,55 @@ class ReserveRulesScreen extends StatelessWidget {
       ),
       body: Center(
           child: ListView(
-            children: <Widget>[
-              Text("Avoid plants and trees. You are not allowed to pick up protected plants; such as orchids." + "\n",
-                  style: TextStyle(fontSize: 20)),
-              Text("Avoid bird nests and their children. Do not hurt or pick up snakes, reptiles and frogs nor other animals." + "\n",
-                  style: TextStyle(fontSize: 20)),
-              Text("Avoid bird and seal sanctuaries when access to those areas is prohibited." + "\n",
-                  style: TextStyle(fontSize: 20)),
-              Text("Your dog needs to be tethered at all time when in nature." + "\n",
-                  style: TextStyle(fontSize: 20)),
-              Text("Do not start a fire. It is also forbidden to put disposable grills in the garbage due to the fire risk!" + "\n",
-                  style: TextStyle(fontSize: 20)),
-              Text("In Sweden there is a right, allemansrätten, or in english 'right of public access', that says you are allowed to spend time in nature, even when it belongs to landowners, however, you do need to be responsible and not disturb anyone while doing so. \n",
-                  style: TextStyle(fontSize: 20)),
-              RichText(
-                text: new TextSpan(
-                  children: [
-                    new TextSpan(
-                      text: 'For more information, please see Naturvårdsverket site.',
-                      style: new TextStyle(color: Colors.blue),
-                      recognizer: new TapGestureRecognizer()..onTap = () { launch('https://www.naturvardsverket.se/Var-natur/Allemansratten/Det-har-galler/');
-                      },
-                    ),
-                  ],
+        children: <Widget>[
+          Text(
+              "Avoid plants and trees. You are not allowed to pick up protected plants; such as orchids." +
+                  "\n",
+              style: TextStyle(fontSize: 20)),
+          Text(
+              "Avoid bird nests and their children. Do not hurt or pick up snakes, reptiles and frogs nor other animals." +
+                  "\n",
+              style: TextStyle(fontSize: 20)),
+          Text(
+              "Avoid bird and seal sanctuaries when access to those areas is prohibited." +
+                  "\n",
+              style: TextStyle(fontSize: 20)),
+          Text(
+              "Your dog needs to be tethered at all time when in nature." +
+                  "\n",
+              style: TextStyle(fontSize: 20)),
+          Text(
+              "Do not start a fire. It is also forbidden to put disposable grills in the garbage due to the fire risk!" +
+                  "\n",
+              style: TextStyle(fontSize: 20)),
+          Text(
+              "In Sweden there is a right, allemansrätten, or in english 'right of public access', that says you are allowed to spend time in nature, even when it belongs to landowners, however, you do need to be responsible and not disturb anyone while doing so. \n",
+              style: TextStyle(fontSize: 20)),
+          RichText(
+            text: new TextSpan(
+              children: [
+                new TextSpan(
+                  text:
+                      'For more information, please see Naturvårdsverket site.',
+                  style: new TextStyle(color: Colors.blue),
+                  recognizer: new TapGestureRecognizer()
+                    ..onTap = () {
+                      launch(
+                          'https://www.naturvardsverket.se/Var-natur/Allemansratten/Det-har-galler/');
+                    },
                 ),
-              ),
-              ElevatedButton(
-                child: Text('Back'),
-                onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => WildlifePreserves()));
-                },
-              ),
-            ],
-          )),
+              ],
+            ),
+          ),
+          ElevatedButton(
+            child: Text('Back'),
+            onPressed: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => WildlifePreserves()));
+            },
+          ),
+        ],
+      )),
     );
   }
 }

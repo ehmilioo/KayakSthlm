@@ -4,6 +4,7 @@ import 'package:kayak_sthlm/screens/authenticate/register.dart';
 import 'package:kayak_sthlm/screens/home/home.dart';
 import 'package:kayak_sthlm/screens/info/fire_screen.dart';
 import 'package:kayak_sthlm/screens/info/guides.dart';
+import 'package:kayak_sthlm/screens/info/mapForReserves.dart';
 import 'package:kayak_sthlm/screens/info/reserve.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:kayak_sthlm/services/auth.dart';
@@ -114,7 +115,7 @@ class InformationScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ReserveScreen()));
+                                builder: (context) => WildlifePreserves()));
                       },
                     ),
                   ),
