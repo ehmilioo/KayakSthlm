@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kayak_sthlm/dialogs/reauth_dialog.dart';
-
+import 'package:kayak_sthlm/dialogs/confirmation_dialog.dart';
 
 class DeleteUser extends StatefulWidget {
   @override
@@ -53,7 +53,12 @@ class _DeleteUser extends State<DeleteUser> {
                           builder: (_) => AuthDialog(),
                         ).then((val) =>{
                           deleteUser(),
-                          Navigator.of(context).popUntil((route) => route.isFirst)
+                          showDialog(
+                            context: this.context,
+                            builder: (_) => Confirmation(message: 'Your account has been deleted', color: false)
+                          ).then((val) =>{
+                            Navigator.of(context).popUntil((route) => route.isFirst)
+                          })
                         });
                         
                       },

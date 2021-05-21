@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kayak_sthlm/dialogs/reauth_dialog.dart';
-
+import 'package:kayak_sthlm/dialogs/confirmation_dialog.dart';
 
 class ChangePass extends StatefulWidget {
   @override
@@ -99,6 +99,10 @@ class _ChangePass extends State<ChangePass> {
                             builder: (_) => AuthDialog(),
                           ).then((val) =>{
                             updatePassword(newPassword),
+                            showDialog(
+                            context: this.context,
+                            builder: (_) => Confirmation(message: 'Password changed successfully', color: true)
+                            ),
                             Navigator.pop(context)
                           });
                         }else{

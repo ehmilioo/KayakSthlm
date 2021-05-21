@@ -3,13 +3,15 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'package:kayak_sthlm/dialogs/save_route_dialog.dart';
+import 'package:kayak_sthlm/dialogs/filters_dialog.dart';
+import 'package:kayak_sthlm/dialogs/confirmation_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
-import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:kayak_sthlm/models/pins.dart';
 
 class Home extends StatefulWidget {
@@ -67,18 +69,39 @@ class MapSampleState extends State<Home> {
     return byteData.buffer.asUint8List();
   }
 
-  void loadMarkers() async{
-    Pins _pins = Pins(latitude: locationData.latitude, longitude: locationData.longitude);
-    pinList = await _pins.fetchAllPins();
+  void learnMath(){
+    int result = 5+5;
+    print(result);
+  }
 
-    for(var i=0; i<pinList.length-1; i++){ //Sista objektet är information därav minus en
-      MarkerId markerId = MarkerId(pinList[i]['place_id']);
-      LatLng pinLocation = LatLng(pinList[i]['geometry']['location']['lat'],pinList[i]['geometry']['location']['lng']);
-      String color = pinList[i]['color'];
+
+  void loadMarkersOfType(String type){
+    for(var i=0; i<pinList.length; i++){
+      print(pinList[i]['type']);
+      if(pinList[i]['type'] == type){
+        createMarker(pinList[i]);
+      }
+    }
+  }
+
+  void loadAllMarkers(bool firstFetch) async{
+    if(firstFetch){
+      Pins _pins = Pins(latitude: locationData.latitude, longitude: locationData.longitude);
+      pinList = await _pins.fetchAllPins();
+    }
+    for(var i=0; i<pinList.length; i++){
+      createMarker(pinList[i]);
+    }
+  }
+
+  void createMarker(Map<String, dynamic> item){
+    MarkerId markerId = MarkerId(item['place_id']);
+      LatLng pinLocation = LatLng(item['geometry']['location']['lat'], item['geometry']['location']['lng']);
+      String color = item['color'];
       Marker marker = Marker(
         markerId: markerId,
         position: pinLocation,
-        infoWindow: InfoWindow(title: pinList[i]['name'], snippet: pinList[i]['vicinity']),
+        infoWindow: InfoWindow(title: item['name'], snippet: item['vicinity']),
         draggable: false,
         onTap: () {
           _controller.animateCamera(CameraUpdate.newCameraPosition(
@@ -94,9 +117,29 @@ class MapSampleState extends State<Home> {
       setState(() {
         markers[markerId] = marker;
       });
+  } 
+
+  void toggleAllPins(bool toggled){
+    if(toggled){
+      setState(() {
+        markers = {};
+      });
+    }else{
+      loadAllMarkers(false);
     }
   }
 
+  void togglePins(bool toggled, String pinType){
+    if(toggled){
+      loadMarkersOfType(pinType);
+    }else{
+      for(int i = 0; i < pinList.length; i++){
+        if(pinList[i]['type'] == pinType){
+          markers.remove(MarkerId(pinList[i]['place_id']));
+        }
+      }
+    }
+  }
 
   void updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData) async {
     LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
@@ -188,6 +231,16 @@ class MapSampleState extends State<Home> {
     });
   }
 
+  void finishRoute(){
+    isStarted = !isStarted;
+    pausedRoute = !pausedRoute;
+    _polyline.clear();
+    routeCoords.clear();
+    _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+    totalDistance = 0;
+    print('Cleared cache');
+  }
+
   @override
   Widget build(BuildContext context) {
     getCurrentLocation();
@@ -200,7 +253,8 @@ class MapSampleState extends State<Home> {
             )
             
           : Stack(
-              children: <Widget>[            
+              children: <Widget>[ 
+
                 GoogleMap(
                   mapType: MapType.hybrid,
                   zoomControlsEnabled: false,
@@ -214,7 +268,7 @@ class MapSampleState extends State<Home> {
                   markers: Set<Marker>.of(markers.values),        //Set.of((marker != null) ? [marker] : []),
                   circles: Set.of((circle != null) ? [circle] : []),
                   onMapCreated: (GoogleMapController controller) {
-                    loadMarkers();
+                    loadAllMarkers(true);
                     _controller = controller;
                     _controller.animateCamera(CameraUpdate.newCameraPosition(
                         new CameraPosition(
@@ -261,11 +315,18 @@ class MapSampleState extends State<Home> {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: pausedRoute ? RawMaterialButton(
-                        onPressed: () {
-                          showDialog(
-                          context: context,
+                        onPressed: () async{
+                          bool savedRoute = await showDialog(
+                          context: this.context,
                           builder: (_) => SaveRoute(routeList: routeCoords , distance: totalDistance , time: StopWatchTimer.getDisplayTimeSecond(_stopWatchTimer.rawTime.valueWrapper?.value)),
                         );
+                        if(savedRoute){
+                          finishRoute();
+                          showDialog(
+                            context: this.context,
+                            builder: (_) => Confirmation(message: 'Your route has been saved', color: true)
+                          );
+                        }
                         },
                         elevation: 5.0,
                         fillColor: Colors.red[400],
@@ -323,6 +384,30 @@ class MapSampleState extends State<Home> {
                       fillColor: Colors.white,
                       child: Icon(
                         Icons.location_searching,
+                        size: 35.0,
+                      ),
+                      padding: EdgeInsets.all(10.0),
+                      shape: CircleBorder(),
+                    ),
+                  ),
+                ),
+
+                Positioned(
+                  top: 40,
+                  right: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: RawMaterialButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => Filters(togglePins: togglePins, toggleAllPins: toggleAllPins),
+                        );
+                      },
+                      elevation: 5.0,
+                      fillColor: Colors.white,
+                      child: Icon(
+                        Icons.filter_alt_outlined,
                         size: 35.0,
                       ),
                       padding: EdgeInsets.all(10.0),

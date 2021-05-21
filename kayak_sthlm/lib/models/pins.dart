@@ -14,7 +14,7 @@ class Pins {
   });
 
   var rentalInfo = {
-    'type': 'rental',
+    'type': 'kayak',
     'color': 'pink',
   };
 
@@ -23,26 +23,16 @@ class Pins {
     'color': 'orange',
   };
 
-  var toiletInfo = {
-    'type': 'toilet',
-    'color': 'yellow',
-  };
-
   var restplaceInfo = {
     'type': 'restplace',
-    'color': 'green',
+    'color': 'yellow',
   };
 
 
   Future<List<dynamic>> fetchAllPins() async{ 
     await getPins('hyra kajak', rentalInfo);
-    print('Created rental pins');
     await getPins('archipelago restaurant', restaurantInfo);
-    print('Created restaurant pins');
-    await getPins('archipelago camping', toiletInfo);
-    print('Created toilet pins');
-    await getPins('rastplats', restplaceInfo);
-    print('Created restingplace pins');
+    await getPins('archipelago camping', restplaceInfo);
     return finalList;
   }
 
@@ -51,10 +41,9 @@ class Pins {
     String _url = 'maps.googleapis.com';
     Map<String, String> _parameters = {
       'key': 'AIzaSyAQB7qDxdH_-5bpTA6IvQjlPru7fkOPqQY',
-      'radius': '20000',
+      'radius': '15000',
       'keyword': keywords,
-      'location': '59.470639624876476,18.687431327998638',
-      //'location': '${this.latitude},${this.longitude}',
+      'location': '${this.latitude},${this.longitude}',
       'language': 'sv',
 
     };

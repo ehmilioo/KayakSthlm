@@ -129,7 +129,7 @@ class _SaveRoute extends State<SaveRoute> {
                           }catch(e){
                             print(e);
                           }
-                          Navigator.pop(context);
+                          Navigator.pop(context, true);
                         }
                         ),
                     ),
@@ -153,9 +153,9 @@ class _SaveRoute extends State<SaveRoute> {
                         ),
                         child: Text('Cancel'),
                         onPressed: () async {
-                          Navigator.pop(context);
+                          Navigator.pop(context, false);
                         }
-                        ),
+                      ),
                     ),
                   ],
                 ),

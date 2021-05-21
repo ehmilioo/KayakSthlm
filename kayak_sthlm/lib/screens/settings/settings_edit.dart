@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kayak_sthlm/services/database.dart';
+import 'package:kayak_sthlm/dialogs/confirmation_dialog.dart';
 import 'package:kayak_sthlm/screens/home/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -19,34 +20,6 @@ class _SettingsEdit extends State<SettingsEdit> {
   @override
   void initState() {
     super.initState();
-  }
-
-
-  showAlertDialog(BuildContext context) {
-    // set up the button
-    Widget okButton = FlatButton(
-      child: Text("Go back!"),
-      onPressed: () {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-          return Home();
-        }));
-      },
-    );
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Saved"),
-      content: Text("Saved user changes successfully."),
-      actions: [
-        okButton,
-      ],
-    );
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 
   var selectedExperienceLevel = '';
@@ -307,7 +280,12 @@ class _SettingsEdit extends State<SettingsEdit> {
                       onPressed: (){
                         _editMode ? db.updateUser(newUsername, age, selectedExperienceLevel, selectedGender): null; //Error handla detta
                         _editMode = false;
-                        showAlertDialog(context);
+                        showDialog(
+                            context: this.context,
+                            builder: (_) => Confirmation(message: 'All changes saved successfully', color: true)
+                        ).then((val) =>{
+                          Navigator.pop(context),
+                        });
                       }
                     ),
                     ],
