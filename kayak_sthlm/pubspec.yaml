@@ -18,7 +18,8 @@ dependencies:
   http: 
   geolocator: ^7.0.3
   google_maps_flutter:
-  location: ^2.3.5
+  location:
+  url_launcher:
 
   
 dev_dependencies:
@@ -44,9 +45,3 @@ flutter:
    - assets/images/mapNatureReserves.png
    - assets/images/seal.png
    - assets/images/bird.png
-
-
-  assets:
-    - assets/images/birdProtectionArea.jpg
-    - assets/images/sealProtectionArea.png
-    - assets/images/mapNatureReserves.png

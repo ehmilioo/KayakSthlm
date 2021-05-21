@@ -20,16 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1476fab6-59af-40fe-aeaf-a49f811b7866" name="Default Changelist" comment="Karta implementerad, gamla Reserves som inte används är borttagen.">
-      <change afterPath="$PROJECT_DIR$/kayak_sthlm/temp/birdProtectionArea.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kayak_sthlm/temp/mapNatureReserves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kayak_sthlm/temp/sealProtectionArea.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kayak_sthlm/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kayak_sthlm/fonts/AppIcons.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/assets/fonts/AppIcons.ttf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kayak_sthlm/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/ios/Runner/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/fire_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/fire_info.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/fire_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/fire_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/symbols_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/symbols_info.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/mapForReserves.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/mapForReserves.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kayak_sthlm/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kayak_sthlm/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/pubspec.yaml" afterDir="false" />
     </list>
@@ -38,7 +32,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Pixel_XL_API_30]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -63,7 +57,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/kayak_sthlm/lib/services" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="dart.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
@@ -188,10 +182,10 @@
     </state>
     <state x="108" y="146" width="1060" height="438" key="AVDManager/0.0.1280.680@0.0.1280.680" timestamp="1621504285111" />
     <state x="162" y="232" width="1590" height="696" key="AVDManager/1920.0.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1619641361548" />
-    <state x="412" y="95" key="FileChooserDialogImpl" timestamp="1619518469368">
+    <state x="412" y="95" key="FileChooserDialogImpl" timestamp="1621582083058">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="412" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1619518469368" />
+    <state x="412" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1621582083058" />
     <state width="1236" height="2" key="GridCell.Tab.0.bottom" timestamp="1621581944660">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

@@ -17,10 +17,7 @@ class Kommuner {
 Future<FireInfo> fetchFireInfo(String lat, String long) async {
 
   try {
-    var response = await http.get(Uri.https(
-        'api.msb.se', ('/brandrisk/v2/FireProhibition/' + lat + '/' + long)));
-
-  var response = await http
+    var response = await http
       .get(Uri.https(
           'api.msb.se', ('/brandrisk/v2/FireProhibition/' + lat + '/' + long)))
       .catchError((e) {
