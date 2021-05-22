@@ -85,6 +85,9 @@ class MapSampleState extends State<MapSample> {
       Marker(
           markerId: MarkerId(rpa.id),
           position: LatLng(rpa.lat, rpa.long),
+          onTap: () {
+
+          },
           infoWindow: InfoWindow(
               title: rpa.id,
             snippet: rpa.information,
@@ -130,7 +133,7 @@ class MapSampleState extends State<MapSample> {
           child: ElevatedButton(
             child: Text('Rules'),
             onPressed: () {
-              Navigator.pushReplacement(
+              Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => ReserveRulesScreen()));
@@ -140,9 +143,7 @@ class MapSampleState extends State<MapSample> {
           ElevatedButton(
             child: Text('Back'),
             onPressed: () {
-              Navigator.pushReplacement(context,
-                  //ändra till informationScreen
-                  MaterialPageRoute(builder: (context) => InformationScreen()));
+              Navigator.pop(context);
             },
           ),
      ]),

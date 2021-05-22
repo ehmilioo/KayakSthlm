@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -22,10 +25,7 @@
     <list default="true" id="1476fab6-59af-40fe-aeaf-a49f811b7866" name="Default Changelist" comment="Karta implementerad, gamla Reserves som inte används är borttagen.">
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/fire_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/fire_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/mapForReserves.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/info/mapForReserves.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kayak_sthlm/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kayak_sthlm/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,25 +186,25 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="412" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1621582083058" />
-    <state width="1236" height="2" key="GridCell.Tab.0.bottom" timestamp="1621581944660">
+    <state width="1236" height="2" key="GridCell.Tab.0.bottom" timestamp="1621618793823">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1236" height="2" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1621581944660" />
+    <state width="1236" height="2" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1621618793823" />
     <state width="1877" height="295" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1619641361435" />
-    <state width="1236" height="2" key="GridCell.Tab.0.center" timestamp="1621581944659">
+    <state width="1236" height="2" key="GridCell.Tab.0.center" timestamp="1621618793823">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1236" height="2" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1621581944659" />
+    <state width="1236" height="2" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1621618793823" />
     <state width="1877" height="295" key="GridCell.Tab.0.center/1920.0.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1619641361435" />
-    <state width="1236" height="2" key="GridCell.Tab.0.left" timestamp="1621581944659">
+    <state width="1236" height="2" key="GridCell.Tab.0.left" timestamp="1621618793822">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1236" height="2" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1621581944659" />
+    <state width="1236" height="2" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1621618793822" />
     <state width="1877" height="295" key="GridCell.Tab.0.left/1920.0.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1619641361435" />
-    <state width="1236" height="2" key="GridCell.Tab.0.right" timestamp="1621581944660">
+    <state width="1236" height="2" key="GridCell.Tab.0.right" timestamp="1621618793823">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1236" height="2" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1621581944660" />
+    <state width="1236" height="2" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1621618793823" />
     <state width="1877" height="295" key="GridCell.Tab.0.right/1920.0.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1619641361435" />
     <state x="158" y="74" key="MergeDialog" timestamp="1620304189982">
       <screen x="0" y="0" width="1280" height="680" />
