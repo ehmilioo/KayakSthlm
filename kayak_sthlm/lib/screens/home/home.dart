@@ -409,7 +409,7 @@ class MapSampleState extends State<Home> {
                       pausedRoute = !pausedRoute;
                     } else {
                       _stopWatchTimer.onExecute.add(StopWatchExecute.start);
-                      isStarted = !isStarted;
+                      isStarted = false;
                       LatLng firstPos =
                           LatLng(locationData.latitude, locationData.longitude);
                       routeCoords.add(firstPos);
