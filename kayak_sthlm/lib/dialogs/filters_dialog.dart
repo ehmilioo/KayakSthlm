@@ -131,7 +131,7 @@ class _Filters extends State<Filters> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('My Pins',
+                            Text('Custom Pins',
                                 style: styleConfig, textAlign: TextAlign.left),
                             Transform.scale(
                               scale: 0.8,

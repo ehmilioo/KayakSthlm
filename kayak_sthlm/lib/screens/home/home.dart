@@ -11,6 +11,7 @@ import 'package:kayak_sthlm/dialogs/save_route_dialog.dart';
 import 'package:kayak_sthlm/dialogs/filters_dialog.dart';
 import 'package:kayak_sthlm/dialogs/confirmation_dialog.dart';
 import 'package:kayak_sthlm/dialogs/custompin_dialog.dart';
+import 'package:kayak_sthlm/dialogs/pininfo_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:kayak_sthlm/models/pins.dart';
@@ -80,27 +81,73 @@ class MapSampleState extends State<Home> {
     return byteData.buffer.asUint8List();
   }
 
-  void loadMarkersOfType(String type) {
+  Future<void> fetchList() async {
+    Pins _pins = Pins(
+        latitude: locationData.latitude, longitude: locationData.longitude);
+    pinList = await _pins.fetchAllPins();
+  }
+
+  Future<void> reloadCustomPins() async {
+    pinList.clear();
+    Pins _pins = Pins(
+        latitude: locationData.latitude, longitude: locationData.longitude);
+    pinList = await _pins.reloadCustomPins();
+  }
+
+  void loadMarkersOfType(String type, bool reload) async {
+    if (reload) {
+      await reloadCustomPins();
+    }
+
     for (var i = 0; i < pinList.length; i++) {
       if (pinList[i]['type'] == type) {
-        createMarker(pinList[i]);
+        if (pinList[i]['type'] == 'mypin') {
+          createCustomMarker(pinList[i]);
+        } else {
+          createMarker(pinList[i]);
+        }
       }
     }
   }
 
   void loadAllMarkers(bool firstFetch) async {
     if (firstFetch) {
-      Pins _pins = Pins(
-          latitude: locationData.latitude, longitude: locationData.longitude);
-      pinList = await _pins.fetchAllPins();
+      await fetchList();
     }
     for (var i = 0; i < pinList.length; i++) {
-      createMarker(pinList[i]);
+      if (pinList[i]['type'] == 'mypin') {
+        createCustomMarker(pinList[i]);
+      } else {
+        createMarker(pinList[i]);
+      }
     }
   }
 
-  void createCustomMarker(LatLng customLocation) {
-    print(customLocation);
+  void createCustomMarker(Map<String, dynamic> item) {
+    MarkerId markerId = MarkerId(item['name']);
+    LatLng pinLocation = LatLng(item['lat'], item['lng']);
+    String color = item['color'];
+    Marker marker = Marker(
+      markerId: markerId,
+      position: pinLocation,
+      draggable: false,
+      onTap: () {
+        _controller.animateCamera(CameraUpdate.newCameraPosition(
+            new CameraPosition(
+                bearing: locationData.heading,
+                target: LatLng(pinLocation.latitude, pinLocation.longitude),
+                zoom: 15.00)));
+        showDialog(context: this.context, builder: (_) => PinInfo(item: item));
+      },
+      zIndex: 2,
+      icon: color == 'white'
+          ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed)
+          : BitmapDescriptor.defaultMarkerWithHue(
+              BitmapDescriptor.hueBlue), //Default color
+    );
+    setState(() {
+      markers[markerId] = marker;
+    });
   }
 
   void createMarker(Map<String, dynamic> item) {
@@ -111,7 +158,6 @@ class MapSampleState extends State<Home> {
     Marker marker = Marker(
       markerId: markerId,
       position: pinLocation,
-      infoWindow: InfoWindow(title: item['name'], snippet: item['vicinity']),
       draggable: false,
       onTap: () {
         _controller.animateCamera(CameraUpdate.newCameraPosition(
@@ -119,6 +165,7 @@ class MapSampleState extends State<Home> {
                 bearing: locationData.heading,
                 target: LatLng(pinLocation.latitude, pinLocation.longitude),
                 zoom: 15.00)));
+        showDialog(context: this.context, builder: (_) => PinInfo(item: item));
       },
       zIndex: 2,
       icon: color == 'pink'
@@ -149,11 +196,15 @@ class MapSampleState extends State<Home> {
 
   void togglePins(bool toggled, String pinType) {
     if (toggled) {
-      loadMarkersOfType(pinType);
+      loadMarkersOfType(pinType, false);
     } else {
       for (int i = 0; i < pinList.length; i++) {
         if (pinList[i]['type'] == pinType) {
-          markers.remove(MarkerId(pinList[i]['place_id']));
+          if (pinList[i]['type'] == 'mypin') {
+            markers.remove(MarkerId(pinList[i]['name']));
+          } else {
+            markers.remove(MarkerId(pinList[i]['place_id']));
+          }
         }
       }
     }
@@ -291,12 +342,10 @@ class MapSampleState extends State<Home> {
                   compassEnabled: false,
                   onLongPress: (latlang) {
                     showDialog(
-                        context: this.context,
-                        builder: (_) => CustomPinDialog(
-                            lat: latlang.latitude,
-                            lng: latlang.longitude)).then((val) => {
-                          createCustomMarker(latlang),
-                        });
+                            context: this.context,
+                            builder: (_) => CustomPinDialog(
+                                lat: latlang.latitude, lng: latlang.longitude))
+                        .then((value) => loadMarkersOfType('mypin', true));
                   },
                   initialCameraPosition: _startPosition,
                   markers: Set<Marker>.of(markers

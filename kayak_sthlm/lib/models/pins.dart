@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -40,6 +38,16 @@ class Pins {
     return finalList;
   }
 
+  Future<List<dynamic>> reloadCustomPins() async {
+    for (var i = 0; i < finalList.length; i++) {
+      if (finalList[i]['type'] == 'mypin') {
+        finalList.removeAt(i);
+      }
+    }
+    await getCustomPins(mypinInfo);
+    return finalList;
+  }
+
   Future<List<dynamic>> getPins(
       String keywords, Map<String, String> pinInfo) async {
     String _url = 'maps.googleapis.com';
@@ -62,16 +70,14 @@ class Pins {
   }
 
   Future<void> getCustomPins(Map<String, String> pinInfo) async {
-    List<DocumentSnapshot> templist;
-    Map<String, dynamic> test;
-
-    CollectionReference collectionRef =
-        FirebaseFirestore.instance.collection("pins");
-    QuerySnapshot collectionSnapshot = await collectionRef.get();
-    templist = collectionSnapshot.docs;
-
-    test = Map.fromIterable(templist, key: (e) => e.name, value: (e) => e);
-    print(test);
+    Map<String, dynamic> firestoreResult;
+    QuerySnapshot snap =
+        await FirebaseFirestore.instance.collection("pins").get();
+    snap.docs.forEach((element) {
+      firestoreResult = element.data();
+      firestoreResult.addAll(pinInfo);
+      finalList.add(firestoreResult);
+    });
   }
 
   List<dynamic> pinsToJson(
