@@ -17,6 +17,9 @@ import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:kayak_sthlm/dialogs/filters_dialog.dart';
+import 'package:kayak_sthlm/dialogs/confirmation_dialog.dart';
+import 'package:kayak_sthlm/models/pins.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -26,6 +29,9 @@ class Home extends StatefulWidget {
 class MapSampleState extends State<Home> {
   final Database db = new Database();
   final Set<Polyline> _polyline = {};
+  List<LatLng> routeCoords = [];
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+  List<dynamic> pinList;
   Location _locationTracker = Location();
   Marker marker;
   Circle circle;
@@ -36,7 +42,6 @@ class MapSampleState extends State<Home> {
   bool isStarted = false;
   bool pausedRoute = false;
   Timer timer;
-  List<LatLng> routeCoords = [];
   double totalDistance = 0;
 
   static final sthlmNE = LatLng(60.380987, 19.644660);
@@ -67,6 +72,78 @@ class MapSampleState extends State<Home> {
     ByteData byteData =
         await DefaultAssetBundle.of(context).load("assets/arrow_final.png");
     return byteData.buffer.asUint8List();
+  }
+
+  void loadMarkersOfType(String type) {
+    for (var i = 0; i < pinList.length; i++) {
+      print(pinList[i]['type']);
+      if (pinList[i]['type'] == type) {
+        createMarker(pinList[i]);
+      }
+    }
+  }
+
+  void loadAllMarkers(bool firstFetch) async {
+    if (firstFetch) {
+      Pins _pins = Pins(
+          latitude: locationData.latitude, longitude: locationData.longitude);
+      pinList = await _pins.fetchAllPins();
+    }
+    for (var i = 0; i < pinList.length; i++) {
+      createMarker(pinList[i]);
+    }
+  }
+
+  void createMarker(Map<String, dynamic> item) {
+    MarkerId markerId = MarkerId(item['place_id']);
+    LatLng pinLocation = LatLng(item['geometry']['location']['lat'],
+        item['geometry']['location']['lng']);
+    String color = item['color'];
+    Marker marker = Marker(
+      markerId: markerId,
+      position: pinLocation,
+      infoWindow: InfoWindow(title: item['name'], snippet: item['vicinity']),
+      draggable: false,
+      onTap: () {
+        _controller.animateCamera(CameraUpdate.newCameraPosition(
+            new CameraPosition(
+                bearing: locationData.heading,
+                target: LatLng(pinLocation.latitude, pinLocation.longitude),
+                zoom: 15.00)));
+      },
+      zIndex: 2,
+      icon: color == 'green'
+          ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan)
+          : color == 'red'
+              ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed)
+              : BitmapDescriptor.defaultMarkerWithHue(
+                  BitmapDescriptor.hueMagenta),
+    );
+    setState(() {
+      markers[markerId] = marker;
+    });
+  }
+
+  void toggleAllPins(bool toggled) {
+    if (toggled) {
+      setState(() {
+        markers = {};
+      });
+    } else {
+      loadAllMarkers(false);
+    }
+  }
+
+  void togglePins(bool toggled, String pinType) {
+    if (toggled) {
+      loadMarkersOfType(pinType);
+    } else {
+      for (int i = 0; i < pinList.length; i++) {
+        if (pinList[i]['type'] == pinType) {
+          markers.remove(MarkerId(pinList[i]['place_id']));
+        }
+      }
+    }
   }
 
   void updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData) {
@@ -168,6 +245,16 @@ class MapSampleState extends State<Home> {
             });
   }
 
+  void finishRoute() {
+    isStarted = !isStarted;
+    pausedRoute = !pausedRoute;
+    _polyline.clear();
+    routeCoords.clear();
+    _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+    totalDistance = 0;
+    print('Cleared cache');
+  }
+
   @override
   Widget build(BuildContext context) {
     getCurrentLocation();
@@ -190,9 +277,11 @@ class MapSampleState extends State<Home> {
                     print('Markerad pos: ${latlang}'); //Jobba vidare på detta?
                   },
                   initialCameraPosition: _startPosition,
-                  markers: Set.of((marker != null) ? [marker] : []),
+                  markers: Set<Marker>.of(markers
+                      .values), //Set.of((marker != null) ? [marker] : []),
                   circles: Set.of((circle != null) ? [circle] : []),
                   onMapCreated: (GoogleMapController controller) {
+                    loadAllMarkers(true);
                     _controller = controller;
                     _controller.animateCamera(CameraUpdate.newCameraPosition(
                         new CameraPosition(
@@ -260,6 +349,30 @@ class MapSampleState extends State<Home> {
                     shape: CircleBorder(),
                   ))),
           Positioned(
+            top: 50,
+            right: -5,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: RawMaterialButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => Filters(
+                        togglePins: togglePins, toggleAllPins: toggleAllPins),
+                  );
+                },
+                elevation: 5.0,
+                fillColor: Colors.white,
+                child: Icon(
+                  Icons.filter_alt_outlined,
+                  size: 35.0,
+                ),
+                padding: EdgeInsets.all(10.0),
+                shape: CircleBorder(),
+              ),
+            ),
+          ),
+          Positioned(
               bottom: 7,
               left: 100,
               child: pausedRoute
@@ -324,31 +437,35 @@ class MapSampleState extends State<Home> {
                             height: 69.0,
                             width: 69.0,
                             child: FloatingActionButton(
-                                elevation: 10,
-                                child: Container(
-                                    height: 69.0,
-                                    width: 69.0,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        gradient: RadialGradient(colors: [
-                                          Color.fromRGBO(248, 122, 130, 1),
-                                          Colors.black
-                                        ], stops: [
-                                          0.44,
-                                          1
-                                        ], radius: 1)),
-                                    child: Icon(Icons.stop_outlined, size: 50)),
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (_) => SaveRoute(
-                                          routeList: routeCoords,
-                                          distance: totalDistance,
-                                          time: StopWatchTimer
-                                              .getDisplayTimeSecond(
-                                                  _stopWatchTimer.rawTime
-                                                      .valueWrapper?.value)));
-                                })),
+                              elevation: 10,
+                              child: Container(
+                                  height: 69.0,
+                                  width: 69.0,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      gradient: RadialGradient(colors: [
+                                        Color.fromRGBO(248, 122, 130, 1),
+                                        Colors.black
+                                      ], stops: [
+                                        0.44,
+                                        1
+                                      ], radius: 1)),
+                                  child: Icon(Icons.stop_outlined, size: 50)),
+                              onPressed: () async {
+                                bool savedRoute = await showDialog(
+                                  context: this.context,
+                                  builder: (_) => SaveRoute(
+                                      routeList: routeCoords,
+                                      distance: totalDistance,
+                                      time: StopWatchTimer.getDisplayTimeSecond(
+                                          _stopWatchTimer
+                                              .rawTime.valueWrapper?.value)),
+                                );
+                                if (savedRoute) {
+                                  finishRoute();
+                                } else {}
+                              },
+                            )),
                         SizedBox(height: 4),
                         Container(
                             width: 79,
@@ -409,7 +526,7 @@ class MapSampleState extends State<Home> {
                       pausedRoute = !pausedRoute;
                     } else {
                       _stopWatchTimer.onExecute.add(StopWatchExecute.start);
-                      isStarted = false;
+                      isStarted = !isStarted;
                       LatLng firstPos =
                           LatLng(locationData.latitude, locationData.longitude);
                       routeCoords.add(firstPos);

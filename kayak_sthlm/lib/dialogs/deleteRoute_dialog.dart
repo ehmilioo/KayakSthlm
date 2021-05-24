@@ -6,34 +6,17 @@ import 'package:kayak_sthlm/dialogs/deleteOk_dialog.dart';
 import 'package:kayak_sthlm/dialogs/reauth_dialog.dart';
 import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 
-class DeleteDialog extends StatefulWidget {
+import 'deleteRouteOk_dialog.dart';
+
+class DeleteRouteDialog extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => DeleteOverlayState();
+  State<StatefulWidget> createState() => DeleteRouteOverlayState();
 }
 
-class DeleteOverlayState extends State<DeleteDialog> {
-  final User user = FirebaseAuth.instance.currentUser;
-  String uid = FirebaseAuth.instance.currentUser.uid;
-
+class DeleteRouteOverlayState extends State<DeleteRouteDialog> {
   @override
   void initState() {
     super.initState();
-  }
-
-  void deleteUser() async {
-    try {
-      CollectionReference users =
-          FirebaseFirestore.instance.collection('users');
-      users
-          .doc(uid)
-          .delete()
-          .then((value) => print("User deleted"))
-          .catchError((error) => print("Failed: $error"));
-      await user.delete();
-      print('Tog bort användaren :)');
-    } catch (e) {
-      print(e);
-    }
   }
 
   @override
@@ -79,8 +62,7 @@ class DeleteOverlayState extends State<DeleteDialog> {
                       SizedBox(height: 20),
                       ConstrainedBox(
                           constraints: BoxConstraints(maxWidth: 250),
-                          child: Text(
-                              'Are you sure you want to delete your account?',
+                          child: Text('Are you sure you want to delete route?',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.black,
@@ -120,13 +102,13 @@ class DeleteOverlayState extends State<DeleteDialog> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                               )),
-                          child: Text('Delete Account'),
+                          child: Text('Delete'),
                           onPressed: () {
-                            deleteUser();
                             showDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                builder: (_) => DeleteOkDialog()).then((value) {
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (_) => DeleteRouteOkDialog())
+                                .then((value) {
                               Navigator.of(context).pop();
                             });
                           }),

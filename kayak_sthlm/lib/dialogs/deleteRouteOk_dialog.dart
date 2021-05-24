@@ -5,15 +5,12 @@ import 'package:flutter/widgets.dart';
 import 'package:kayak_sthlm/dialogs/reauth_dialog.dart';
 import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 
-class DeleteOkDialog extends StatefulWidget {
+class DeleteRouteOkDialog extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => DeleteOkOverlayState();
+  State<StatefulWidget> createState() => DeleteRouteOkOverlayState();
 }
 
-class DeleteOkOverlayState extends State<DeleteOkDialog> {
-  final User user = FirebaseAuth.instance.currentUser;
-  String uid = FirebaseAuth.instance.currentUser.uid;
-
+class DeleteRouteOkOverlayState extends State<DeleteRouteOkDialog> {
   @override
   void initState() {
     super.initState();
@@ -62,7 +59,7 @@ class DeleteOkOverlayState extends State<DeleteOkDialog> {
                       SizedBox(height: 25),
                       ConstrainedBox(
                           constraints: BoxConstraints(maxWidth: 220),
-                          child: Text('Your account has been deleted',
+                          child: Text('Your route has been deleted',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Color.fromRGBO(239, 14, 14, 1),

@@ -24,7 +24,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1476fab6-59af-40fe-aeaf-a49f811b7866" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/dialogs/deleteRouteOk_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/dialogs/deleteRouteOk_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/dialogs/deleteRoute_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/dialogs/deleteRoute_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/dialogs/save_route_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/dialogs/save_route_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/dialogs/saved_dialog.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/home/emilHome.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/home/emilHome.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kayak_sthlm/lib/screens/home/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/kayak_sthlm/lib/screens/home/home.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,12 +99,12 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="85" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1619520286966" />
-    <state x="186" y="157" width="2120" height="947" key="AVDManager" timestamp="1621550798713">
+    <state x="-932" y="308" width="2120" height="947" key="AVDManager" timestamp="1621847509618">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="108" y="146" width="1060" height="438" key="AVDManager/0.0.1280.680@0.0.1280.680" timestamp="1619520441063" />
     <state x="162" y="112" width="1590" height="710" key="AVDManager/0.0.1920.1080@0.0.1920.1080" timestamp="1620662427728" />
-    <state x="186" y="157" width="2120" height="947" key="AVDManager/0.0.2560.1440/2560.0.1920.1080@0.0.2560.1440" timestamp="1621550798713" />
+    <state x="-932" y="308" width="2120" height="947" key="AVDManager/0.0.2560.1440/2560.0.1920.1080@0.0.2560.1440" timestamp="1621847509618" />
     <state x="162" y="112" width="1590" height="710" key="AVDManager/1920.0.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1620301735245" />
     <state x="618" y="151" key="FileChooserDialogImpl" timestamp="1620662879221">
       <screen x="0" y="0" width="1920" height="1080" />
