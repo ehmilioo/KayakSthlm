@@ -10,9 +10,11 @@ import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'package:kayak_sthlm/dialogs/save_route_dialog.dart';
 import 'package:kayak_sthlm/dialogs/filters_dialog.dart';
 import 'package:kayak_sthlm/dialogs/confirmation_dialog.dart';
+import 'package:kayak_sthlm/dialogs/custompin_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:kayak_sthlm/models/pins.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -21,9 +23,9 @@ class Home extends StatefulWidget {
 
 class MapSampleState extends State<Home> {
   final Database db = new Database();
-  final Set<Polyline>_polyline={};
+  final Set<Polyline> _polyline = {};
   List<LatLng> routeCoords = [];
-  Map<MarkerId, Marker> markers = <MarkerId, Marker>{}; 
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   List<dynamic> pinList;
   Location _locationTracker = Location();
   Marker marker;
@@ -45,11 +47,11 @@ class MapSampleState extends State<Home> {
   );
   final StopWatchTimer _stopWatchTimer = StopWatchTimer(
     mode: StopWatchMode.countUp,
-
   );
 
   @override
   void initState() {
+    setFilterBool();
     super.initState();
   }
 
@@ -62,86 +64,103 @@ class MapSampleState extends State<Home> {
     await _stopWatchTimer.dispose();
   }
 
-  
+  //Sets all filters to true when building the home widget.
+  void setFilterBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('kayak', true);
+    await prefs.setBool('restaurant', true);
+    await prefs.setBool('mypin', true);
+    await prefs.setBool('restplace', true);
+    await prefs.setBool('allpins', true);
+  }
+
   Future<Uint8List> getMarker(String imagePath) async {
     ByteData byteData =
         await DefaultAssetBundle.of(context).load("assets/${imagePath}");
     return byteData.buffer.asUint8List();
   }
 
-  void learnMath(){
-    int result = 5+5;
-    print(result);
-  }
-
-
-  void loadMarkersOfType(String type){
-    for(var i=0; i<pinList.length; i++){
-      print(pinList[i]['type']);
-      if(pinList[i]['type'] == type){
+  void loadMarkersOfType(String type) {
+    for (var i = 0; i < pinList.length; i++) {
+      if (pinList[i]['type'] == type) {
         createMarker(pinList[i]);
       }
     }
   }
 
-  void loadAllMarkers(bool firstFetch) async{
-    if(firstFetch){
-      Pins _pins = Pins(latitude: locationData.latitude, longitude: locationData.longitude);
+  void loadAllMarkers(bool firstFetch) async {
+    if (firstFetch) {
+      Pins _pins = Pins(
+          latitude: locationData.latitude, longitude: locationData.longitude);
       pinList = await _pins.fetchAllPins();
     }
-    for(var i=0; i<pinList.length; i++){
+    for (var i = 0; i < pinList.length; i++) {
       createMarker(pinList[i]);
     }
   }
 
-  void createMarker(Map<String, dynamic> item){
-    MarkerId markerId = MarkerId(item['place_id']);
-      LatLng pinLocation = LatLng(item['geometry']['location']['lat'], item['geometry']['location']['lng']);
-      String color = item['color'];
-      Marker marker = Marker(
-        markerId: markerId,
-        position: pinLocation,
-        infoWindow: InfoWindow(title: item['name'], snippet: item['vicinity']),
-        draggable: false,
-        onTap: () {
-          _controller.animateCamera(CameraUpdate.newCameraPosition(
-            new CameraPosition(
-              bearing: locationData.heading,
-              target: LatLng(
-                  pinLocation.latitude, pinLocation.longitude),
-              zoom: 15.00)));
-        },
-        zIndex: 2,
-        icon: color == 'green' ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan) : color == 'red' ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed) : BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
-      );
-      setState(() {
-        markers[markerId] = marker;
-      });
-  } 
+  void createCustomMarker(LatLng customLocation) {
+    print(customLocation);
+  }
 
-  void toggleAllPins(bool toggled){
-    if(toggled){
+  void createMarker(Map<String, dynamic> item) {
+    MarkerId markerId = MarkerId(item['place_id']);
+    LatLng pinLocation = LatLng(item['geometry']['location']['lat'],
+        item['geometry']['location']['lng']);
+    String color = item['color'];
+    Marker marker = Marker(
+      markerId: markerId,
+      position: pinLocation,
+      infoWindow: InfoWindow(title: item['name'], snippet: item['vicinity']),
+      draggable: false,
+      onTap: () {
+        _controller.animateCamera(CameraUpdate.newCameraPosition(
+            new CameraPosition(
+                bearing: locationData.heading,
+                target: LatLng(pinLocation.latitude, pinLocation.longitude),
+                zoom: 15.00)));
+      },
+      zIndex: 2,
+      icon: color == 'pink'
+          ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet)
+          : color == 'orange'
+              ? BitmapDescriptor.defaultMarkerWithHue(
+                  BitmapDescriptor.hueOrange)
+              : color == 'yellow'
+                  ? BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueYellow)
+                  : BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueBlue),
+    );
+    setState(() {
+      markers[markerId] = marker;
+    });
+  }
+
+  void toggleAllPins(bool toggled) {
+    if (toggled) {
       setState(() {
         markers = {};
       });
-    }else{
+    } else {
       loadAllMarkers(false);
     }
   }
 
-  void togglePins(bool toggled, String pinType){
-    if(toggled){
+  void togglePins(bool toggled, String pinType) {
+    if (toggled) {
       loadMarkersOfType(pinType);
-    }else{
-      for(int i = 0; i < pinList.length; i++){
-        if(pinList[i]['type'] == pinType){
+    } else {
+      for (int i = 0; i < pinList.length; i++) {
+        if (pinList[i]['type'] == pinType) {
           markers.remove(MarkerId(pinList[i]['place_id']));
         }
       }
     }
   }
 
-  void updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData) async {
+  void updateMarkerAndCircle(
+      LocationData newLocalData, Uint8List imageData) async {
     LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
     if (this.mounted) {
       this.setState(() {
@@ -189,49 +208,60 @@ class MapSampleState extends State<Home> {
       if (e.code == 'PERMISSION_DENID') {
         debugPrint('Permission Denied');
       }
-    } catch(e){
+    } catch (e) {
       print(e);
     }
   }
-  
 
-  bool checkCoordsRadius(double cachedLon, double cachedLat){ //Prevent massive list of similar coords, make a radius of 3m
-    if(cachedLon == null || cachedLat == null){
+  bool checkCoordsRadius(double cachedLon, double cachedLat) {
+    //Prevent massive list of similar coords, make a radius of 3m
+    if (cachedLon == null || cachedLat == null) {
       return false;
     }
-    if(locationData.latitude > cachedLat+0.00003 || cachedLat-0.00003 > locationData.latitude){
-      if(locationData.longitude > cachedLon+0.00003 || cachedLon-0.00003 > locationData.longitude){
+    if (locationData.latitude > cachedLat + 0.00003 ||
+        cachedLat - 0.00003 > locationData.latitude) {
+      if (locationData.longitude > cachedLon + 0.00003 ||
+          cachedLon - 0.00003 > locationData.longitude) {
         return false;
       }
     }
     return true;
   }
 
-  void startRoute(){
+  void startRoute() {
     double cachedLon;
     double cachedLat;
-    timer = Timer.periodic(Duration(seconds: 2), (Timer t) => {
-      if(cachedLat == locationData.latitude && cachedLon == locationData.longitude){
-        print('duplicate')
-      }else if(checkCoordsRadius(cachedLon, cachedLat)){
-        print('Too close to latest coords')
-      }else{
-        cachedLon = locationData.longitude,
-        cachedLat = locationData.latitude,
-        routeCoords.add(LatLng(locationData.latitude, locationData.longitude)),
-        totalDistance += Geolocator.distanceBetween(routeCoords[routeCoords.length-2].latitude, routeCoords[routeCoords.length-2].longitude, routeCoords[routeCoords.length-1].latitude, routeCoords[routeCoords.length-1].longitude),
-        _polyline.add(Polyline(
-            polylineId: PolylineId('lat${locationData.latitude}'),
-            visible: true,
-            points: routeCoords,
-            width: 3,
-            color: Colors.red,
-        )),
-      }
-    });
+    timer = Timer.periodic(
+        Duration(seconds: 2),
+        (Timer t) => {
+              if (cachedLat == locationData.latitude &&
+                  cachedLon == locationData.longitude)
+                {print('duplicate')}
+              else if (checkCoordsRadius(cachedLon, cachedLat))
+                {print('Too close to latest coords')}
+              else
+                {
+                  cachedLon = locationData.longitude,
+                  cachedLat = locationData.latitude,
+                  routeCoords.add(
+                      LatLng(locationData.latitude, locationData.longitude)),
+                  totalDistance += Geolocator.distanceBetween(
+                      routeCoords[routeCoords.length - 2].latitude,
+                      routeCoords[routeCoords.length - 2].longitude,
+                      routeCoords[routeCoords.length - 1].latitude,
+                      routeCoords[routeCoords.length - 1].longitude),
+                  _polyline.add(Polyline(
+                    polylineId: PolylineId('lat${locationData.latitude}'),
+                    visible: true,
+                    points: routeCoords,
+                    width: 3,
+                    color: Colors.red,
+                  )),
+                }
+            });
   }
 
-  void finishRoute(){
+  void finishRoute() {
     isStarted = !isStarted;
     pausedRoute = !pausedRoute;
     _polyline.clear();
@@ -251,21 +281,26 @@ class MapSampleState extends State<Home> {
                 backgroundColor: Colors.black,
               ),
             )
-            
           : Stack(
-              children: <Widget>[ 
-
+              children: <Widget>[
                 GoogleMap(
                   mapType: MapType.hybrid,
                   zoomControlsEnabled: false,
-                  polylines:_polyline,
+                  polylines: _polyline,
                   mapToolbarEnabled: false,
                   compassEnabled: false,
                   onLongPress: (latlang) {
-                    print('Markerad pos: ${latlang}'); //Jobba vidare på detta?
+                    showDialog(
+                        context: this.context,
+                        builder: (_) => CustomPinDialog(
+                            lat: latlang.latitude,
+                            lng: latlang.longitude)).then((val) => {
+                          createCustomMarker(latlang),
+                        });
                   },
                   initialCameraPosition: _startPosition,
-                  markers: Set<Marker>.of(markers.values),        //Set.of((marker != null) ? [marker] : []),
+                  markers: Set<Marker>.of(markers
+                      .values), //Set.of((marker != null) ? [marker] : []),
                   circles: Set.of((circle != null) ? [circle] : []),
                   onMapCreated: (GoogleMapController controller) {
                     loadAllMarkers(true);
@@ -284,62 +319,69 @@ class MapSampleState extends State<Home> {
                     ),
                   ),
                 ),
-
                 Positioned(
                   bottom: 20,
-                    left: 100,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: pausedRoute ? RawMaterialButton(
-                        onPressed: () {
-                          pausedRoute = !pausedRoute;
-                          _stopWatchTimer.onExecute.add(StopWatchExecute.start);
-                          startRoute();
-                        },
-                        elevation: 5.0,
-                        fillColor: Colors.green[200],
-                        child: Icon(
-                          Icons.play_arrow,
-                          size: 35.0,
-                        ),
-                        padding: EdgeInsets.all(10.0),
-                        shape: CircleBorder(),
-                      ) : null,
-                    ),
+                  left: 100,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: pausedRoute
+                        ? RawMaterialButton(
+                            onPressed: () {
+                              pausedRoute = !pausedRoute;
+                              _stopWatchTimer.onExecute
+                                  .add(StopWatchExecute.start);
+                              startRoute();
+                            },
+                            elevation: 5.0,
+                            fillColor: Colors.green[200],
+                            child: Icon(
+                              Icons.play_arrow,
+                              size: 35.0,
+                            ),
+                            padding: EdgeInsets.all(10.0),
+                            shape: CircleBorder(),
+                          )
+                        : null,
+                  ),
                 ),
-
-
                 Positioned(
                   bottom: 20,
-                    right: 100,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: pausedRoute ? RawMaterialButton(
-                        onPressed: () async{
-                          bool savedRoute = await showDialog(
-                          context: this.context,
-                          builder: (_) => SaveRoute(routeList: routeCoords , distance: totalDistance , time: StopWatchTimer.getDisplayTimeSecond(_stopWatchTimer.rawTime.valueWrapper?.value)),
-                        );
-                        if(savedRoute){
-                          finishRoute();
-                          showDialog(
-                            context: this.context,
-                            builder: (_) => Confirmation(message: 'Your route has been saved', color: true)
-                          );
-                        }
-                        },
-                        elevation: 5.0,
-                        fillColor: Colors.red[400],
-                        child: Icon(
-                          Icons.stop_rounded,
-                          size: 35.0,
-                        ),
-                        padding: EdgeInsets.all(10.0),
-                        shape: CircleBorder(),
-                      ) : null,
-                    ),
+                  right: 100,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: pausedRoute
+                        ? RawMaterialButton(
+                            onPressed: () async {
+                              bool savedRoute = await showDialog(
+                                context: this.context,
+                                builder: (_) => SaveRoute(
+                                    routeList: routeCoords,
+                                    distance: totalDistance,
+                                    time: StopWatchTimer.getDisplayTimeSecond(
+                                        _stopWatchTimer
+                                            .rawTime.valueWrapper?.value)),
+                              );
+                              if (savedRoute) {
+                                finishRoute();
+                                showDialog(
+                                    context: this.context,
+                                    builder: (_) => Confirmation(
+                                        message: 'Your route has been saved',
+                                        color: true));
+                              }
+                            },
+                            elevation: 5.0,
+                            fillColor: Colors.red[400],
+                            child: Icon(
+                              Icons.stop_rounded,
+                              size: 35.0,
+                            ),
+                            padding: EdgeInsets.all(10.0),
+                            shape: CircleBorder(),
+                          )
+                        : null,
+                  ),
                 ),
-
                 Positioned(
                   top: 40,
                   child: Padding(
@@ -364,7 +406,6 @@ class MapSampleState extends State<Home> {
                     ),
                   ),
                 ),
-
                 Positioned(
                   bottom: 20,
                   right: 5,
@@ -391,7 +432,6 @@ class MapSampleState extends State<Home> {
                     ),
                   ),
                 ),
-
                 Positioned(
                   top: 40,
                   right: 5,
@@ -401,7 +441,9 @@ class MapSampleState extends State<Home> {
                       onPressed: () {
                         showDialog(
                           context: context,
-                          builder: (_) => Filters(togglePins: togglePins, toggleAllPins: toggleAllPins),
+                          builder: (_) => Filters(
+                              togglePins: togglePins,
+                              toggleAllPins: toggleAllPins),
                         );
                       },
                       elevation: 5.0,
@@ -432,7 +474,8 @@ class MapSampleState extends State<Home> {
                       } else {
                         _stopWatchTimer.onExecute.add(StopWatchExecute.start);
                         isStarted = !isStarted;
-                        LatLng firstPos = LatLng(locationData.latitude, locationData.longitude);
+                        LatLng firstPos = LatLng(
+                            locationData.latitude, locationData.longitude);
                         routeCoords.add(firstPos);
                         startRoute();
                       }
@@ -462,18 +505,19 @@ class MapSampleState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                             Container(
-                                child: Text((totalDistance/1000).toString(),
+                                child: Text((totalDistance / 1000).toString(),
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold)),
                                 width: 40,
                                 height: 30),
                             Container(
-                                child: pausedRoute ? Text("Paused",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)
-                                ) : Text('Pause',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
+                                child: pausedRoute
+                                    ? Text("Paused",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold))
+                                    : Text('Pause',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
                                 width: 45,
                                 height: 30),
                             Container(

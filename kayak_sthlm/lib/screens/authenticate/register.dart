@@ -138,8 +138,7 @@ class _RegisterState extends State<Register> {
                               )),
                           onChanged: (val) {
                             setState(() => password = val);
-                          })
-                  ),
+                          })),
                   SizedBox(height: 5),
                   //EXPERIENCE
                   Container(
@@ -324,8 +323,7 @@ class _RegisterState extends State<Register> {
                             setState(() => error = 'Ett fel uppstod');
                           }
                         }
-                      }
-                    ),
+                      }),
 
                   //Preliminär errorhandling
                   Text(
