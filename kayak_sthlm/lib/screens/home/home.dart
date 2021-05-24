@@ -448,10 +448,10 @@ class MapSampleState extends State<Home> {
                             icon: Icon(Icons.place_outlined),
                             iconSize: 35,
                             onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return MyRoutes();
-                              }));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MyRoutes()));
                             },
                           ),
                           IconButton(

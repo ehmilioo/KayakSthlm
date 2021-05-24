@@ -1,10 +1,10 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyRoutes extends StatelessWidget {
-  final String userId = 'SA7vfU0GafXxjpUgLeNfcJfOZGA2';
+  final String userId = FirebaseAuth.instance.currentUser.uid;
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +12,12 @@ class MyRoutes extends StatelessWidget {
         FirebaseFirestore.instance.collection('routes');
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context, false);
+          },
+        ),
         title: Text('My Routes'),
       ),
       body: Center(
