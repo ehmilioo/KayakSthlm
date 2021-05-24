@@ -6,6 +6,7 @@ import 'package:kayak_sthlm/dialogs/logout_dialog.dart';
 import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 import 'package:kayak_sthlm/screens/home/home.dart';
 import 'package:kayak_sthlm/screens/info/information.dart';
+import 'package:kayak_sthlm/screens/my_routes/my_routes.dart';
 import 'package:kayak_sthlm/screens/settings/settings_edit.dart';
 import 'package:kayak_sthlm/services/auth.dart';
 import 'package:kayak_sthlm/screens/settings/delete_user.dart';
@@ -230,7 +231,10 @@ class SettingsPage extends State<Settings> {
                     padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
                     icon: Icon(Icons.place_outlined),
                     iconSize: 30,
-                    onPressed: () {}),
+                    onPressed: () {
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => MyRoutes()));
+                    }),
                 IconButton(
                   // Navigationsknapp 2: Events
                   padding: EdgeInsets.fromLTRB(8, 0, 8, 16),

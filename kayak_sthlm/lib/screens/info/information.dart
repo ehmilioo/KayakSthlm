@@ -6,6 +6,7 @@ import 'package:kayak_sthlm/screens/info/fire_screen.dart';
 import 'package:kayak_sthlm/screens/info/guides.dart';
 import 'package:kayak_sthlm/screens/info/mapForReserves.dart';
 import 'package:kayak_sthlm/screens/info/reserve.dart';
+import 'package:kayak_sthlm/screens/my_routes/my_routes.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:kayak_sthlm/services/auth.dart';
 import 'package:kayak_sthlm/screens/info/symbols_info.dart';
@@ -241,7 +242,10 @@ class InformationScreen extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
                   icon: Icon(Icons.place_outlined),
                   iconSize: 30,
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => MyRoutes()));
+                  }),
               IconButton(
                 // Navigationsknapp 2: Events
                 padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
