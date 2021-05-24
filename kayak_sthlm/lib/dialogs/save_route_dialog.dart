@@ -130,8 +130,27 @@ class _SaveRoute extends State<SaveRoute> {
                               textStyle: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w600)),
                           child: Text('Save Route'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
+                          onPressed: () async {
+                            var mappedRouteList = widget.routeList.map((coord) {
+                              return {
+                                "lat": coord.latitude,
+                                "lon": coord.longitude
+                              };
+                            }).toList();
+                            try {
+                              await _firestoreAuth.createUser(MyRoute(
+                                name: routeName,
+                                favorite: favoriteRoute,
+                                coordinates: mappedRouteList,
+                                date: date,
+                                timeTaken: widget.time,
+                                distance: widget.distance.toString(),
+                                userUid: uid,
+                              ));
+                            } catch (e) {
+                              print(e);
+                            }
+                            Navigator.pop(context);
                           }),
                       SizedBox(height: 20),
                       OutlinedButton(
