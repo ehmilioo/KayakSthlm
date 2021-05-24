@@ -7,6 +7,7 @@ import 'package:kayak_sthlm/dialogs/RoutesInfo_dialog.dart';
 import 'package:kayak_sthlm/dialogs/eventsInfo_dialog.dart';
 import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 import 'package:kayak_sthlm/screens/info/information.dart';
+import 'package:kayak_sthlm/screens/my_routes/my_routes.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -630,11 +631,10 @@ class MapSampleState extends State<Home> {
                             icon: Icon(Icons.place_outlined),
                             iconSize: 30,
                             onPressed: () {
-                              Navigator.of(context).push(PageRouteBuilder(
-                                  pageBuilder: (context, _, __) =>
-                                      RoutesInfoDialog(),
-                                  opaque: false,
-                                  barrierColor: Colors.black.withOpacity(0.2)));
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MyRoutes()));
                             },
                           ),
 
@@ -643,7 +643,13 @@ class MapSampleState extends State<Home> {
                             // Navigationsknapp 2: Events
                             icon: Icon(Icons.calendar_today_outlined),
                             iconSize: 30,
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(PageRouteBuilder(
+                                  pageBuilder: (context, _, __) =>
+                                      RoutesInfoDialog(),
+                                  opaque: false,
+                                  barrierColor: Colors.black.withOpacity(0.2)));
+                            },
                           ),
                           Container(
                             padding: EdgeInsets.only(bottom: 8),

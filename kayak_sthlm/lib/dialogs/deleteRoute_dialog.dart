@@ -74,8 +74,8 @@ class DeleteRouteOverlayState extends State<DeleteRouteDialog> {
                       OutlinedButton(
                           style: OutlinedButton.styleFrom(
                               minimumSize: Size(195, 48),
-                              primary: Color.fromRGBO(86, 151, 211, 1),
-                              backgroundColor: Colors.white,
+                              primary: Colors.white,
+                              backgroundColor: Color.fromRGBO(143, 192, 245, 1),
                               shadowColor: Colors.black,
                               elevation: 10,
                               shape: const RoundedRectangleBorder(
@@ -91,8 +91,8 @@ class DeleteRouteOverlayState extends State<DeleteRouteDialog> {
                       OutlinedButton(
                           style: OutlinedButton.styleFrom(
                               minimumSize: Size(195, 48),
-                              primary: Color.fromRGBO(250, 70, 81, 1),
-                              backgroundColor: Colors.white,
+                              primary: Colors.white,
+                              backgroundColor: Color.fromRGBO(248, 122, 130, 1),
                               shadowColor: Colors.black,
                               elevation: 10,
                               shape: const RoundedRectangleBorder(
