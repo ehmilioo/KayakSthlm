@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:kayak_sthlm/screens/my_routes/my_routes.dart';
@@ -447,11 +448,10 @@ class MapSampleState extends State<Home> {
                             icon: Icon(Icons.place_outlined),
                             iconSize: 35,
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MyRoutes()),
-                              );
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return MyRoutes();
+                              }));
                             },
                           ),
                           IconButton(
