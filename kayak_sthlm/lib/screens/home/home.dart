@@ -13,6 +13,10 @@ import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'package:kayak_sthlm/dialogs/save_route_dialog.dart';
+import 'package:kayak_sthlm/dialogs/filters_dialog.dart';
+import 'package:kayak_sthlm/dialogs/confirmation_dialog.dart';
+import 'package:kayak_sthlm/dialogs/custompin_dialog.dart';
+import 'package:kayak_sthlm/dialogs/pininfo_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
@@ -21,6 +25,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:kayak_sthlm/dialogs/filters_dialog.dart';
 import 'package:kayak_sthlm/dialogs/confirmation_dialog.dart';
 import 'package:kayak_sthlm/models/pins.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -57,6 +62,7 @@ class MapSampleState extends State<Home> {
 
   @override
   void initState() {
+    setFilterBool();
     super.initState();
   }
 
@@ -69,30 +75,89 @@ class MapSampleState extends State<Home> {
     await _stopWatchTimer.dispose();
   }
 
-  Future<Uint8List> getMarker() async {
+  //Sets all filters to true when building the home widget.
+  void setFilterBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('kayak', true);
+    await prefs.setBool('restaurant', true);
+    await prefs.setBool('mypin', true);
+    await prefs.setBool('restplace', true);
+    await prefs.setBool('allpins', true);
+  }
+
+  Future<Uint8List> getMarker(String imagePath) async {
     ByteData byteData =
         await DefaultAssetBundle.of(context).load("assets/arrow_final.png");
     return byteData.buffer.asUint8List();
   }
 
-  void loadMarkersOfType(String type) {
+  Future<void> fetchList() async {
+    Pins _pins = Pins(
+        latitude: locationData.latitude, longitude: locationData.longitude);
+    pinList = await _pins.fetchAllPins();
+  }
+
+  Future<void> reloadCustomPins() async {
+    pinList.clear();
+    Pins _pins = Pins(
+        latitude: locationData.latitude, longitude: locationData.longitude);
+    pinList = await _pins.reloadCustomPins();
+  }
+
+  void loadMarkersOfType(String type, bool reload) async {
+    if (reload) {
+      await reloadCustomPins();
+    }
+
     for (var i = 0; i < pinList.length; i++) {
-      print(pinList[i]['type']);
       if (pinList[i]['type'] == type) {
-        createMarker(pinList[i]);
+        if (pinList[i]['type'] == 'mypin') {
+          createCustomMarker(pinList[i]);
+        } else {
+          createMarker(pinList[i]);
+        }
       }
     }
   }
 
   void loadAllMarkers(bool firstFetch) async {
     if (firstFetch) {
-      Pins _pins = Pins(
-          latitude: locationData.latitude, longitude: locationData.longitude);
-      pinList = await _pins.fetchAllPins();
+      await fetchList();
     }
     for (var i = 0; i < pinList.length; i++) {
-      createMarker(pinList[i]);
+      if (pinList[i]['type'] == 'mypin') {
+        createCustomMarker(pinList[i]);
+      } else {
+        createMarker(pinList[i]);
+      }
     }
+  }
+
+  void createCustomMarker(Map<String, dynamic> item) {
+    MarkerId markerId = MarkerId(item['name']);
+    LatLng pinLocation = LatLng(item['lat'], item['lng']);
+    String color = item['color'];
+    Marker marker = Marker(
+      markerId: markerId,
+      position: pinLocation,
+      draggable: false,
+      onTap: () {
+        _controller.animateCamera(CameraUpdate.newCameraPosition(
+            new CameraPosition(
+                bearing: locationData.heading,
+                target: LatLng(pinLocation.latitude, pinLocation.longitude),
+                zoom: 15.00)));
+        showDialog(context: this.context, builder: (_) => PinInfo(item: item));
+      },
+      zIndex: 2,
+      icon: color == 'white'
+          ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed)
+          : BitmapDescriptor.defaultMarkerWithHue(
+              BitmapDescriptor.hueBlue), //Default color
+    );
+    setState(() {
+      markers[markerId] = marker;
+    });
   }
 
   void createMarker(Map<String, dynamic> item) {
@@ -103,7 +168,6 @@ class MapSampleState extends State<Home> {
     Marker marker = Marker(
       markerId: markerId,
       position: pinLocation,
-      infoWindow: InfoWindow(title: item['name'], snippet: item['vicinity']),
       draggable: false,
       onTap: () {
         _controller.animateCamera(CameraUpdate.newCameraPosition(
@@ -111,14 +175,19 @@ class MapSampleState extends State<Home> {
                 bearing: locationData.heading,
                 target: LatLng(pinLocation.latitude, pinLocation.longitude),
                 zoom: 15.00)));
+        showDialog(context: this.context, builder: (_) => PinInfo(item: item));
       },
       zIndex: 2,
-      icon: color == 'green'
-          ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan)
-          : color == 'red'
-              ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed)
-              : BitmapDescriptor.defaultMarkerWithHue(
-                  BitmapDescriptor.hueMagenta),
+      icon: color == 'pink'
+          ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet)
+          : color == 'orange'
+              ? BitmapDescriptor.defaultMarkerWithHue(
+                  BitmapDescriptor.hueOrange)
+              : color == 'yellow'
+                  ? BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueYellow)
+                  : BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueBlue),
     );
     setState(() {
       markers[markerId] = marker;
@@ -137,17 +206,22 @@ class MapSampleState extends State<Home> {
 
   void togglePins(bool toggled, String pinType) {
     if (toggled) {
-      loadMarkersOfType(pinType);
+      loadMarkersOfType(pinType, false);
     } else {
       for (int i = 0; i < pinList.length; i++) {
         if (pinList[i]['type'] == pinType) {
-          markers.remove(MarkerId(pinList[i]['place_id']));
+          if (pinList[i]['type'] == 'mypin') {
+            markers.remove(MarkerId(pinList[i]['name']));
+          } else {
+            markers.remove(MarkerId(pinList[i]['place_id']));
+          }
         }
       }
     }
   }
 
-  void updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData) {
+  void updateMarkerAndCircle(
+      LocationData newLocalData, Uint8List imageData) async {
     LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
     this.setState(() {
       marker = Marker(
@@ -237,7 +311,6 @@ class MapSampleState extends State<Home> {
                   _polyline.add(Polyline(
                     polylineId: PolylineId('lat${locationData.latitude}'),
                     visible: true,
-                    //latlng is List<LatLng>
                     points: routeCoords,
                     width: 3,
                     color: Colors.red,
@@ -260,22 +333,26 @@ class MapSampleState extends State<Home> {
   Widget build(BuildContext context) {
     getCurrentLocation();
     return new Scaffold(
-      body: Stack(
-        children: <Widget>[
-          locationData == null
-              ? Center(
-                  child: CircularProgressIndicator(
-                    backgroundColor: Colors.black,
-                  ),
-                )
-              : GoogleMap(
+      body: locationData == null
+          ? Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.black,
+              ),
+            )
+          : Stack(
+              children: <Widget>[
+                GoogleMap(
                   mapType: MapType.hybrid,
                   zoomControlsEnabled: false,
                   polylines: _polyline,
                   mapToolbarEnabled: false,
                   compassEnabled: false,
                   onLongPress: (latlang) {
-                    print('Markerad pos: ${latlang}'); //Jobba vidare på detta?
+                    showDialog(
+                            context: this.context,
+                            builder: (_) => CustomPinDialog(
+                                lat: latlang.latitude, lng: latlang.longitude))
+                        .then((value) => loadMarkersOfType('mypin', true));
                   },
                   initialCameraPosition: _startPosition,
                   markers: Set<Marker>.of(markers
@@ -298,200 +375,205 @@ class MapSampleState extends State<Home> {
                     ),
                   ),
                 ),
-          Positioned(
-            top: 40,
-            left: 10,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: RawMaterialButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => WeatherDialog(
-                        longitude: locationData.longitude,
-                        latitude: locationData.latitude),
-                  );
-                },
-                constraints: BoxConstraints(minWidth: 80, minHeight: 80),
-                elevation: 10.0,
-                fillColor: Colors.white,
-                child: Icon(
-                  Icons.wb_sunny_outlined,
-                  size: 50.0,
-                ),
-                padding: EdgeInsets.all(10.0),
-                shape: CircleBorder(),
-              ),
-            ),
-          ),
-          Positioned(
-              top: 140,
-              left: 21.5,
-              child: Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: RawMaterialButton(
-                    onPressed: () {
-                      getCurrentLocation();
-                      _controller.animateCamera(CameraUpdate.newCameraPosition(
-                          new CameraPosition(
-                              bearing: locationData.heading,
-                              target: LatLng(locationData.latitude,
-                                  locationData.longitude),
-                              zoom: 15.00)));
-                    },
-                    constraints: BoxConstraints(minWidth: 51, minHeight: 51),
-                    elevation: 5.0,
-                    fillColor: Colors.white,
-                    child: Icon(
-                      Icons.my_location_outlined,
-                      size: 40.0,
+                Positioned(
+                  top: 40,
+                  left: 10,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: RawMaterialButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => WeatherDialog(
+                              longitude: locationData.longitude,
+                              latitude: locationData.latitude),
+                        );
+                      },
+                      constraints: BoxConstraints(minWidth: 80, minHeight: 80),
+                      elevation: 10.0,
+                      fillColor: Colors.white,
+                      child: Icon(
+                        Icons.wb_sunny_outlined,
+                        size: 50.0,
+                      ),
+                      padding: EdgeInsets.all(10.0),
+                      shape: CircleBorder(),
                     ),
-                    padding: EdgeInsets.all(8.0),
-                    shape: CircleBorder(),
-                  ))),
-          Positioned(
-            top: 50,
-            right: -5,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: RawMaterialButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => Filters(
-                        togglePins: togglePins, toggleAllPins: toggleAllPins),
-                  );
-                },
-                elevation: 5.0,
-                fillColor: Colors.white,
-                child: Icon(
-                  Icons.filter_alt_outlined,
-                  size: 35.0,
+                  ),
                 ),
-                padding: EdgeInsets.all(10.0),
-                shape: CircleBorder(),
-              ),
+                Positioned(
+                    top: 140,
+                    left: 21.5,
+                    child: Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: RawMaterialButton(
+                          onPressed: () {
+                            getCurrentLocation();
+                            _controller.animateCamera(
+                                CameraUpdate.newCameraPosition(
+                                    new CameraPosition(
+                                        bearing: locationData.heading,
+                                        target: LatLng(locationData.latitude,
+                                            locationData.longitude),
+                                        zoom: 15.00)));
+                          },
+                          constraints:
+                              BoxConstraints(minWidth: 51, minHeight: 51),
+                          elevation: 5.0,
+                          fillColor: Colors.white,
+                          child: Icon(
+                            Icons.my_location_outlined,
+                            size: 40.0,
+                          ),
+                          padding: EdgeInsets.all(8.0),
+                          shape: CircleBorder(),
+                        ))),
+                Positioned(
+                  top: 50,
+                  right: -5,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: RawMaterialButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => Filters(
+                              togglePins: togglePins,
+                              toggleAllPins: toggleAllPins),
+                        );
+                      },
+                      elevation: 5.0,
+                      fillColor: Colors.white,
+                      child: Icon(
+                        Icons.filter_alt_outlined,
+                        size: 35.0,
+                      ),
+                      padding: EdgeInsets.all(10.0),
+                      shape: CircleBorder(),
+                    ),
+                  ),
+                ),
+                Positioned(
+                    bottom: 7,
+                    left: 100,
+                    child: pausedRoute
+                        ? Column(
+                            children: [
+                              Container(
+                                  height: 69.0,
+                                  width: 69.0,
+                                  child: FloatingActionButton(
+                                    elevation: 10,
+                                    child: Container(
+                                        height: 69.0,
+                                        width: 69.0,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            gradient: RadialGradient(colors: [
+                                              Color.fromRGBO(139, 239, 123, 1),
+                                              Colors.black
+                                            ], stops: [
+                                              0.44,
+                                              1
+                                            ], radius: 1)),
+                                        child: Icon(Icons.play_arrow_outlined,
+                                            size: 50)),
+                                    onPressed: () {
+                                      pausedRoute = !pausedRoute;
+                                      _stopWatchTimer.onExecute
+                                          .add(StopWatchExecute.start);
+                                      startRoute();
+                                    },
+                                  )),
+                              SizedBox(height: 4),
+                              Container(
+                                  width: 79,
+                                  height: 22,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    boxShadow: <BoxShadow>[
+                                      BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 1.0,
+                                          offset: Offset(1, 1))
+                                    ],
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    color: Colors.white,
+                                  ),
+                                  child: Text('RESUME',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400))),
+                            ],
+                          )
+                        : Container(height: 0, width: 0)),
+                Positioned(
+                    bottom: 7,
+                    right: 100,
+                    child: pausedRoute
+                        ? Column(
+                            children: [
+                              Container(
+                                  height: 69.0,
+                                  width: 69.0,
+                                  child: FloatingActionButton(
+                                    elevation: 10,
+                                    child: Container(
+                                        height: 69.0,
+                                        width: 69.0,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            gradient: RadialGradient(colors: [
+                                              Color.fromRGBO(248, 122, 130, 1),
+                                              Colors.black
+                                            ], stops: [
+                                              0.44,
+                                              1
+                                            ], radius: 1)),
+                                        child: Icon(Icons.stop_outlined,
+                                            size: 50)),
+                                    onPressed: () async {
+                                      bool savedRoute = await showDialog(
+                                        context: this.context,
+                                        builder: (_) => SaveRoute(
+                                            routeList: routeCoords,
+                                            distance: totalDistance,
+                                            time: StopWatchTimer
+                                                .getDisplayTimeSecond(
+                                                    _stopWatchTimer.rawTime
+                                                        .valueWrapper?.value)),
+                                      );
+                                      if (savedRoute) {
+                                        finishRoute();
+                                      } else {}
+                                    },
+                                  )),
+                              SizedBox(height: 4),
+                              Container(
+                                  width: 79,
+                                  height: 22,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    boxShadow: <BoxShadow>[
+                                      BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 1.0,
+                                          offset: Offset(1, 1))
+                                    ],
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    color: Colors.white,
+                                  ),
+                                  child: Text('STOP',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400))),
+                            ],
+                          )
+                        : Container(height: 0, width: 0)),
+              ],
             ),
-          ),
-          Positioned(
-              bottom: 7,
-              left: 100,
-              child: pausedRoute
-                  ? Column(
-                      children: [
-                        Container(
-                            height: 69.0,
-                            width: 69.0,
-                            child: FloatingActionButton(
-                              elevation: 10,
-                              child: Container(
-                                  height: 69.0,
-                                  width: 69.0,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      gradient: RadialGradient(colors: [
-                                        Color.fromRGBO(139, 239, 123, 1),
-                                        Colors.black
-                                      ], stops: [
-                                        0.44,
-                                        1
-                                      ], radius: 1)),
-                                  child: Icon(Icons.play_arrow_outlined,
-                                      size: 50)),
-                              onPressed: () {
-                                pausedRoute = !pausedRoute;
-                                _stopWatchTimer.onExecute
-                                    .add(StopWatchExecute.start);
-                                startRoute();
-                              },
-                            )),
-                        SizedBox(height: 4),
-                        Container(
-                            width: 79,
-                            height: 22,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 1.0,
-                                    offset: Offset(1, 1))
-                              ],
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              color: Colors.white,
-                            ),
-                            child: Text('RESUME',
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400))),
-                      ],
-                    )
-                  : Container(height: 0, width: 0)),
-          Positioned(
-              bottom: 7,
-              right: 100,
-              child: pausedRoute
-                  ? Column(
-                      children: [
-                        Container(
-                            height: 69.0,
-                            width: 69.0,
-                            child: FloatingActionButton(
-                              elevation: 10,
-                              child: Container(
-                                  height: 69.0,
-                                  width: 69.0,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      gradient: RadialGradient(colors: [
-                                        Color.fromRGBO(248, 122, 130, 1),
-                                        Colors.black
-                                      ], stops: [
-                                        0.44,
-                                        1
-                                      ], radius: 1)),
-                                  child: Icon(Icons.stop_outlined, size: 50)),
-                              onPressed: () async {
-                                bool savedRoute = await showDialog(
-                                  context: this.context,
-                                  builder: (_) => SaveRoute(
-                                      routeList: routeCoords,
-                                      distance: totalDistance,
-                                      time: StopWatchTimer.getDisplayTimeSecond(
-                                          _stopWatchTimer
-                                              .rawTime.valueWrapper?.value)),
-                                );
-                                if (savedRoute) {
-                                  finishRoute();
-                                } else {}
-                              },
-                            )),
-                        SizedBox(height: 4),
-                        Container(
-                            width: 79,
-                            height: 22,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 1.0,
-                                    offset: Offset(1, 1))
-                              ],
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              color: Colors.white,
-                            ),
-                            child: Text('STOP',
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400))),
-                      ],
-                    )
-                  : Container(height: 0, width: 0)),
-        ],
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: locationData == null || pausedRoute
           ? null
@@ -499,28 +581,29 @@ class MapSampleState extends State<Home> {
               height: 80.0,
               width: 80.0,
               child: FloatingActionButton(
-                  elevation: 10,
-                  child: Container(
-                      height: 80.0,
-                      width: 80.0,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: RadialGradient(
-                              colors: isStarted
-                                  ? [
-                                      Color.fromRGBO(252, 216, 88, 1),
-                                      Colors.black
-                                    ]
-                                  : [
-                                      Color.fromRGBO(139, 239, 123, 1),
-                                      Colors.black
-                                    ],
-                              stops: [0.44, 1],
-                              radius: 1)),
-                      child: isStarted
-                          ? Icon(Icons.pause_outlined, size: 50)
-                          : Icon(Icons.play_arrow_outlined, size: 50)),
-                  onPressed: () {
+                elevation: 10,
+                child: Container(
+                    height: 80.0,
+                    width: 80.0,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: RadialGradient(
+                            colors: isStarted
+                                ? [
+                                    Color.fromRGBO(252, 216, 88, 1),
+                                    Colors.black
+                                  ]
+                                : [
+                                    Color.fromRGBO(139, 239, 123, 1),
+                                    Colors.black
+                                  ],
+                            stops: [0.44, 1],
+                            radius: 1)),
+                    child: isStarted
+                        ? Icon(Icons.pause_outlined, size: 50)
+                        : Icon(Icons.play_arrow_outlined, size: 50)),
+                onPressed: () {
+                  setState(() {
                     if (isStarted) {
                       _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
                       timer.cancel();
@@ -533,7 +616,9 @@ class MapSampleState extends State<Home> {
                       routeCoords.add(firstPos);
                       startRoute();
                     }
-                  })),
+                  });
+                },
+              )),
       bottomNavigationBar: locationData == null
           ? Center(
               child: CircularProgressIndicator(

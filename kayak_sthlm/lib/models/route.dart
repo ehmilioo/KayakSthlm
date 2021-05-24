@@ -27,12 +27,12 @@ class MyRoute {
         userUid = data['userUid'];
 
   Map<String, dynamic> toJson() => {
-      'name': name,
-      'favorite': favorite,
-      'coordinates': coordinates,
-      'date' : date,
-      'timeTaken' : timeTaken,
-      'distance' : distance,
-      'userUid' : userUid,
-  };
+        'name': name,
+        'favorite': favorite,
+        'coordinates': coordinates,
+        'date': date,
+        'timeTaken': timeTaken,
+        'distance': distance,
+        'userUid': userUid,
+      };
 }

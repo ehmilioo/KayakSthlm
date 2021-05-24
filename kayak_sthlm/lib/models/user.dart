@@ -5,19 +5,18 @@ class TheUser {
   final String experience;
   final String age;
   final String gender;
-  TheUser({ 
-      this.uid, 
-      this.email, 
-      this.username, 
-      this.experience,
-      this.age,
-      this.gender,
-    });
+  TheUser({
+    this.uid,
+    this.email,
+    this.username,
+    this.experience,
+    this.age,
+    this.gender,
+  });
 
-  String getUid(){
+  String getUid() {
     return uid;
   }
-
 
   TheUser.fromData(Map<String, dynamic> data)
       : uid = data['uid'],
@@ -28,13 +27,11 @@ class TheUser {
         gender = data['gender'];
 
   Map<String, dynamic> toJson() => {
-      'username': username,
-      'email': email,
-      'uid': uid,
-      'experience' : experience,
-      'age' : age,
-      'gender' : gender,
-    };
+        'username': username,
+        'email': email,
+        'uid': uid,
+        'experience': experience,
+        'age': age,
+        'gender': gender,
+      };
 }
-
-
