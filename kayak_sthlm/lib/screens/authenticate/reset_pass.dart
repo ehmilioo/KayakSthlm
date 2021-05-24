@@ -59,7 +59,7 @@ class _ResetPass extends State<ResetPass> {
                           keyboardType: TextInputType.emailAddress,
                           style: TextStyle(fontSize: 18),
                           validator: (val) => validateEmail(val)
-                              ? 'Ange en giltig e-post'
+                              ? 'Enter an valid e-mail'
                               : null,
                           decoration: InputDecoration(
                               labelText: 'Email',
@@ -94,20 +94,6 @@ class _ResetPass extends State<ResetPass> {
                               MaterialPageRoute(builder: (context) {
                             return ResetPassOk();
                           }));
-                          // if (_formKey.currentState.validate()) {
-                          //   await _auth.sendPasswordResetEmail(email: email);
-                          //   Navigator.push(context,
-                          //       MaterialPageRoute(builder: (context) {
-                          //     return ResetPassOk();
-                          //   }));
-                          // }
-
-                          // if (_auth.sendPasswordResetEmail(email: email) ==
-                          //     null) {
-                          //   setState(() => error = 'Ett fel uppstod');
-                          // }
-                          // }
-
                           try {
                             await _auth.sendPasswordResetEmail(email: email);
                           } catch (e) {

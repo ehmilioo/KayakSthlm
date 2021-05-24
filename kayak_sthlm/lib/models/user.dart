@@ -14,7 +14,7 @@ class TheUser {
       this.gender,
     });
 
-  String getName(){
+  String getUid(){
     return uid;
   }
 
