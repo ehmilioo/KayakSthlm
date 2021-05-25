@@ -58,7 +58,7 @@ class _Filters extends State<Filters> {
                   right: 0,
                   child: Container(
                     height: 310,
-                    width: 207,
+                    width: 219,
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                     decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
@@ -88,12 +88,19 @@ class _Filters extends State<Filters> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                Image.asset(
+                                  'assets/pins/bluepin.png',
+                                  height: 20,
+                                  width: 20,
+                                ),
                                 Text('Kayak Rentals',
                                     style: styleConfig,
                                     textAlign: TextAlign.left),
                                 Transform.scale(
                                   scale: 0.5,
                                   child: CupertinoSwitch(
+                                    activeColor:
+                                        Color.fromRGBO(143, 192, 245, 1),
                                     value: getBool('kayak'),
                                     onChanged: (bool value) {
                                       setState(() {
@@ -113,8 +120,10 @@ class _Filters extends State<Filters> {
                                     style: styleConfig,
                                     textAlign: TextAlign.left),
                                 Transform.scale(
-                                  scale: 0.4,
+                                  scale: 0.5,
                                   child: CupertinoSwitch(
+                                    activeColor:
+                                        Color.fromRGBO(143, 192, 245, 1),
                                     value: getBool('restaurant'),
                                     onChanged: (bool value) {
                                       setState(() {
@@ -134,8 +143,10 @@ class _Filters extends State<Filters> {
                                     style: styleConfig,
                                     textAlign: TextAlign.left),
                                 Transform.scale(
-                                  scale: 0.3,
+                                  scale: 0.5,
                                   child: CupertinoSwitch(
+                                    activeColor:
+                                        Color.fromRGBO(143, 192, 245, 1),
                                     value: getBool('mypin'),
                                     onChanged: (bool value) {
                                       setState(() {
@@ -155,8 +166,10 @@ class _Filters extends State<Filters> {
                                     style: styleConfig,
                                     textAlign: TextAlign.left),
                                 Transform.scale(
-                                  scale: 0.6,
+                                  scale: 0.5,
                                   child: CupertinoSwitch(
+                                    activeColor:
+                                        Color.fromRGBO(143, 192, 245, 1),
                                     value: getBool('restplace'),
                                     onChanged: (bool value) {
                                       setState(() {

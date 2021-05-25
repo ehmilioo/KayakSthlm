@@ -72,7 +72,7 @@ class WeatherOverlayState extends State<WeatherDialog> {
             Container(
               padding: EdgeInsets.only(
                   bottom: Constants.padding, top: Constants.padding),
-              margin: EdgeInsets.fromLTRB(50, 196, 50, 196),
+              margin: EdgeInsets.fromLTRB(35, 186, 35, 186),
               decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   color: Colors.white,
@@ -124,7 +124,10 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                      '${snapshot.data.timeSeries[0]['parameters'][10]['level']}',
+                                      double.parse(
+                                              '${snapshot.data.timeSeries[0]['parameters'][10]['values'][0]}')
+                                          .round()
+                                          .toString(),
                                       style: TextStyle(fontSize: 72)),
                                   Text('°C', style: TextStyle(fontSize: 24)),
                                 ],
@@ -162,8 +165,11 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold)),
                                         TextSpan(
-                                            text:
-                                                '${snapshot.data.timeSeries[0]['parameters'][14]['level']} m/s')
+                                            text: double.parse(
+                                                        '${snapshot.data.timeSeries[0]['parameters'][14]['values'][0]}')
+                                                    .round()
+                                                    .toString() +
+                                                ' m/s')
                                       ])),
                                   RichText(
                                       text: TextSpan(
@@ -178,7 +184,7 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                                 fontWeight: FontWeight.bold)),
                                         TextSpan(
                                             text:
-                                                '${snapshot.data.timeSeries[0]['parameters'][0]['level']}%')
+                                                '${snapshot.data.timeSeries[0]['parameters'][0]['values'][0]}%')
                                       ])),
                                 ],
                               )
@@ -196,45 +202,97 @@ class WeatherOverlayState extends State<WeatherDialog> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                      '               ${snapshot.data.timeSeries[1]['parameters'][10]['level']}°',
-                                      style: TextStyle(fontSize: 12)),
-                                  Icon(Icons.wb_sunny, size: 45),
-                                  Text('tid', style: TextStyle(fontSize: 14))
-                                ],
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                          double.parse(
+                                                      '               ${snapshot.data.timeSeries[1]['parameters'][10]['values'][0]}')
+                                                  .round()
+                                                  .toString() +
+                                              '°',
+                                          style: TextStyle(fontSize: 12)),
+                                    ),
+                                    Icon(Icons.wb_sunny, size: 45),
+                                    Text(
+                                        TimeOfDay.fromDateTime(DateTime.now()
+                                                .add(Duration(hours: 1)))
+                                            .format(context),
+                                        style: TextStyle(fontSize: 14))
+                                  ],
+                                ),
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                      '               ${snapshot.data.timeSeries[2]['parameters'][10]['level']}°',
-                                      style: TextStyle(fontSize: 12)),
-                                  Icon(Icons.wb_sunny, size: 45),
-                                  Text('tid', style: TextStyle(fontSize: 14))
-                                ],
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                          double.parse(
+                                                      '               ${snapshot.data.timeSeries[2]['parameters'][10]['values'][0]}')
+                                                  .round()
+                                                  .toString() +
+                                              '°',
+                                          style: TextStyle(fontSize: 12)),
+                                    ),
+                                    Icon(Icons.wb_sunny, size: 45),
+                                    Text(
+                                        TimeOfDay.fromDateTime(DateTime.now()
+                                                .add(Duration(hours: 2)))
+                                            .format(context),
+                                        style: TextStyle(fontSize: 14))
+                                  ],
+                                ),
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                      '               ${snapshot.data.timeSeries[3]['parameters'][10]['level']}°',
-                                      style: TextStyle(fontSize: 12)),
-                                  Icon(Icons.wb_sunny, size: 45),
-                                  Text('tid', style: TextStyle(fontSize: 14))
-                                ],
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                          double.parse(
+                                                      '               ${snapshot.data.timeSeries[3]['parameters'][10]['values'][0]}')
+                                                  .round()
+                                                  .toString() +
+                                              '°',
+                                          style: TextStyle(fontSize: 12)),
+                                    ),
+                                    Icon(Icons.wb_sunny, size: 45),
+                                    Text(
+                                        TimeOfDay.fromDateTime(DateTime.now()
+                                                .add(Duration(hours: 3)))
+                                            .format(context),
+                                        style: TextStyle(fontSize: 14))
+                                  ],
+                                ),
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                      '               ${snapshot.data.timeSeries[4]['parameters'][10]['level']}°',
-                                      style: TextStyle(fontSize: 12)),
-                                  Icon(Icons.wb_sunny, size: 45),
-                                  Text('tid', style: TextStyle(fontSize: 14))
-                                ],
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                          double.parse(
+                                                      '               ${snapshot.data.timeSeries[4]['parameters'][10]['values'][0]}')
+                                                  .round()
+                                                  .toString() +
+                                              '°',
+                                          style: TextStyle(fontSize: 12)),
+                                    ),
+                                    Icon(Icons.wb_sunny, size: 45),
+                                    Text(
+                                        TimeOfDay.fromDateTime(DateTime.now()
+                                                .add(Duration(hours: 4)))
+                                            .format(context),
+                                        style: TextStyle(fontSize: 14))
+                                  ],
+                                ),
                               )
                             ],
                           )),

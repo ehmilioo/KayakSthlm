@@ -142,9 +142,9 @@ class MapSampleState extends State<Home> {
       position: pinLocation,
       draggable: false,
       onTap: () {
-        _controller.animateCamera(CameraUpdate.newCameraPosition(
-            new CameraPosition(
-                bearing: locationData.heading,
+        _controller
+            .animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+                // bearing: locationData.heading,
                 target: LatLng(pinLocation.latitude, pinLocation.longitude),
                 zoom: 15.00)));
         showDialog(context: this.context, builder: (_) => PinInfo(item: item));
@@ -170,9 +170,9 @@ class MapSampleState extends State<Home> {
       position: pinLocation,
       draggable: false,
       onTap: () {
-        _controller.animateCamera(CameraUpdate.newCameraPosition(
-            new CameraPosition(
-                bearing: locationData.heading,
+        _controller
+            .animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+                // bearing: locationData.heading,
                 target: LatLng(pinLocation.latitude, pinLocation.longitude),
                 zoom: 15.00)));
         showDialog(context: this.context, builder: (_) => PinInfo(item: item));
@@ -245,7 +245,7 @@ class MapSampleState extends State<Home> {
 
   void getCurrentLocation() async {
     try {
-      Uint8List imageData = await getMarker('arrow_final.png');
+      Uint8List imageData = await getMarker('assets/arrow_final.png');
       var location = await _locationTracker.getLocation();
 
       updateMarkerAndCircle(location, imageData);
@@ -363,7 +363,7 @@ class MapSampleState extends State<Home> {
                     _controller = controller;
                     _controller.animateCamera(CameraUpdate.newCameraPosition(
                         new CameraPosition(
-                            bearing: locationData.heading,
+                            // bearing: locationData.heading,
                             target: LatLng(
                                 locationData.latitude, locationData.longitude),
                             zoom: 15.00)));
@@ -412,7 +412,7 @@ class MapSampleState extends State<Home> {
                             _controller.animateCamera(
                                 CameraUpdate.newCameraPosition(
                                     new CameraPosition(
-                                        bearing: locationData.heading,
+                                        // bearing: locationData.heading,
                                         target: LatLng(locationData.latitude,
                                             locationData.longitude),
                                         zoom: 15.00)));

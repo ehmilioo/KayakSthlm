@@ -5,7 +5,6 @@ import 'package:kayak_sthlm/screens/home/home.dart';
 import 'package:kayak_sthlm/screens/info/fire_screen.dart';
 import 'package:kayak_sthlm/screens/info/guides.dart';
 import 'package:kayak_sthlm/screens/info/mapForReserves.dart';
-import 'package:kayak_sthlm/screens/info/reserve.dart';
 import 'package:kayak_sthlm/screens/my_routes/my_routes.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:kayak_sthlm/services/auth.dart';
@@ -91,7 +90,7 @@ class InformationScreen extends StatelessWidget {
                   Text('Tips\n',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                         fontSize: 25,
                       ))
                 ]),
@@ -124,7 +123,7 @@ class InformationScreen extends StatelessWidget {
                   Text('Wildlife\nPreserves',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                         fontSize: 25,
                       ))
                 ]),
@@ -162,7 +161,7 @@ class InformationScreen extends StatelessWidget {
                   Text('Fire Bans\n',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                         fontSize: 25,
                       ))
                 ]),
@@ -195,7 +194,7 @@ class InformationScreen extends StatelessWidget {
                   Text('Map\nSymbols',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                         fontSize: 25,
                       ))
                 ]),

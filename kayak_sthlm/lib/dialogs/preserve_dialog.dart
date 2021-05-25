@@ -24,7 +24,7 @@ class PreserveOverlayState extends State<PreserveDialog> {
   }
 
   getInfo() {
-    return rpa.information;
+    return rpa.protectionInfo;
   }
 
   Widget build(BuildContext context) {
