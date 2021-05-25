@@ -7,8 +7,85 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class SplashState extends StatelessWidget {
+  Future checkFirstSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seen = (prefs.getBool('seen') ?? false);
+
+    if (_seen) {
+      return Home.id;
+    } else {
+      // Set the flag to true at the end of onboarding screen if everything is successfull and so I am commenting it out
+      // await prefs.setBool('seen', true);
+      return IntroScreen.id;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: checkFirstSeen(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return MaterialApp(
+              initialRoute: snapshot.data,
+              routes: {
+                IntroScreen.id: (context) => IntroScreen(),
+                Home.id: (context) => Home(),
+              },
+            );
+          }
+        });
+  }
+}
+
+class IntroScreen extends StatelessWidget {
+  static String id = 'IntroScreen';
+  @override
+  Widget build(BuildContext context) {
+    final PageController controller = PageController(initialPage: 0);
+    return PageView(
+      scrollDirection: Axis.horizontal,
+      controller: controller,
+      children: <Widget>[
+        Container(
+          child: Image(image: AssetImage('assets/images/onBoardFirstP.png'),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/onBoardSecondP.png'),
+            ),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/onBoardThirdP.png'),
+            ),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/onBoardFourthP.png'),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
 
 class Home extends StatefulWidget  {
+  static String id = 'Home';
   @override
   State<Home> createState() => MapSampleState();
 }

@@ -17,6 +17,7 @@ dependencies:
   google_maps_flutter: ^2.0.3
   location: ^2.3.5
   http: ^0.13.2
+  shared_preferences:
 
 
 dev_dependencies:
@@ -31,6 +32,10 @@ flutter:
     - assets/bakgrund.png
     - assets/arrow_final.png
     - assets/weatherType.json
+    - assets/onBoardFirstP.png
+    - assets/onBoardSecondP.png
+    - assets/onBoardThirdP.png
+    - assets/onBoardFourthP.png
   fonts:
     - family: FugazOne
       fonts:
