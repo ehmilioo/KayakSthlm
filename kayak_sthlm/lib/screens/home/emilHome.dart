@@ -10,9 +10,12 @@ import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'package:kayak_sthlm/dialogs/save_route_dialog.dart';
 import 'package:kayak_sthlm/dialogs/filters_dialog.dart';
 import 'package:kayak_sthlm/dialogs/confirmation_dialog.dart';
+import 'package:kayak_sthlm/dialogs/custompin_dialog.dart';
+import 'package:kayak_sthlm/dialogs/pininfo_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:kayak_sthlm/models/pins.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -49,6 +52,7 @@ class MapSampleState extends State<Home> {
 
   @override
   void initState() {
+    setFilterBool();
     super.initState();
   }
 
@@ -61,35 +65,89 @@ class MapSampleState extends State<Home> {
     await _stopWatchTimer.dispose();
   }
 
+  //Sets all filters to true when building the home widget.
+  void setFilterBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('kayak', true);
+    await prefs.setBool('restaurant', true);
+    await prefs.setBool('mypin', true);
+    await prefs.setBool('restplace', true);
+    await prefs.setBool('allpins', true);
+  }
+
   Future<Uint8List> getMarker(String imagePath) async {
     ByteData byteData =
         await DefaultAssetBundle.of(context).load("assets/${imagePath}");
     return byteData.buffer.asUint8List();
   }
 
-  void learnMath() {
-    int result = 5 + 5;
-    print(result);
+  Future<void> fetchList() async {
+    Pins _pins = Pins(
+        latitude: locationData.latitude, longitude: locationData.longitude);
+    pinList = await _pins.fetchAllPins();
   }
 
-  void loadMarkersOfType(String type) {
+  Future<void> reloadCustomPins() async {
+    pinList.clear();
+    Pins _pins = Pins(
+        latitude: locationData.latitude, longitude: locationData.longitude);
+    pinList = await _pins.reloadCustomPins();
+  }
+
+  void loadMarkersOfType(String type, bool reload) async {
+    if (reload) {
+      await reloadCustomPins();
+    }
+
     for (var i = 0; i < pinList.length; i++) {
-      print(pinList[i]['type']);
       if (pinList[i]['type'] == type) {
-        createMarker(pinList[i]);
+        if (pinList[i]['type'] == 'mypin') {
+          createCustomMarker(pinList[i]);
+        } else {
+          createMarker(pinList[i]);
+        }
       }
     }
   }
 
   void loadAllMarkers(bool firstFetch) async {
     if (firstFetch) {
-      Pins _pins = Pins(
-          latitude: locationData.latitude, longitude: locationData.longitude);
-      pinList = await _pins.fetchAllPins();
+      await fetchList();
     }
     for (var i = 0; i < pinList.length; i++) {
-      createMarker(pinList[i]);
+      if (pinList[i]['type'] == 'mypin') {
+        createCustomMarker(pinList[i]);
+      } else {
+        createMarker(pinList[i]);
+      }
     }
+  }
+
+  void createCustomMarker(Map<String, dynamic> item) {
+    MarkerId markerId = MarkerId(item['name']);
+    LatLng pinLocation = LatLng(item['lat'], item['lng']);
+    String color = item['color'];
+    Marker marker = Marker(
+      markerId: markerId,
+      position: pinLocation,
+      draggable: false,
+      onTap: () {
+        _controller.animateCamera(CameraUpdate.newCameraPosition(
+            new CameraPosition(
+                bearing: locationData.heading,
+                target: LatLng(pinLocation.latitude, pinLocation.longitude),
+                zoom: 15.00)));
+        showDialog(context: this.context, builder: (_) => PinInfo(item: item));
+      },
+      zIndex: 2,
+      icon: color == 'white'
+          ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed)
+          : BitmapDescriptor.defaultMarkerWithHue(
+              BitmapDescriptor.hueBlue), //Default color
+    );
+    setState(() {
+      markers[markerId] = marker;
+    });
   }
 
   void createMarker(Map<String, dynamic> item) {
@@ -100,7 +158,6 @@ class MapSampleState extends State<Home> {
     Marker marker = Marker(
       markerId: markerId,
       position: pinLocation,
-      infoWindow: InfoWindow(title: item['name'], snippet: item['vicinity']),
       draggable: false,
       onTap: () {
         _controller.animateCamera(CameraUpdate.newCameraPosition(
@@ -108,14 +165,19 @@ class MapSampleState extends State<Home> {
                 bearing: locationData.heading,
                 target: LatLng(pinLocation.latitude, pinLocation.longitude),
                 zoom: 15.00)));
+        showDialog(context: this.context, builder: (_) => PinInfo(item: item));
       },
       zIndex: 2,
-      icon: color == 'green'
-          ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan)
-          : color == 'red'
-              ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed)
-              : BitmapDescriptor.defaultMarkerWithHue(
-                  BitmapDescriptor.hueMagenta),
+      icon: color == 'pink'
+          ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet)
+          : color == 'orange'
+              ? BitmapDescriptor.defaultMarkerWithHue(
+                  BitmapDescriptor.hueOrange)
+              : color == 'yellow'
+                  ? BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueYellow)
+                  : BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueBlue),
     );
     setState(() {
       markers[markerId] = marker;
@@ -134,11 +196,15 @@ class MapSampleState extends State<Home> {
 
   void togglePins(bool toggled, String pinType) {
     if (toggled) {
-      loadMarkersOfType(pinType);
+      loadMarkersOfType(pinType, false);
     } else {
       for (int i = 0; i < pinList.length; i++) {
         if (pinList[i]['type'] == pinType) {
-          markers.remove(MarkerId(pinList[i]['place_id']));
+          if (pinList[i]['type'] == 'mypin') {
+            markers.remove(MarkerId(pinList[i]['name']));
+          } else {
+            markers.remove(MarkerId(pinList[i]['place_id']));
+          }
         }
       }
     }
@@ -275,7 +341,11 @@ class MapSampleState extends State<Home> {
                   mapToolbarEnabled: false,
                   compassEnabled: false,
                   onLongPress: (latlang) {
-                    print('Markerad pos: ${latlang}'); //Jobba vidare på detta?
+                    showDialog(
+                            context: this.context,
+                            builder: (_) => CustomPinDialog(
+                                lat: latlang.latitude, lng: latlang.longitude))
+                        .then((value) => loadMarkersOfType('mypin', true));
                   },
                   initialCameraPosition: _startPosition,
                   markers: Set<Marker>.of(markers
@@ -298,7 +368,6 @@ class MapSampleState extends State<Home> {
                     ),
                   ),
                 ),
-
                 Positioned(
                   bottom: 20,
                   left: 100,
@@ -324,8 +393,6 @@ class MapSampleState extends State<Home> {
                         : null,
                   ),
                 ),
-
-//SAVE????
                 Positioned(
                   bottom: 20,
                   right: 100,
@@ -364,7 +431,6 @@ class MapSampleState extends State<Home> {
                         : null,
                   ),
                 ),
-
                 Positioned(
                   top: 40,
                   child: Padding(
@@ -389,7 +455,6 @@ class MapSampleState extends State<Home> {
                     ),
                   ),
                 ),
-
                 Positioned(
                   bottom: 20,
                   right: 5,
@@ -416,7 +481,6 @@ class MapSampleState extends State<Home> {
                     ),
                   ),
                 ),
-
                 Positioned(
                   top: 40,
                   right: 5,

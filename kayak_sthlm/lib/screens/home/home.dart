@@ -87,7 +87,7 @@ class MapSampleState extends State<Home> {
 
   Future<Uint8List> getMarker(String imagePath) async {
     ByteData byteData =
-        await DefaultAssetBundle.of(context).load("assets/arrow_final.png");
+        await DefaultAssetBundle.of(context).load("assets/$imagePath");
     return byteData.buffer.asUint8List();
   }
 
@@ -245,7 +245,7 @@ class MapSampleState extends State<Home> {
 
   void getCurrentLocation() async {
     try {
-      Uint8List imageData = await getMarker('assets/arrow_final.png');
+      Uint8List imageData = await getMarker('arrow_final.png');
       var location = await _locationTracker.getLocation();
 
       updateMarkerAndCircle(location, imageData);
@@ -660,7 +660,6 @@ class MapSampleState extends State<Home> {
                                                   fontWeight: FontWeight.w700),
                                             ));
                                           }),
-                                      width: 80,
                                       height: 30),
                                 ],
                               ),
