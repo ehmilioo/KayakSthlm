@@ -1,0 +1,132 @@
+[
+    {
+        "name": "Trulsör",
+        "restrictArea": "Bird Protection Area",
+        "accessBan": "1/4 - 31/7",
+        "municipality": "Värmdö",
+        "government": "Länsstyrelsen in Stockholm County",
+        "desc": "No description available.",
+        "long": 6593638.3,
+        "lat": 717108.3
+    },
+    {
+        "name": "Svärdsö - Furuholmen",
+        "restrictArea": "Bird and Seal Protection Area",
+        "accessBan": "1/4 - 15/6",
+        "municipality": "Nacka",
+        "government": "Länsstyrelsen in Stockholm County",
+        "desc": "No description available.",
+        "long": 6574521.5,
+        "lat": 689220.1
+    },
+    {
+        "name": "Årstaskogen - Årsta holmar",
+        "restrictArea": "Bird Protection Area",
+        "accessBan": "1/4 - 31/7",
+        "municipality": "Stockholm",
+        "government": "Länsstyrelsen in Stockholm County",
+        "desc": "No description available.",
+        "long":6578185.6,
+        "lat": 673295.9
+    },
+    {
+        "name": "Svärdsö - Torskholmen",
+        "restrictArea": "Bird and Seal Protection Area",
+        "accessBan": "1/4 and 15/6",
+        "municipality": "Nacka",
+        "government": "Länsstyrelsen in Stockholm County",
+        "desc": "No description available.",
+        "long": 6573190.3,
+        "lat": 689785.7
+    },
+    {
+        "name": "Kärringkobbarna",
+        "restrictArea": "Bird Protection Area",
+        "accessBan": "1/4 - 15/7",
+        "municipality": "Värmdö",
+        "government": "Länsstyrelsen in Stockholm County",
+        "desc": "No description available.",
+        "long": 6573834.4,
+        "lat": 713747.6
+    },
+    {
+        "name": "Björnö",
+        "restrictArea": "Bird Protection Area",
+        "accessBan": "1/4-15/7",
+        "municipality": "Värmdö",
+        "government": "Länsstyrelsen in Stockholm County",
+        "desc": "No description available.",
+        "long": 6569131.5,
+        "lat": 703945.6
+    },
+    {
+        "name": "Bullerö",
+        "restrictArea": "Bird Protection Area",
+        "accessBan": "1/2 - 15/8",
+        "municipality": "Värmdö",
+        "government": "Länsstyrelsen in Stockholm County",
+        "desc": "A decision that Länstyrelsen, in terms of nature conservation, shall manage the Bullerö wildlife preserve and the part of the Fjärdlång wildlife preserve that the Archipelago Foundation has so far managed.",
+        "long": 6569925.6,
+        "lat": 716309.4
+    },
+    {
+        "name": "Libertas",
+        "restrictArea": "Bird Protection Area",
+        "accessBan": "1/4-15/7",
+        "municipality": "Lidingö",
+        "government": "Länsstyrelsen in Stockholm County",
+        "desc": "No description available.",
+        "long": 6581317.2,
+        "lat": 680716.7
+    },
+    {      
+        "name": "Islands in Big Värtan - Svalsnäsholmen",
+        "restrictArea": "Bird Protection Area",
+        "accessBan": "1/4 - 31/7",
+        "municipality": "Danderyd",
+        "government": "Länsstyrelsen in Stockholm County",
+        "desc": "No description available.",
+        "long": 6589969.7,
+        "lat": 676452.4
+    },
+    {
+        "name": "Sandemar",
+        "restrictArea": "Bird Protection Area",
+        "accessBan": "1/4 - 31/8",
+        "municipality": "Haninge",
+        "government": "Länsstyrelsen in Stockholm County",
+        "desc": "No description available.",
+        "long": 6558916.2,
+        "lat": 692459.4
+    },
+    {
+        "name": "Sandemar",
+        "restrictArea": "Bird Protection Area",
+        "accessBan": "1/4 - 31/8",
+        "municipality": "Haninge",
+        "government": "Länsstyrelsen in Stockholm County",
+        "desc": "No description available",
+        "long": 6558664.9,
+        "lat": 692042.3
+    },
+    { 
+        "name": "Tyresta",
+        "restrictArea": "Bird Protection Area",
+        "accessBan": "1/4 -31/8",
+        "municipality": "Haninge, Tyresö",
+        "government": "Länsstyrelsen in Stockholm County",
+        "desc": "No description available.",
+        "long": 6564318.8,
+        "lat": 692745.7
+    },
+    {
+        "name": "Broängarna",
+        "restrictArea": "Bird Protection Area",
+        "accessBan": "1/4 - 30/9",
+        "municipality": "Upplands-Bro",
+        "government": "Länsstyrelsen in Stockholm County",
+        "desc": "No description available.",
+        "long": 6597951.1,
+        "lat": 649445.1
+    }
+]
