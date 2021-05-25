@@ -9,6 +9,8 @@ import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../wrapper.dart';
+
 class SplashState extends StatelessWidget {
   Future checkFirstSeen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -47,39 +49,60 @@ class SplashState extends StatelessWidget {
 
 class IntroScreen extends StatelessWidget {
   static String id = 'IntroScreen';
+
   @override
   Widget build(BuildContext context) {
     final PageController controller = PageController(initialPage: 0);
-    return PageView(
-      scrollDirection: Axis.horizontal,
-      controller: controller,
-      children: <Widget>[
-        Container(
-          child: Image(image: AssetImage('assets/images/onBoardFirstP.png'),
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/onBoardSecondP.png'),
+    return Scaffold(
+        body: PageView(
+          scrollDirection: Axis.horizontal,
+          controller: controller,
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/onBoardFirstP.png'),
+                ),
+              ),
             ),
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/onBoardThirdP.png'),
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/onBoardSecondP.png'),
+                ),
+              ),
             ),
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/onBoardFourthP.png'),
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/onBoardThirdP.png'),
+                ),
+              ),
             ),
-          ),
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/onBoardFourthP.png'),
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 30.0),
+        child: FloatingActionButton(
+          //den här som behövs kollas påååååååååååååååååååååååå
+          //
+          //
+          //
+          // aaaaaaaaaaahhhhhh
+            onPressed: () {
+              Wrapper();
+            },
+            tooltip: 'Start',
+            child: Icon(Icons.play_arrow_outlined)),
+      ),
     );
   }
 }
