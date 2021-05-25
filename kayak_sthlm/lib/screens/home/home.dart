@@ -245,7 +245,7 @@ class MapSampleState extends State<Home> {
 
   void getCurrentLocation() async {
     try {
-      Uint8List imageData = await getMarker();
+      Uint8List imageData = await getMarker('arrow_final.png');
       var location = await _locationTracker.getLocation();
 
       updateMarkerAndCircle(location, imageData);

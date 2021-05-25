@@ -18,7 +18,6 @@ class RoutesPage extends State<MyRoutes> {
   Widget build(BuildContext context) {
     CollectionReference routes =
         FirebaseFirestore.instance.collection('routes');
-    int sort;
     return Scaffold(
         backgroundColor: Color.fromRGBO(242, 248, 255, 1),
         body: Container(
@@ -133,7 +132,7 @@ class RoutesPage extends State<MyRoutes> {
                     ])),
             Container(
                 padding: EdgeInsets.fromLTRB(30, 0, 20, 0),
-                height: 551,
+                height: 513,
                 width: MediaQuery.of(context).size.width,
                 child: RawScrollbar(
                   thumbColor: Color.fromRGBO(127, 184, 244, 0.8),

@@ -43,6 +43,7 @@ flutter:
     - assets/images/
     - assets/arrow_final.png
     - assets/weatherType.json
+    - assets/pins/
   fonts:
    - family:  AppIcons
      fonts:

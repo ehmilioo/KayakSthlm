@@ -42,7 +42,7 @@ class _Filters extends State<Filters> {
     return prefs.getBool(type);
   }
 
-  var styleConfig = TextStyle(fontSize: 13, fontFamily: 'HammersmithOne');
+  var styleConfig = TextStyle(fontSize: 17, fontFamily: 'Montserrat');
 
   @override
   Widget build(BuildContext context) {
@@ -57,135 +57,159 @@ class _Filters extends State<Filters> {
                 Positioned(
                   right: 0,
                   child: Container(
-                    padding: EdgeInsets.only(
-                        left: 20, top: 20, right: 20, bottom: 20),
-                    margin: EdgeInsets.only(top: 20),
+                    height: 310,
+                    width: 207,
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                     decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(15),
                         boxShadow: [
                           BoxShadow(
                               color: Colors.black,
-                              offset: Offset(0, 10),
-                              blurRadius: 10),
+                              offset: Offset(0, 3),
+                              blurRadius: 5),
                         ]),
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.close_outlined),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
+                      children: [
                         Text(
                           'Filters',
                           style: TextStyle(
                               fontSize: 30,
-                              fontWeight: FontWeight.w200,
-                              fontFamily: 'HammersmithOne'),
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Montserrat'),
                         ),
-                        SizedBox(
-                          height: 22,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Kayak Rentals',
-                                style: styleConfig, textAlign: TextAlign.left),
-                            Transform.scale(
-                              scale: 0.8,
-                              child: CupertinoSwitch(
-                                value: getBool('kayak'),
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    setLocalBool('kayak', value);
-                                  });
-                                  widget.togglePins(getBool('kayak'), 'kayak');
-                                },
-                              ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 22,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Kayak Rentals',
+                                    style: styleConfig,
+                                    textAlign: TextAlign.left),
+                                Transform.scale(
+                                  scale: 0.5,
+                                  child: CupertinoSwitch(
+                                    value: getBool('kayak'),
+                                    onChanged: (bool value) {
+                                      setState(() {
+                                        setLocalBool('kayak', value);
+                                      });
+                                      widget.togglePins(
+                                          getBool('kayak'), 'kayak');
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Restaurants',
+                                    style: styleConfig,
+                                    textAlign: TextAlign.left),
+                                Transform.scale(
+                                  scale: 0.4,
+                                  child: CupertinoSwitch(
+                                    value: getBool('restaurant'),
+                                    onChanged: (bool value) {
+                                      setState(() {
+                                        setLocalBool('restaurant', value);
+                                      });
+                                      widget.togglePins(
+                                          getBool('restaurant'), 'restaurant');
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Custom Pins',
+                                    style: styleConfig,
+                                    textAlign: TextAlign.left),
+                                Transform.scale(
+                                  scale: 0.3,
+                                  child: CupertinoSwitch(
+                                    value: getBool('mypin'),
+                                    onChanged: (bool value) {
+                                      setState(() {
+                                        setLocalBool('mypin', value);
+                                      });
+                                      widget.togglePins(
+                                          getBool('mypin'), 'mypin');
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Rest Places',
+                                    style: styleConfig,
+                                    textAlign: TextAlign.left),
+                                Transform.scale(
+                                  scale: 0.6,
+                                  child: CupertinoSwitch(
+                                    value: getBool('restplace'),
+                                    onChanged: (bool value) {
+                                      setState(() {
+                                        setLocalBool('restplace', value);
+                                      });
+                                      widget.togglePins(
+                                          getBool('restplace'), 'restplace');
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            RaisedButton(
+                              elevation: 5.0,
+                              child: Text('Hide/Show All'),
+                              onPressed: () {
+                                bool allPinsBool = getBool('allpins');
+                                setState(() {
+                                  setLocalBool('kayak', !allPinsBool);
+                                  setLocalBool('restaurant', !allPinsBool);
+                                  setLocalBool('mypin', !allPinsBool);
+                                  setLocalBool('restplace', !allPinsBool);
+                                  setLocalBool('allpins', !allPinsBool);
+                                });
+                                widget.toggleAllPins(allPinsBool);
+                              },
                             ),
                           ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Restaurants',
-                                style: styleConfig, textAlign: TextAlign.left),
-                            Transform.scale(
-                              scale: 0.8,
-                              child: CupertinoSwitch(
-                                value: getBool('restaurant'),
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    setLocalBool('restaurant', value);
-                                  });
-                                  widget.togglePins(
-                                      getBool('restaurant'), 'restaurant');
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Custom Pins',
-                                style: styleConfig, textAlign: TextAlign.left),
-                            Transform.scale(
-                              scale: 0.8,
-                              child: CupertinoSwitch(
-                                value: getBool('mypin'),
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    setLocalBool('mypin', value);
-                                  });
-                                  widget.togglePins(getBool('mypin'), 'mypin');
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Rest Places',
-                                style: styleConfig, textAlign: TextAlign.left),
-                            Transform.scale(
-                              scale: 0.8,
-                              child: CupertinoSwitch(
-                                value: getBool('restplace'),
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    setLocalBool('restplace', value);
-                                  });
-                                  widget.togglePins(
-                                      getBool('restplace'), 'restplace');
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        RaisedButton(
-                          elevation: 5.0,
-                          child: Text('Hide/Show All'),
-                          onPressed: () {
-                            bool allPinsBool = getBool('allpins');
-                            setState(() {
-                              setLocalBool('kayak', !allPinsBool);
-                              setLocalBool('restaurant', !allPinsBool);
-                              setLocalBool('mypin', !allPinsBool);
-                              setLocalBool('restplace', !allPinsBool);
-                              setLocalBool('allpins', !allPinsBool);
-                            });
-                            widget.toggleAllPins(allPinsBool);
-                          },
                         ),
                       ],
                     ),
                   ),
                 ),
+                Positioned(
+                    top: 50,
+                    right: 22,
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Card(
+                          elevation: 20,
+                          shape: CircleBorder(),
+                          child: CircleAvatar(
+                            radius: 24.0,
+                            backgroundColor: Colors.blue,
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.white,
+                              size: 40,
+                            ),
+                          ),
+                        )))
               ],
             ),
           );
