@@ -9,48 +9,77 @@ import 'dart:ui';
 import 'package:kayak_sthlm/screens/info/mapForReserves.dart';
 
 class PreserveDialog extends StatefulWidget {
-  final RPA rpa;
+  final String name;
+  final String info;
+  final String size;
 
-  PreserveDialog({this.rpa});
+  PreserveDialog(
+      {@required this.name, @required this.info, @required this.size});
 
   @override
   State<StatefulWidget> createState() => PreserveOverlayState();
 }
 
 class PreserveOverlayState extends State<PreserveDialog> {
-  RPA rpa = PreserveDialog().rpa;
-  getId() {
-    return rpa.id;
-  }
-
-  getInfo() {
-    return rpa.protectionInfo;
+  @override
+  void initState() {
+    super.initState();
   }
 
   Widget build(BuildContext context) {
     return Container(
         child: Stack(children: <Widget>[
       Container(
-        padding:
-            EdgeInsets.only(bottom: Constants.padding, top: Constants.padding),
-        margin: EdgeInsets.fromLTRB(50, 196, 50, 196),
-        decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(Constants.padding),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
-            ]),
-        child: Material(
-          child: Column(
-            children: <Widget>[Text(getInfo() + ' ' + getId())],
-          ),
-        ),
-      ),
+          height: 200,
+          padding: EdgeInsets.all(Constants.padding),
+          margin: EdgeInsets.fromLTRB(37, 120, 37, 100),
+          decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(Constants.padding),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black, offset: Offset(0, 5), blurRadius: 10),
+              ]),
+          child: Material(
+              color: Colors.white,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                      height: 90,
+                      child: Text(widget.name,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Montserrat',
+                              color: Colors.black))),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            child: Text(widget.info,
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500))),
+                        SizedBox(height: 20),
+                        Container(
+                            child: Text(widget.size,
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500))),
+                      ],
+                    ),
+                  )
+                ],
+              ))),
       Positioned(
-          top: 168,
-          right: 22,
+          top: 92,
+          right: 8,
           child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();

@@ -429,28 +429,26 @@ class MapSampleState extends State<Home> {
                           shape: CircleBorder(),
                         ))),
                 Positioned(
-                  top: 50,
+                  top: 45,
                   right: -5,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: RawMaterialButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (_) => Filters(
-                              togglePins: togglePins,
-                              toggleAllPins: toggleAllPins),
-                        );
-                      },
-                      elevation: 5.0,
-                      fillColor: Colors.white,
-                      child: Icon(
-                        Icons.filter_alt_outlined,
-                        size: 35.0,
-                      ),
-                      padding: EdgeInsets.all(10.0),
-                      shape: CircleBorder(),
+                  child: RawMaterialButton(
+                    onPressed: () {
+                      showDialog(
+                        barrierColor: Colors.transparent,
+                        context: context,
+                        builder: (_) => Filters(
+                            togglePins: togglePins,
+                            toggleAllPins: toggleAllPins),
+                      );
+                    },
+                    elevation: 5.0,
+                    fillColor: Colors.white,
+                    child: Icon(
+                      Icons.filter_alt_outlined,
+                      size: 35.0,
                     ),
+                    padding: EdgeInsets.all(10.0),
+                    shape: CircleBorder(),
                   ),
                 ),
                 Positioned(

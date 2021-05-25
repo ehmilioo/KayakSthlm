@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:kayak_sthlm/dialogs/preserve_dialog.dart';
 import 'package:kayak_sthlm/dialogs/reserveRules_dialog.dart';
 import 'information.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -683,44 +684,53 @@ class MapSampleState extends State<MapSample> {
       strokeWidth: 2,
       strokeColor: Colors.red,
       fillColor: Colors.redAccent.withOpacity(0.15),
-      onTap: () {
-        showDialog(
-            context: context,
-            builder: (_) => new AlertDialog(
-                  title: new Text(rpa.id),
-                  content: new Text(rpa.protectionInfo + '\n' + rpa.sizeInfo),
-                  actions: <Widget>[
-                    TextButton(
-                      child: Text('Back'),
-                      onPressed: () {
-                        Navigator.of(context, rootNavigator: true).pop();
-                      },
-                    )
-                  ],
-                ));
-      },
+      // onTap: () {
+      //   showDialog(
+      //       context: context,
+      //       builder: (_) => new AlertDialog(
+      //             title: new Text(rpa.id),
+      //             content: new Text(rpa.protectionInfo + '\n' + rpa.sizeInfo),
+      //             actions: <Widget>[
+      //               TextButton(
+      //                 child: Text('Back'),
+      //                 onPressed: () {
+      //                   Navigator.of(context, rootNavigator: true).pop();
+      //                 },
+      //               )
+      //             ],
+      //           ));
+      // },
     ));
     if (rpa.lat != null && rpa.long != null) {
       _markers.add(Marker(
-        markerId: MarkerId(rpa.id),
-        position: LatLng(rpa.lat, rpa.long),
-        onTap: () {
-          showDialog(
-              context: context,
-              builder: (_) => new AlertDialog(
-                    title: new Text(rpa.id),
-                    content: new Text(rpa.protectionInfo + '\n' + rpa.sizeInfo),
-                    actions: <Widget>[
-                      TextButton(
-                        child: Text('Back'),
-                        onPressed: () {
-                          Navigator.of(context, rootNavigator: true).pop();
-                        },
-                      )
-                    ],
-                  ));
-        },
-      ));
+          markerId: MarkerId(rpa.id),
+          position: LatLng(rpa.lat, rpa.long),
+          onTap: () {
+            showDialog(
+                context: context,
+                builder: (_) => new PreserveDialog(
+                      name: rpa.id,
+                      info: rpa.protectionInfo,
+                      size: rpa.sizeInfo,
+                    ));
+          }
+          // onTap: () {
+          //   showDialog(
+          //       context: context,
+          //       builder: (_) => new AlertDialog(
+          //             title: new Text(rpa.id),
+          //             content: new Text(rpa.protectionInfo + '\n' + rpa.sizeInfo),
+          //             actions: <Widget>[
+          //               TextButton(
+          //                 child: Text('Back'),
+          //                 onPressed: () {
+          //                   Navigator.of(context, rootNavigator: true).pop();
+          //                 },
+          //               )
+          //             ],
+          //           ));
+          // },
+          ));
     }
   }
 
@@ -839,6 +849,18 @@ class RPA {
 
   RPA(this.id, this.protectionInfo, this.sizeInfo, this.lat, this.long,
       this.polygonLatLngs);
+
+  getId() {
+    return id;
+  }
+
+  getInfo() {
+    return protectionInfo;
+  }
+
+  getSize() {
+    return sizeInfo;
+  }
 
   bool operator ==(o) =>
       o is RPA && o.id == id && o.protectionInfo == protectionInfo;
