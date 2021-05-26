@@ -65,7 +65,6 @@ class Pins {
       item.addAll(protectedInfo);
       finalList.add(item);
     });
-    print('Returned json pins');
   }
 
   Future<List<dynamic>> getPins(

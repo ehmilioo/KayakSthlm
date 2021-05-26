@@ -65,7 +65,6 @@ class WeatherOverlayState extends State<WeatherDialog> {
           Map<String, dynamic> response = getWeatherTypeInfo(
               snapshot.data.timeSeries[0]['parameters'][18]['values'][0] -
                   1); //-1 eftersom SMHI API börjar på 1 och listor på 0 :-)
-          print(snapshot.data.timeSeries[0]['parameters']);
           return Stack(
             children: <Widget>[
               Container(
