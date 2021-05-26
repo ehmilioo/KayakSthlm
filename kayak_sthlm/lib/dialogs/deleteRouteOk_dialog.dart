@@ -52,6 +52,7 @@ class DeleteRouteOkOverlayState extends State<DeleteRouteOkDialog> {
                             fontWeight: FontWeight.w600,
                             fontSize: 25,
                             fontFamily: 'Montserrat'))),
+                SizedBox(height: 20),
                 Container(
                     height: 275,
                     color: Colors.white,
@@ -67,7 +68,7 @@ class DeleteRouteOkOverlayState extends State<DeleteRouteOkDialog> {
                                   fontWeight: FontWeight.w400,
                                   fontSize: 27,
                                   fontFamily: 'Montserrat'))),
-                      SizedBox(height: 80),
+                      SizedBox(height: 100),
                       OutlinedButton(
                           style: OutlinedButton.styleFrom(
                               minimumSize: Size(195, 48),
@@ -81,10 +82,9 @@ class DeleteRouteOkOverlayState extends State<DeleteRouteOkDialog> {
                               textStyle: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w600)),
                           child: Text('Close'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
+                          onPressed: () async {
+                            Navigator.pop(context);
                           }),
-                      SizedBox(height: 10)
                     ]))
               ])))
     ]));

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:kayak_sthlm/dialogs/EventsInfo_dialog.dart';
 import 'package:kayak_sthlm/dialogs/RoutesInfo_dialog.dart';
+import 'package:kayak_sthlm/dialogs/deleteRoute_dialog.dart';
 import 'package:kayak_sthlm/dialogs/eventsInfo_dialog.dart';
 import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 import 'package:kayak_sthlm/screens/info/information.dart';
@@ -161,7 +162,9 @@ class MapSampleState extends State<Home> {
                 builder: (_) => ProtectedPinInfo(item: item));
           } else {
             showDialog(
-                context: this.context, builder: (_) => PinInfo(item: item));
+                barrierColor: Colors.transparent,
+                context: this.context,
+                builder: (_) => PinInfo(item: item));
           }
         },
         zIndex: 2,
@@ -704,10 +707,8 @@ class MapSampleState extends State<Home> {
                                         onPressed: () async {
                                           final result = await showDialog(
                                               context: this.context,
-                                              builder: (_) => AttentionDialog(
-                                                    message:
-                                                        'Are you sure you want to delete route?',
-                                                  ));
+                                              builder: (_) =>
+                                                  DeleteRouteDialog());
                                           if (result) {
                                             stoppedRoute = !stoppedRoute;
                                             finishRoute();

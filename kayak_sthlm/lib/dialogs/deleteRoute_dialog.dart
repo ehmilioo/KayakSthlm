@@ -62,7 +62,8 @@ class DeleteRouteOverlayState extends State<DeleteRouteDialog> {
                       SizedBox(height: 20),
                       ConstrainedBox(
                           constraints: BoxConstraints(maxWidth: 250),
-                          child: Text('Are you sure you want to delete route?',
+                          child: Text(
+                              'Are you sure you want to delete your route?',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.black,
@@ -84,8 +85,8 @@ class DeleteRouteOverlayState extends State<DeleteRouteDialog> {
                               textStyle: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w600)),
                           child: Text('Cancel'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
+                          onPressed: () async {
+                            Navigator.pop(context, false);
                           }),
                       SizedBox(height: 20),
                       OutlinedButton(
@@ -103,13 +104,13 @@ class DeleteRouteOverlayState extends State<DeleteRouteDialog> {
                                 fontWeight: FontWeight.w600,
                               )),
                           child: Text('Delete'),
-                          onPressed: () {
+                          onPressed: () async {
                             showDialog(
                                     barrierDismissible: false,
                                     context: context,
                                     builder: (_) => DeleteRouteOkDialog())
                                 .then((value) {
-                              Navigator.of(context).pop();
+                              Navigator.pop(context, true);
                             });
                           }),
                       SizedBox(height: 10)
