@@ -77,30 +77,42 @@ class IntroScreen extends StatelessWidget {
         controller: controller,
         children: <Widget>[
           Container(
+            height: MediaQuery.of(context).size.height - 100,
+            width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/onBoardFirstP.png'),
+                fit: BoxFit.cover,
               ),
             ),
           ),
           Container(
+            height: MediaQuery.of(context).size.height - 100,
+            width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/onBoardSecondP.png'),
+                fit: BoxFit.cover,
               ),
             ),
           ),
           Container(
+            height: MediaQuery.of(context).size.height - 100,
+            width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/onBoardThirdP.png'),
+                fit: BoxFit.cover,
               ),
             ),
           ),
           Container(
+            height: MediaQuery.of(context).size.height - 100,
+            width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/onBoardFourthP.png'),
+                fit: BoxFit.cover,
               ),
             ),
           ),
