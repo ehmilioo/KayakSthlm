@@ -11,22 +11,22 @@ class Pins {
   Pins({@required this.longitude, @required this.latitude});
 
   var rentalInfo = {
-    'type': 'kayak',
+    'type': 'Kayak Rental',
     'color': 'pink',
   };
 
   var restaurantInfo = {
-    'type': 'restaurant',
+    'type': 'Restaurant',
     'color': 'orange',
   };
 
   var restplaceInfo = {
-    'type': 'restplace',
+    'type': 'Rest Place',
     'color': 'yellow',
   };
 
   var mypinInfo = {
-    'type': 'mypin',
+    'type': 'Custom Pin',
     'color': 'white',
   };
 
@@ -40,7 +40,7 @@ class Pins {
 
   Future<List<dynamic>> reloadCustomPins() async {
     for (var i = 0; i < finalList.length; i++) {
-      if (finalList[i]['type'] == 'mypin') {
+      if (finalList[i]['type'] == 'Custom Pin') {
         finalList.removeAt(i);
       }
     }

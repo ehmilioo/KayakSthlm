@@ -113,13 +113,15 @@ class _Filters extends State<Filters> {
                                           child: CupertinoSwitch(
                                             activeColor: Color.fromRGBO(
                                                 143, 192, 245, 1),
-                                            value: getBool('kayak'),
+                                            value: getBool('Kayak Rental'),
                                             onChanged: (bool value) {
                                               setState(() {
-                                                setLocalBool('kayak', value);
+                                                setLocalBool(
+                                                    'Kayak Rental', value);
                                               });
                                               widget.togglePins(
-                                                  getBool('kayak'), 'kayak');
+                                                  getBool('Kayak Rental'),
+                                                  'Kayak Rental');
                                             },
                                           ),
                                         ),
@@ -145,15 +147,15 @@ class _Filters extends State<Filters> {
                                           child: CupertinoSwitch(
                                             activeColor: Color.fromRGBO(
                                                 143, 192, 245, 1),
-                                            value: getBool('restaurant'),
+                                            value: getBool('Restaurant'),
                                             onChanged: (bool value) {
                                               setState(() {
                                                 setLocalBool(
-                                                    'restaurant', value);
+                                                    'Restaurant', value);
                                               });
                                               widget.togglePins(
-                                                  getBool('restaurant'),
-                                                  'restaurant');
+                                                  getBool('Restaurant'),
+                                                  'Restaurant');
                                             },
                                           ),
                                         ),
@@ -179,13 +181,15 @@ class _Filters extends State<Filters> {
                                           child: CupertinoSwitch(
                                             activeColor: Color.fromRGBO(
                                                 143, 192, 245, 1),
-                                            value: getBool('mypin'),
+                                            value: getBool('Custom Pin'),
                                             onChanged: (bool value) {
                                               setState(() {
-                                                setLocalBool('mypin', value);
+                                                setLocalBool(
+                                                    'Custom Pin', value);
                                               });
                                               widget.togglePins(
-                                                  getBool('mypin'), 'mypin');
+                                                  getBool('Custom Pin'),
+                                                  'Custom Pin');
                                             },
                                           ),
                                         ),
@@ -211,15 +215,15 @@ class _Filters extends State<Filters> {
                                           child: CupertinoSwitch(
                                             activeColor: Color.fromRGBO(
                                                 143, 192, 245, 1),
-                                            value: getBool('restplace'),
+                                            value: getBool('Rest Place'),
                                             onChanged: (bool value) {
                                               setState(() {
                                                 setLocalBool(
-                                                    'restplace', value);
+                                                    'Rest Place', value);
                                               });
                                               widget.togglePins(
-                                                  getBool('restplace'),
-                                                  'restplace');
+                                                  getBool('Rest Place'),
+                                                  'Rest Place');
                                             },
                                           ),
                                         ),
@@ -246,10 +250,11 @@ class _Filters extends State<Filters> {
                                   onPressed: () {
                                     bool allPinsBool = getBool('allpins');
                                     setState(() {
-                                      setLocalBool('kayak', !allPinsBool);
-                                      setLocalBool('restaurant', !allPinsBool);
-                                      setLocalBool('mypin', !allPinsBool);
-                                      setLocalBool('restplace', !allPinsBool);
+                                      setLocalBool(
+                                          'Kayak Rental', !allPinsBool);
+                                      setLocalBool('Restaurant', !allPinsBool);
+                                      setLocalBool('Custom Pin', !allPinsBool);
+                                      setLocalBool('Rest Place', !allPinsBool);
                                       setLocalBool('allpins', !allPinsBool);
                                     });
                                     widget.toggleAllPins(allPinsBool);

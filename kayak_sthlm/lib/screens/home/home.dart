@@ -78,10 +78,10 @@ class MapSampleState extends State<Home> {
   //Sets all filters to true when building the home widget.
   void setFilterBool() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('kayak', true);
-    await prefs.setBool('restaurant', true);
-    await prefs.setBool('mypin', true);
-    await prefs.setBool('restplace', true);
+    await prefs.setBool('Kayak Rental', true);
+    await prefs.setBool('Restaurant', true);
+    await prefs.setBool('Custom Pin', true);
+    await prefs.setBool('Rest Place', true);
     await prefs.setBool('allpins', true);
   }
 
@@ -111,7 +111,7 @@ class MapSampleState extends State<Home> {
 
     for (var i = 0; i < pinList.length; i++) {
       if (pinList[i]['type'] == type) {
-        if (pinList[i]['type'] == 'mypin') {
+        if (pinList[i]['type'] == 'Custom Pin') {
           createCustomMarker(pinList[i]);
         } else {
           createMarker(pinList[i]);
@@ -125,7 +125,7 @@ class MapSampleState extends State<Home> {
       await fetchList();
     }
     for (var i = 0; i < pinList.length; i++) {
-      if (pinList[i]['type'] == 'mypin') {
+      if (pinList[i]['type'] == 'Custom Pin') {
         createCustomMarker(pinList[i]);
       } else {
         createMarker(pinList[i]);
@@ -175,7 +175,10 @@ class MapSampleState extends State<Home> {
                 // bearing: locationData.heading,
                 target: LatLng(pinLocation.latitude, pinLocation.longitude),
                 zoom: 15.00)));
-        showDialog(context: this.context, builder: (_) => PinInfo(item: item));
+        showDialog(
+            barrierColor: Colors.transparent,
+            context: this.context,
+            builder: (_) => PinInfo(item: item));
       },
       zIndex: 2,
       icon: color == 'pink'
@@ -210,7 +213,7 @@ class MapSampleState extends State<Home> {
     } else {
       for (int i = 0; i < pinList.length; i++) {
         if (pinList[i]['type'] == pinType) {
-          if (pinList[i]['type'] == 'mypin') {
+          if (pinList[i]['type'] == 'Custom Pin') {
             markers.remove(MarkerId(pinList[i]['name']));
           } else {
             markers.remove(MarkerId(pinList[i]['place_id']));
@@ -352,7 +355,7 @@ class MapSampleState extends State<Home> {
                             context: this.context,
                             builder: (_) => CustomPinDialog(
                                 lat: latlang.latitude, lng: latlang.longitude))
-                        .then((value) => loadMarkersOfType('mypin', true));
+                        .then((value) => loadMarkersOfType('Custom Pin', true));
                   },
                   initialCameraPosition: _startPosition,
                   markers: Set<Marker>.of(markers
