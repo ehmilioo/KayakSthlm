@@ -189,6 +189,19 @@ class _MyRoutesState extends State {
                                   child: Column(
                                     children: [
                                       Container(
+                                        child: Icon(
+                                          Icons.star,
+                                          color: (() {
+                                            if (document.get('favorite')) {
+                                              return Colors.yellow;
+                                            } else {
+                                              return Colors.grey;
+                                            }
+                                          }()), //(if(document.get('favorite') == true) {Colors.yellow} else {Colors.grey}),
+                                          size: 24,
+                                        ),
+                                      ),
+                                      Container(
                                         child: Text(
                                           document.get('name'),
                                           style: TextStyle(fontSize: 12),
