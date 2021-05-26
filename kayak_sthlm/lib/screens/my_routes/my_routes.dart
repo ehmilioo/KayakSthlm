@@ -4,15 +4,62 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kayak_sthlm/screens/home/home.dart';
 import 'package:kayak_sthlm/screens/info/information.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 class MyRoutes extends StatefulWidget {
+  const MyRoutes({Key key}) : super(key: key);
+
   @override
-  State<MyRoutes> createState() => RoutesPage();
+  _MyRoutesState createState() => _MyRoutesState();
 }
 
-class RoutesPage extends State<MyRoutes> {
-  final String userId = 'SA7vfU0GafXxjpUgLeNfcJfOZGA2';
+class _MyRoutesState extends State {
+  List<QueryDocumentSnapshot> routeList;
+  AsyncSnapshot<QuerySnapshot> snap;
+  //FirebaseAuth.instance.currentUser.uid;
+  //'SA7vfU0GafXxjpUgLeNfcJfOZGA2'; for testing
+  final String userId = FirebaseAuth.instance.currentUser.uid;
   int sorting = 1;
+
+  List<QueryDocumentSnapshot> sortAll() {
+    return snap.data.docs
+        .where(
+            (element) => (element.data()['userUid'] == userId) ? true : false)
+        .toList();
+  }
+
+  List<QueryDocumentSnapshot> sortFavourites() {
+    return snap.data.docs
+        .where((element) =>
+            (((element.data()['userUid'] == userId) ? true : false) &&
+                ((element.data()['favorite'] == true) ? true : false)))
+        .toList();
+  }
+
+  void sortShortest() {
+    List<QueryDocumentSnapshot> list = routeList;
+
+    list.sort((a, b) => double.parse(a.data()['distance'])
+        .compareTo(double.parse(b.data()['distance'])));
+    routeList = list;
+  }
+
+  void sortLongest() {
+    sortShortest();
+    routeList = routeList.reversed.toList();
+  }
+
+  void sortLatest() {
+    List<QueryDocumentSnapshot> list = routeList;
+
+    list.sort((a, b) => DateFormat('EEEE dd MMMM yyyy')
+            .parse(a.data()['date'])
+            .isBefore(DateFormat('EEEE dd MMMM yyyy').parse(b.data()['date']))
+        ? 1
+        : 0);
+    routeList = list;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,9 +122,13 @@ class RoutesPage extends State<MyRoutes> {
                                 textStyle: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.w500)),
                             onPressed: () {
-                              setState(() {
-                                sorting = 1;
-                              });
+                              if (snap.connectionState ==
+                                  ConnectionState.done) {
+                                setState(() {
+                                  sorting = 1;
+                                  routeList = sortAll();
+                                });
+                              }
                             },
                             child: Text('All Routes')),
                       ),
@@ -99,9 +150,13 @@ class RoutesPage extends State<MyRoutes> {
                                 textStyle: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.w500)),
                             onPressed: () {
-                              setState(() {
-                                sorting = 2;
-                              });
+                              if (snap.connectionState ==
+                                  ConnectionState.done) {
+                                setState(() {
+                                  sorting = 2;
+                                  routeList = sortFavourites();
+                                });
+                              }
                             },
                             child: Text('Favorite Routes')),
                       ),
@@ -123,9 +178,13 @@ class RoutesPage extends State<MyRoutes> {
                                 textStyle: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.w500)),
                             onPressed: () {
-                              setState(() {
-                                sorting = 3;
-                              });
+                              if (snap.connectionState ==
+                                  ConnectionState.done) {
+                                setState(() {
+                                  sorting = 3;
+                                  sortLongest();
+                                });
+                              }
                             },
                             child: Text('Longest Routes')),
                       )
@@ -156,15 +215,10 @@ class RoutesPage extends State<MyRoutes> {
 
                             if (snapshot.connectionState ==
                                 ConnectionState.done) {
-                              Iterable<QueryDocumentSnapshot> routeIt =
-                                  snapshot.data.docs.where((element) =>
-                                      (element.data()['userUid'] == userId)
-                                          ? true
-                                          : false);
-
-                              List<QueryDocumentSnapshot> routeList =
-                                  routeIt.toList();
-
+                              snap = snapshot;
+                              if (routeList == null) {
+                                routeList = sortAll();
+                              }
                               return StreamBuilder(
                                 stream: FirebaseFirestore.instance
                                     .collection('routes')
@@ -219,31 +273,29 @@ class RoutesPage extends State<MyRoutes> {
                                                                         .bold),
                                                           ),
                                                         ),
-                                                        IconButton(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            constraints:
-                                                                BoxConstraints(
-                                                                    maxWidth:
-                                                                        36,
-                                                                    maxHeight:
-                                                                        36),
-                                                            icon:
-                                                                //  favoriteRoute
-                                                                //     ?
-                                                                Icon(
-                                                                    Icons
-                                                                        .star_rate_rounded,
-                                                                    color: Colors
-                                                                            .yellow[
-                                                                        700]),
-                                                            iconSize: 40,
-                                                            // : Icon(Icons.star_border_rounded,
-                                                            //     color: Colors.black),
-                                                            // onPressed: () {
-                                                            //   setState(() => {favoriteRoute = !favoriteRoute});
-                                                            // },
-                                                            onPressed: () {}),
+                                                        Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          constraints:
+                                                              BoxConstraints(
+                                                                  maxWidth: 36,
+                                                                  maxHeight:
+                                                                      36),
+                                                          child: Icon(
+                                                            Icons.star,
+                                                            color: (() {
+                                                              if (document.get(
+                                                                  'favorite')) {
+                                                                return Colors
+                                                                    .yellow;
+                                                              } else {
+                                                                return Colors
+                                                                    .grey;
+                                                              }
+                                                            }()),
+                                                            size: 24,
+                                                          ),
+                                                        )
                                                       ],
                                                     ),
                                                     Text(
