@@ -1,7 +1,7 @@
 import 'package:kayak_sthlm/models/user.dart';
+import 'package:kayak_sthlm/screens/home/home.dart';
 import 'package:kayak_sthlm/services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:kayak_sthlm/screens/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       child: MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Wrapper(),
+      home: SplashState(),
       ),
     );
   }

@@ -8,8 +8,9 @@ import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../wrapper.dart';
+import 'package:kayak_sthlm/screens/authenticate/authenticate.dart';
+import 'package:provider/provider.dart';
+import 'package:kayak_sthlm/models/user.dart';
 
 class SplashState extends StatelessWidget {
   Future checkFirstSeen() async {
@@ -98,12 +99,34 @@ class IntroScreen extends StatelessWidget {
           //
           // aaaaaaaaaaahhhhhh
             onPressed: () {
-              Wrapper();
+              if(controller.page == 3 ) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Wrapper()),
+                );
+              } else {
+                controller.nextPage(duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
+              }
             },
             tooltip: 'Start',
             child: Icon(Icons.play_arrow_outlined)),
       ),
     );
+  }
+}
+
+class Wrapper extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+
+    final user = Provider.of<TheUser>(context);
+
+    //return either home or authenticate widget
+    if(user == null){
+      return Authenticate();
+    }else{
+      return Home();
+    }
   }
 }
 
