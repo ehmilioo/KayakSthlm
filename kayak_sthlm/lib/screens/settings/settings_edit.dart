@@ -23,10 +23,11 @@ class _SettingsEdit extends State<SettingsEdit> {
   }
 
   var selectedExperienceLevel = '';
+  var error = '';
   var newUsername = '';
   var age = '';
   var selectedGender = '';
-
+  final _formKey = GlobalKey<FormState>();
   bool _editMode = false;
   bool _ageSelected = false;
   bool _genderSelected = false;
@@ -41,10 +42,10 @@ class _SettingsEdit extends State<SettingsEdit> {
   List<int> ageNumbers = Iterable<int>.generate(101).toList();
   List<String> genders = <String>['Male', 'Female', 'Other'];
 
-
   @override
   Widget build(BuildContext context) {
-    CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
+    CollectionReference usersCollection =
+        FirebaseFirestore.instance.collection('users');
     return Scaffold(
       body: Center(
         child: Column(
@@ -52,251 +53,317 @@ class _SettingsEdit extends State<SettingsEdit> {
             Stack(
               children: <Widget>[
                 ElevatedButton(
-                  child: Text('Edit'),
-                  onPressed: (){
-                    setState(() {
-                      _editMode = !_editMode;      
-                    });
-                    print(_editMode);
-                  }
-                ),
+                    child: Text('Edit'),
+                    onPressed: () {
+                      setState(() {
+                        _editMode = !_editMode;
+                      });
+                      print(_editMode);
+                    }),
               ],
             ),
-            
             StreamBuilder<DocumentSnapshot>(
-              stream: usersCollection.doc(uid).snapshots(),
-              builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                return snapshot.hasData ? Container(
-                  height: MediaQuery.of(context).size.height,
-                  padding: EdgeInsets.symmetric(horizontal: 60.0),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 150),
-                      Text('Account'),
-                      ConstrainedBox(
-                        constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
-                        child: TextFormField(
-                            enabled: _editMode,
-                            initialValue: snapshot.data.data()['username'],
-                            style: TextStyle(
-                                fontFamily: 'HammersmithOne', fontSize: 18),
-                            decoration: InputDecoration(
-                                labelText: 'Username',
-                                contentPadding: EdgeInsets.only(top: 20),
-                                labelStyle: TextStyle(
-                                    color: Color.fromRGBO(136, 134, 134, 1))),
-                            onChanged: (val) {
-                              newUsername = val;
-                            }),
-                      ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
-                        child: TextFormField(
-                            enabled: false,
-                            initialValue: snapshot.data.data()['email'],
-                            style: TextStyle(
-                                fontFamily: 'HammersmithOne', fontSize: 18),
-                            decoration: InputDecoration(
-                                labelText: 'E-mail (Can not change!)',
-                                contentPadding: EdgeInsets.only(top: 20),
-                                labelStyle: TextStyle(
-                                    color: Color.fromRGBO(136, 134, 134, 0.7))
+                stream: usersCollection.doc(uid).snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  return snapshot.hasData
+                      ? Container(
+                          height: MediaQuery.of(context).size.height,
+                          padding: EdgeInsets.symmetric(horizontal: 60.0),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: <Widget>[
+                                SizedBox(height: 150),
+                                Text('Account'),
+                                Text(
+                                  error,
+                                  style: TextStyle(
+                                      color: Colors.red, fontSize: 14.0),
+                                ),
+                                ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                      maxHeight: 82, minHeight: 82),
+                                  child: TextFormField(
+                                      enabled: _editMode,
+                                      validator: (val) => val.length < 3
+                                          ? 'Username too short'
+                                          : null,
+                                      initialValue:
+                                          snapshot.data.data()['username'],
+                                      style: TextStyle(
+                                          fontFamily: 'HammersmithOne',
+                                          fontSize: 18),
+                                      decoration: InputDecoration(
+                                          labelText: 'Username',
+                                          contentPadding:
+                                              EdgeInsets.only(top: 20),
+                                          labelStyle: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  136, 134, 134, 1))),
+                                      onChanged: (val) {
+                                        newUsername = val;
+                                      }),
+                                ),
+                                ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                      maxHeight: 82, minHeight: 82),
+                                  child: TextFormField(
+                                      enabled: false,
+                                      initialValue:
+                                          snapshot.data.data()['email'],
+                                      style: TextStyle(
+                                          fontFamily: 'HammersmithOne',
+                                          fontSize: 18),
+                                      decoration: InputDecoration(
+                                          labelText: 'E-mail (Can not change!)',
+                                          contentPadding:
+                                              EdgeInsets.only(top: 20),
+                                          labelStyle: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  136, 134, 134, 0.7))),
+                                      onChanged: (val) {}),
+                                ),
+                                Container(
+                                    alignment: Alignment.center,
+                                    width: 259,
+                                    height: 28,
+                                    decoration: BoxDecoration(
+                                        color: _expSelected == true
+                                            ? Color.fromRGBO(146, 199, 254, 1)
+                                            : Color.fromRGBO(218, 221, 224, 1),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50.0))),
+                                    child: DropdownButtonHideUnderline(
+                                        child: DropdownButton(
+                                            isExpanded: true,
+                                            elevation: 10,
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                            items: experienceLevels
+                                                .map<DropdownMenuItem<String>>(
+                                                    (String value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(value),
+                                              );
+                                            }).toList(),
+                                            hint: _expSelected == true
+                                                ? Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                        selectedExperienceLevel,
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              'HammersmithOne',
+                                                          fontSize: 16,
+                                                        )))
+                                                : Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                        snapshot.data.data()[
+                                                            'experience'],
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              'HammersmithOne',
+                                                          fontSize: 16,
+                                                        ))),
+                                            onChanged: _editMode
+                                                ? (String value) => setState(
+                                                    () => {selectedExperienceLevel = value, _expSelected = true})
+                                                : null))),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    //AGE
+                                    Container(
+                                        alignment: Alignment.center,
+                                        width: 113,
+                                        height: 28,
+                                        decoration: BoxDecoration(
+                                            color: _ageSelected == true
+                                                ? Color.fromRGBO(
+                                                    146, 199, 254, 1)
+                                                : Color.fromRGBO(
+                                                    218, 221, 224, 1),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(50.0))),
+                                        child: DropdownButtonHideUnderline(
+                                            child: DropdownButton(
+                                          isExpanded: true,
+                                          elevation: 10,
+                                          style: TextStyle(color: Colors.black),
+                                          items: ageNumbers
+                                              .map<DropdownMenuItem<int>>(
+                                                  (int value) {
+                                            return DropdownMenuItem<int>(
+                                              value: value,
+                                              child: Text(value.toString()),
+                                            );
+                                          }).toList(),
+                                          hint: _ageSelected == true
+                                              ? Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(age,
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'HammersmithOne',
+                                                        fontSize: 16,
+                                                      )))
+                                              : Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                      snapshot.data
+                                                          .data()['age'],
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'HammersmithOne',
+                                                        fontSize: 16,
+                                                      ))),
+                                          onChanged: _editMode
+                                              ? (int value) {
+                                                  _ageSelected = true;
+                                                  setState(() {
+                                                    age = value.toString();
+                                                  });
+                                                }
+                                              : null,
+                                        ))),
+
+                                    SizedBox(
+                                      width: 33,
+                                    ),
+
+                                    //GENDER
+                                    Container(
+                                        alignment: Alignment.center,
+                                        width: 113,
+                                        height: 28,
+                                        decoration: BoxDecoration(
+                                            color: _genderSelected == true
+                                                ? Color.fromRGBO(
+                                                    146, 199, 254, 1)
+                                                : Color.fromRGBO(
+                                                    218, 221, 224, 1),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(50.0))),
+                                        child: DropdownButtonHideUnderline(
+                                            child: DropdownButton(
+                                          isExpanded: true,
+                                          elevation: 10,
+                                          style: TextStyle(color: Colors.black),
+                                          items: genders
+                                              .map<DropdownMenuItem<String>>(
+                                                  (String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                          hint: _genderSelected == true
+                                              ? Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(selectedGender,
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'HammersmithOne',
+                                                        fontSize: 16,
+                                                      )))
+                                              : Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                      snapshot.data
+                                                          .data()['gender'],
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'HammersmithOne',
+                                                        fontSize: 16,
+                                                      ))),
+                                          onChanged: _editMode
+                                              ? (String value) {
+                                                  _genderSelected = true;
+                                                  setState(() {
+                                                    selectedGender = value;
+                                                  });
+                                                }
+                                              : null,
+                                        ))),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 33,
+                                ),
+                                OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      minimumSize: Size(281, 48),
+                                      primary: _expSelected &&
+                                              _ageSelected &&
+                                              _genderSelected == true
+                                          ? Colors.white
+                                          : Colors.black,
+                                      backgroundColor: _editMode &&
+                                              _expSelected &&
+                                              _ageSelected &&
+                                              _genderSelected == true
+                                          ? Color.fromRGBO(86, 151, 211, 1)
+                                          : Color.fromRGBO(217, 221, 224, 1),
+                                      shadowColor: Colors.black54,
+                                      elevation: 10,
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(50))),
+                                      textStyle: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'HammersmithOne'),
+                                    ),
+                                    child: Text('Save Changes'),
+                                    onPressed: () {
+                                      if (_formKey.currentState.validate()) {
+                                        if (age.isEmpty ||
+                                            selectedGender.isEmpty ||
+                                            selectedExperienceLevel.isEmpty) {
+                                          setState(() {
+                                            error =
+                                                'You need to enter all fields to update your profile';
+                                          });
+                                        } else {
+                                          _editMode
+                                              ? db.updateUser(
+                                                  newUsername,
+                                                  age,
+                                                  selectedExperienceLevel,
+                                                  selectedGender)
+                                              : print(
+                                                  'Cant submit locked values');
+                                          _editMode
+                                              ? showDialog(
+                                                  context: this.context,
+                                                  builder: (_) => Confirmation(
+                                                      message:
+                                                          'All changes saved successfully',
+                                                      color:
+                                                          true)).then((val) => {
+                                                    Navigator.pop(context),
+                                                  })
+                                              : null;
+                                          _editMode = false;
+                                        }
+                                      } else {
+                                        setState(() {
+                                          error = 'An error has occurred';
+                                        });
+                                      }
+                                    }),
+                              ],
                             ),
-                            onChanged: (val) {
-                              
-                            }),
-                      ),
-                      Container(
-                      alignment: Alignment.center,
-                      width: 259,
-                      height: 28,
-                      decoration: BoxDecoration(
-                          color: _expSelected == true
-                              ? Color.fromRGBO(146, 199, 254, 1)
-                              : Color.fromRGBO(218, 221, 224, 1),
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(50.0))),
-                      child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                        isExpanded: true,
-                        elevation: 10,
-                        style: TextStyle(color: Colors.black),
-                        items: experienceLevels
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        hint: _expSelected == true
-                            ? Align(
-                                alignment: Alignment.center,
-                                child: Text(selectedExperienceLevel,
-                                    style: TextStyle(
-                                      fontFamily: 'HammersmithOne',
-                                      fontSize: 16,
-                                    )))
-                            : Align(
-                                alignment: Alignment.center,
-                                child: Text(snapshot.data.data()['experience'],
-                                    style: TextStyle(
-                                      fontFamily: 'HammersmithOne',
-                                      fontSize: 16,
-                                    ))),
-                        onChanged: _editMode ? (String value) => setState(() => {
-                          selectedExperienceLevel = value,
-                          _expSelected = true
-                          }) 
-                          : null
-                      ))),
-                      SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      //AGE
-                      Container(
-                          alignment: Alignment.center,
-                          width: 113,
-                          height: 28,
-                          decoration: BoxDecoration(
-                              color: _ageSelected == true
-                                  ? Color.fromRGBO(146, 199, 254, 1)
-                                  : Color.fromRGBO(218, 221, 224, 1),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50.0))),
-                          child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                            isExpanded: true,
-                            elevation: 10,
-                            style: TextStyle(color: Colors.black),
-                            items: ageNumbers
-                                .map<DropdownMenuItem<int>>((int value) {
-                              return DropdownMenuItem<int>(
-                                value: value,
-                                child: Text(value.toString()),
-                              );
-                            }).toList(),
-                            hint: _ageSelected == true
-                                ? Align(
-                                    alignment: Alignment.center,
-                                    child: Text(age,
-                                        style: TextStyle(
-                                          fontFamily: 'HammersmithOne',
-                                          fontSize: 16,
-                                        )))
-                                : Align(
-                                    alignment: Alignment.center,
-                                    child: Text(snapshot.data.data()['age'],
-                                        style: TextStyle(
-                                          fontFamily: 'HammersmithOne',
-                                          fontSize: 16,
-                                        ))),
-                            onChanged: _editMode ? (int value) {
-                              _ageSelected = true;
-                              setState(() {
-                                age = value.toString();
-                              });
-                            }: null,
-                          ))),
-
-                      SizedBox(
-                        width: 33,
-                      ),
-
-                      //GENDER
-                      Container(
-                          alignment: Alignment.center,
-                          width: 113,
-                          height: 28,
-                          decoration: BoxDecoration(
-                              color: _genderSelected == true
-                                  ? Color.fromRGBO(146, 199, 254, 1)
-                                  : Color.fromRGBO(218, 221, 224, 1),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50.0))),
-                          child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                            isExpanded: true,
-                            elevation: 10,
-                            style: TextStyle(color: Colors.black),
-                            items: genders
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            hint: _genderSelected == true
-                                ? Align(
-                                    alignment: Alignment.center,
-                                    child: Text(selectedGender,
-                                        style: TextStyle(
-                                          fontFamily: 'HammersmithOne',
-                                          fontSize: 16,
-                                        )))
-                                : Align(
-                                    alignment: Alignment.center,
-                                    child: Text(snapshot.data.data()['gender'],
-                                        style: TextStyle(
-                                          fontFamily: 'HammersmithOne',
-                                          fontSize: 16,
-                                        ))),
-                            onChanged: _editMode ? (String value) {
-                              _genderSelected = true;
-                              setState(() {
-                                selectedGender = value;
-                              });
-                            }: null,
-                          ))),
-                    ],
-                  ),
-                      SizedBox(
-                        height: 33,
-                      ),
-                      OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        minimumSize: Size(281, 48),
-                        primary: _expSelected &&
-                                _ageSelected &&
-                                _genderSelected == true
-                            ? Colors.white
-                            : Colors.black,
-                        backgroundColor: 
-                                _editMode &&
-                                _expSelected &&
-                                _ageSelected &&
-                                _genderSelected == true
-                            ? Color.fromRGBO(86, 151, 211, 1)
-                            : Color.fromRGBO(217, 221, 224, 1),
-                        shadowColor: Colors.black54,
-                        elevation: 10,
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(50))),
-                        textStyle: TextStyle(
-                            fontSize: 18, fontFamily: 'HammersmithOne'),
-                      ),
-                      child: Text('Save Changes'),
-                      onPressed: (){
-                        _editMode ? db.updateUser(newUsername, age, selectedExperienceLevel, selectedGender): null; //Error handla detta
-                        _editMode = false;
-                        showDialog(
-                            context: this.context,
-                            builder: (_) => Confirmation(message: 'All changes saved successfully', color: true)
-                        ).then((val) =>{
-                          Navigator.pop(context),
-                        });
-                      }
-                    ),
-                    ],
-                  ),
-                ): Center(
-            child: CircularProgressIndicator(
-                backgroundColor: Colors.black,
-              ),
-          );
-              }
-            ),
+                          ))
+                      : Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.black,
+                          ),
+                        );
+                }),
           ],
         ),
       ),
