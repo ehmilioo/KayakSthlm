@@ -178,54 +178,56 @@ class _MyRoutesState extends State {
                           children: routeList.map((DocumentSnapshot document) {
                             return Column(
                               children: [
-                                Container(
-                                  height: 280,
-                                  width: 280,
-                                  padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0, right: 8.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        child: Icon(
-                                          Icons.star,
-                                          color: (() {
-                                            if (document.get('favorite')) {
-                                              return Colors.yellow;
-                                            } else {
-                                              return Colors.grey;
-                                            }
-                                          }()), //(if(document.get('favorite') == true) {Colors.yellow} else {Colors.grey}),
-                                          size: 24,
+                                Card(
+                                  child: Container(
+                                    height: 200,
+                                    width: 280,
+                                    padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0, right: 8.0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          child: Icon(
+                                            Icons.star,
+                                            color: (() {
+                                              if (document.get('favorite')) {
+                                                return Colors.yellow;
+                                              } else {
+                                                return Colors.grey;
+                                              }
+                                            }()),
+                                            size: 24,
+                                          ),
                                         ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          document.get('name'),
-                                          style: TextStyle(fontSize: 12),
+                                        Container(
+                                          child: Text(
+                                            document.get('name'),
+                                            style: TextStyle(fontSize: 12),
+                                          ),
                                         ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          document.get('date'),
-                                          style: TextStyle(fontSize: 12),
+                                        Container(
+                                          child: Text(
+                                            document.get('date'),
+                                            style: TextStyle(fontSize: 12),
+                                          ),
                                         ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          'Duration: ' + document.get('timeTaken'),
-                                          style: TextStyle(fontSize: 12),
+                                        Container(
+                                          child: Text(
+                                            'Duration: ' + document.get('timeTaken'),
+                                            style: TextStyle(fontSize: 12),
+                                          ),
                                         ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          'Distance: ' + document.get('distance'),
-                                          style: TextStyle(fontSize: 12),
+                                        Container(
+                                          child: Text(
+                                            'Distance: ' + document.get('distance'),
+                                            style: TextStyle(fontSize: 12),
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
