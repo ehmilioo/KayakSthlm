@@ -417,30 +417,33 @@ class MapSampleState extends State<Home> {
                 Positioned(
                     top: 140,
                     left: 21.5,
-                    child: Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: RawMaterialButton(
-                          onPressed: () {
-                            getCurrentLocation();
-                            _controller.animateCamera(
-                                CameraUpdate.newCameraPosition(
-                                    new CameraPosition(
-                                        // bearing: locationData.heading,
-                                        target: LatLng(locationData.latitude,
-                                            locationData.longitude),
-                                        zoom: 15.00)));
-                          },
-                          constraints:
-                              BoxConstraints(minWidth: 51, minHeight: 51),
-                          elevation: 5.0,
-                          fillColor: Colors.white,
-                          child: Icon(
-                            Icons.my_location_outlined,
-                            size: 40.0,
-                          ),
-                          padding: EdgeInsets.all(8.0),
-                          shape: CircleBorder(),
-                        ))),
+                    child: stoppedRoute
+                        ? Container()
+                        : Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: RawMaterialButton(
+                              onPressed: () {
+                                getCurrentLocation();
+                                _controller.animateCamera(
+                                    CameraUpdate.newCameraPosition(
+                                        new CameraPosition(
+                                            // bearing: locationData.heading,
+                                            target: LatLng(
+                                                locationData.latitude,
+                                                locationData.longitude),
+                                            zoom: 15.00)));
+                              },
+                              constraints:
+                                  BoxConstraints(minWidth: 51, minHeight: 51),
+                              elevation: 5.0,
+                              fillColor: Colors.white,
+                              child: Icon(
+                                Icons.my_location_outlined,
+                                size: 40.0,
+                              ),
+                              padding: EdgeInsets.all(8.0),
+                              shape: CircleBorder(),
+                            ))),
                 Positioned(
                   top: 45,
                   right: -5,
@@ -486,116 +489,251 @@ class MapSampleState extends State<Home> {
                         ? Stack(
                             children: [
                               Container(
-                                height: 200,
-                                width: 400,
-                                color: Colors.white,
-                                child: Column(
-                                  children: [
-                                    Text('Route Stopped'),
+                                  height: 305,
+                                  decoration: BoxDecoration(
+                                      color: Color.fromRGBO(242, 248, 255, 1),
+                                      border: Border(
+                                          top: BorderSide(
+                                              width: 1, color: Colors.black))),
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Column(children: [
+                                    SizedBox(height: 20),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
                                       children: [
-                                        Column(
-                                          children: [
-                                            Text('Duration: '),
-                                            Text(StopWatchTimer.getDisplayTime(
-                                                    _stopWatchTimer.rawTime
-                                                        .valueWrapper?.value)
-                                                .substring(0, 8)),
-                                          ],
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2,
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      width: 0.5,
+                                                      color: Colors.black))),
+                                          child: Column(
+                                            children: [
+                                              Text('DURATION',
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w400)),
+                                              SizedBox(height: 5),
+                                              Container(
+                                                  child: Text(
+                                                      StopWatchTimer.getDisplayTime(
+                                                              _stopWatchTimer
+                                                                  .rawTime
+                                                                  .valueWrapper
+                                                                  ?.value)
+                                                          .substring(0, 8),
+                                                      style: TextStyle(
+                                                          fontSize: 25,
+                                                          fontWeight:
+                                                              FontWeight.w700)))
+                                            ],
+                                          ),
                                         ),
-                                        Column(
-                                          children: [
-                                            Text('Distance (KM)'),
-                                            Text(totalDistance.toString()),
-                                          ],
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2,
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  left: BorderSide(
+                                                      width: 0.5,
+                                                      color: Colors.black))),
+                                          child: Column(
+                                            children: [
+                                              Text('DISTANCE (KM)',
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w400)),
+                                              SizedBox(height: 5),
+                                              Container(
+                                                  child: Text(
+                                                      totalDistance.toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 25,
+                                                          fontWeight:
+                                                              FontWeight.w700)))
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 20),
+                                    SizedBox(height: 47),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        RawMaterialButton(
-                                          onPressed: () {
-                                            pausedRoute = !pausedRoute;
-                                            stoppedRoute = !stoppedRoute;
-                                            _stopWatchTimer.onExecute
-                                                .add(StopWatchExecute.start);
-                                            startRoute();
-                                          },
-                                          elevation: 5.0,
-                                          fillColor: Colors.green[200],
-                                          child: Icon(
-                                            Icons.play_arrow,
-                                            size: 35.0,
-                                          ),
-                                          padding: EdgeInsets.all(10.0),
-                                          shape: CircleBorder(),
-                                        ),
-                                        RawMaterialButton(
-                                          onPressed: () async {
-                                            bool savedRoute = await showDialog(
-                                              context: this.context,
-                                              builder: (_) => SaveRoute(
-                                                  routeList: routeCoords,
-                                                  distance: totalDistance,
-                                                  time: StopWatchTimer
-                                                      .getDisplayTimeSecond(
-                                                          _stopWatchTimer
-                                                              .rawTime
-                                                              .valueWrapper
-                                                              ?.value)),
-                                            );
-                                            if (savedRoute) {
-                                              finishRoute();
-                                              showDialog(
-                                                  context: this.context,
-                                                  builder: (_) => Confirmation(
-                                                      message:
-                                                          'Your route has been saved',
-                                                      color: true));
-                                              stoppedRoute = !stoppedRoute;
-                                            }
-                                          },
-                                          elevation: 5.0,
-                                          fillColor: Colors.blue[200],
-                                          child: Icon(
-                                            Icons.save_alt_sharp,
-                                            size: 35.0,
-                                          ),
-                                          padding: EdgeInsets.all(10.0),
-                                          shape: CircleBorder(),
-                                        )
+                                        Column(children: [
+                                          Container(
+                                              height: 69.0,
+                                              width: 69.0,
+                                              child: FloatingActionButton(
+                                                elevation: 10,
+                                                child: Container(
+                                                    height: 69.0,
+                                                    width: 69.0,
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        gradient:
+                                                            RadialGradient(
+                                                                colors: [
+                                                              Color.fromRGBO(
+                                                                  139,
+                                                                  239,
+                                                                  123,
+                                                                  1),
+                                                              Colors.black
+                                                            ],
+                                                                stops: [
+                                                              0.44,
+                                                              1
+                                                            ],
+                                                                radius: 1)),
+                                                    child: Icon(
+                                                        Icons
+                                                            .play_arrow_outlined,
+                                                        size: 50)),
+                                                onPressed: () {
+                                                  pausedRoute = !pausedRoute;
+                                                  stoppedRoute = !stoppedRoute;
+                                                  _stopWatchTimer.onExecute.add(
+                                                      StopWatchExecute.start);
+                                                  getCurrentLocation();
+                                                  _controller.animateCamera(
+                                                      CameraUpdate.newCameraPosition(
+                                                          new CameraPosition(
+                                                              // bearing: locationData.heading,
+                                                              target: LatLng(
+                                                                  locationData
+                                                                      .latitude,
+                                                                  locationData
+                                                                      .longitude),
+                                                              zoom: 15.00)));
+                                                  startRoute();
+                                                },
+                                              )),
+                                          SizedBox(height: 4),
+                                          Container(
+                                              width: 79,
+                                              height: 22,
+                                              alignment: Alignment.center,
+                                              child: Text('RESUME',
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w400)))
+                                        ]),
+                                        SizedBox(width: 35),
+                                        Column(children: [
+                                          Container(
+                                              height: 69.0,
+                                              width: 69.0,
+                                              child: FloatingActionButton(
+                                                elevation: 10,
+                                                child: Container(
+                                                    height: 69.0,
+                                                    width: 69.0,
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        gradient:
+                                                            RadialGradient(
+                                                                colors: [
+                                                              Color.fromRGBO(
+                                                                  122,
+                                                                  195,
+                                                                  248,
+                                                                  1),
+                                                              Colors.black
+                                                            ],
+                                                                stops: [
+                                                              0.44,
+                                                              1
+                                                            ],
+                                                                radius: 1)),
+                                                    child: Icon(
+                                                        Icons.save_alt_outlined,
+                                                        size: 35)),
+                                                onPressed: () async {
+                                                  bool savedRoute =
+                                                      await showDialog(
+                                                    context: this.context,
+                                                    builder: (_) => SaveRoute(
+                                                        routeList: routeCoords,
+                                                        distance: totalDistance,
+                                                        time: StopWatchTimer
+                                                            .getDisplayTimeSecond(
+                                                                _stopWatchTimer
+                                                                    .rawTime
+                                                                    .valueWrapper
+                                                                    ?.value)),
+                                                  );
+                                                  if (savedRoute) {
+                                                    finishRoute();
+                                                    showDialog(
+                                                        context: this.context,
+                                                        builder: (_) =>
+                                                            Confirmation(
+                                                                message:
+                                                                    'Your route has been saved',
+                                                                color: true));
+                                                    stoppedRoute =
+                                                        !stoppedRoute;
+                                                  }
+                                                },
+                                              )),
+                                          SizedBox(height: 4),
+                                          Container(
+                                              width: 79,
+                                              height: 22,
+                                              alignment: Alignment.center,
+                                              child: Text('SAVE',
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w400)))
+                                        ])
                                       ],
                                     ),
                                     SizedBox(height: 20),
                                     TextButton(
-                                      onPressed: () async {
-                                        final result = await showDialog(
-                                            context: this.context,
-                                            builder: (_) => AttentionDialog(
-                                                  message:
-                                                      'Are you sure you want to delete route?',
-                                                ));
-                                        if (result) {
-                                          stoppedRoute = !stoppedRoute;
-                                          finishRoute();
-                                        } else {
-                                          print('Canceled deletion');
-                                        }
-                                      },
-                                      child: Text('Delete Route',
+                                        onPressed: () async {
+                                          final result = await showDialog(
+                                              context: this.context,
+                                              builder: (_) => AttentionDialog(
+                                                    message:
+                                                        'Are you sure you want to delete route?',
+                                                  ));
+                                          if (result) {
+                                            stoppedRoute = !stoppedRoute;
+                                            finishRoute();
+                                          } else {
+                                            print('Canceled deletion');
+                                          }
+                                        },
+                                        child: Text(
+                                          'Delete Route',
                                           style: TextStyle(
-                                              color: Colors.red,
-                                              decoration:
-                                                  TextDecoration.underline)),
-                                    )
-                                  ],
-                                ),
-                              ),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 20,
+                                            color:
+                                                Color.fromRGBO(255, 0, 0, 0.83),
+                                          ),
+                                        )),
+                                    Container(
+                                        width: 50,
+                                        height: 2,
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                top: BorderSide(
+                                                    width: 0.5,
+                                                    color: Color.fromRGBO(
+                                                        253, 42, 43, 1))))),
+                                  ]))
                             ],
                           )
                         : Container(height: 0, width: 0)),
@@ -603,7 +741,7 @@ class MapSampleState extends State<Home> {
                     bottom: 7,
                     left: 100,
                     child: stoppedRoute
-                        ? null
+                        ? Container()
                         : pausedRoute
                             ? Column(
                                 children: [
@@ -664,76 +802,83 @@ class MapSampleState extends State<Home> {
                 Positioned(
                     bottom: 7,
                     right: 100,
-                    child: pausedRoute
-                        ? Column(
-                            children: [
-                              Container(
-                                  height: 69.0,
-                                  width: 69.0,
-                                  child: FloatingActionButton(
-                                    elevation: 10,
-                                    child: Container(
-                                        height: 69.0,
-                                        width: 69.0,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            gradient: RadialGradient(colors: [
-                                              Color.fromRGBO(248, 122, 130, 1),
-                                              Colors.black
-                                            ], stops: [
-                                              0.44,
-                                              1
-                                            ], radius: 1)),
-                                        child: Icon(Icons.stop_outlined,
-                                            size: 50)),
-                                    onPressed: () async {
-                                      stoppedRoute = !stoppedRoute;
-                                      _controller.animateCamera(
-                                          CameraUpdate.newCameraPosition(
-                                              new CameraPosition(
-                                                  bearing: 0,
-                                                  target: LatLng(
-                                                      firstPos.latitude,
-                                                      firstPos.longitude),
-                                                  zoom: 13.00)));
-                                      // bool savedRoute = await showDialog(
-                                      //   context: this.context,
-                                      //   builder: (_) => SaveRoute(
-                                      //       routeList: routeCoords,
-                                      //       distance: totalDistance,
-                                      //       time: StopWatchTimer
-                                      //           .getDisplayTimeSecond(
-                                      //               _stopWatchTimer.rawTime
-                                      //                   .valueWrapper?.value)),
-                                      // );
-                                      // if (savedRoute) {
-                                      //   finishRoute();
-                                      // } else {}
-                                    },
-                                  )),
-                              SizedBox(height: 4),
-                              Container(
-                                  width: 79,
-                                  height: 22,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    boxShadow: <BoxShadow>[
-                                      BoxShadow(
-                                          color: Colors.black26,
-                                          blurRadius: 1.0,
-                                          offset: Offset(1, 1))
-                                    ],
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    color: Colors.white,
-                                  ),
-                                  child: Text('STOP',
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400))),
-                            ],
-                          )
-                        : Container(height: 0, width: 0)),
+                    child: stoppedRoute
+                        ? Container()
+                        : pausedRoute
+                            ? Column(
+                                children: [
+                                  Container(
+                                      height: 69.0,
+                                      width: 69.0,
+                                      child: FloatingActionButton(
+                                        elevation: 10,
+                                        child: Container(
+                                            height: 69.0,
+                                            width: 69.0,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                gradient: RadialGradient(
+                                                    colors: [
+                                                      Color.fromRGBO(
+                                                          248, 122, 130, 1),
+                                                      Colors.black
+                                                    ],
+                                                    stops: [
+                                                      0.44,
+                                                      1
+                                                    ],
+                                                    radius: 1)),
+                                            child: Icon(Icons.stop_outlined,
+                                                size: 50)),
+                                        onPressed: () async {
+                                          stoppedRoute = !stoppedRoute;
+                                          _controller.animateCamera(
+                                              CameraUpdate.newCameraPosition(
+                                                  new CameraPosition(
+                                                      bearing: 0,
+                                                      target: LatLng(
+                                                          firstPos.latitude -
+                                                              0.0035,
+                                                          firstPos.longitude),
+                                                      zoom: 15.00)));
+                                          // bool savedRoute = await showDialog(
+                                          //   context: this.context,
+                                          //   builder: (_) => SaveRoute(
+                                          //       routeList: routeCoords,
+                                          //       distance: totalDistance,
+                                          //       time: StopWatchTimer
+                                          //           .getDisplayTimeSecond(
+                                          //               _stopWatchTimer.rawTime
+                                          //                   .valueWrapper?.value)),
+                                          // );
+                                          // if (savedRoute) {
+                                          //   finishRoute();
+                                          // } else {}
+                                        },
+                                      )),
+                                  SizedBox(height: 4),
+                                  Container(
+                                      width: 79,
+                                      height: 22,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        boxShadow: <BoxShadow>[
+                                          BoxShadow(
+                                              color: Colors.black26,
+                                              blurRadius: 1.0,
+                                              offset: Offset(1, 1))
+                                        ],
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                        color: Colors.white,
+                                      ),
+                                      child: Text('STOP',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400))),
+                                ],
+                              )
+                            : Container(height: 0, width: 0)),
               ],
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

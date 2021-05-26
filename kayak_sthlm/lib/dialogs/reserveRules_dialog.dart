@@ -102,6 +102,8 @@ class RulesOverlayState extends State<ReserveRulesDialog> {
                                         text:
                                             'For more information, please see Naturvårdsverket site.',
                                         style: new TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
                                             fontSize: 20,
                                             fontWeight: FontWeight.w400,
                                             fontFamily: 'Montserrat',

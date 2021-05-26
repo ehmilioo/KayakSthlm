@@ -175,13 +175,13 @@ class _RegisterState extends State<Register> {
                           }).toList(),
                           hint: _expSelected == true
                               ? Align(
-                                  alignment: Alignment.center,
+                                  alignment: AlignmentDirectional(0.1, 0),
                                   child: Text(selectedExperienceLevel,
                                       style: TextStyle(
                                         fontSize: 16,
                                       )))
                               : Align(
-                                  alignment: Alignment.center,
+                                  alignment: AlignmentDirectional(0.1, 0),
                                   child: Text('Experience',
                                       style: TextStyle(
                                         fontSize: 16,
@@ -223,13 +223,13 @@ class _RegisterState extends State<Register> {
                               }).toList(),
                               hint: _ageSelected == true
                                   ? Align(
-                                      alignment: Alignment.center,
+                                      alignment: AlignmentDirectional(0.4, 0),
                                       child: Text(age + ' years',
                                           style: TextStyle(
                                             fontSize: 16,
                                           )))
                                   : Align(
-                                      alignment: Alignment.center,
+                                      alignment: AlignmentDirectional(0.4, 0),
                                       child: Text('Age',
                                           style: TextStyle(
                                             fontSize: 16,
@@ -271,13 +271,13 @@ class _RegisterState extends State<Register> {
                               }).toList(),
                               hint: _genderSelected == true
                                   ? Align(
-                                      alignment: Alignment.center,
+                                      alignment: AlignmentDirectional(0.4, 0),
                                       child: Text(selectedGender,
                                           style: TextStyle(
                                             fontSize: 16,
                                           )))
                                   : Align(
-                                      alignment: Alignment.center,
+                                      alignment: AlignmentDirectional(0.4, 0),
                                       child: Text('Gender',
                                           style: TextStyle(
                                             fontSize: 16,

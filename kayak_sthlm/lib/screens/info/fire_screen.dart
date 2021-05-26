@@ -17,24 +17,22 @@ class Kommuner {
 }
 
 Future<FireInfo> fetchFireInfo(String lat, String long) async {
-
   try {
     var response = await http
-      .get(Uri.https(
-          'api.msb.se', ('/brandrisk/v2/FireProhibition/' + lat + '/' + long)))
-      .catchError((e) {
-    print(e);
-  });
-
+        .get(Uri.https('api.msb.se',
+            ('/brandrisk/v2/FireProhibition/' + lat + '/' + long)))
+        .catchError((e) {
+      print(e);
+    });
 
     if (response.statusCode == 200) {
       return FireInfo(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load fire info');
     }
-  }catch (e){
+  } catch (e) {
     throw Exception('Service unavailable');
-}
+  }
 }
 
 Future<Position> _determinePosition() async {
@@ -221,7 +219,7 @@ class _FireScreenState extends State<FireScreen> {
                       }).toList(),
                       hint: _munSelected == true
                           ? Align(
-                              alignment: Alignment.center,
+                              alignment: AlignmentDirectional(0.16, 0),
                               child: Text(selectedKommun.name,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
@@ -229,7 +227,7 @@ class _FireScreenState extends State<FireScreen> {
                                       color: Colors.white)),
                             )
                           : Align(
-                              alignment: Alignment.center,
+                              alignment: AlignmentDirectional(0.16, 0),
                               child: Text("Choose Municipality",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
