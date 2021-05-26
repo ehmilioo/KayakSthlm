@@ -12,6 +12,7 @@ import 'package:kayak_sthlm/dialogs/filters_dialog.dart';
 import 'package:kayak_sthlm/dialogs/confirmation_dialog.dart';
 import 'package:kayak_sthlm/dialogs/custompin_dialog.dart';
 import 'package:kayak_sthlm/dialogs/pininfo_dialog.dart';
+import 'package:kayak_sthlm/dialogs/protected_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:kayak_sthlm/models/pins.dart';
@@ -101,7 +102,8 @@ class MapSampleState extends State<Home> {
 
     for (var i = 0; i < pinList.length; i++) {
       if (pinList[i]['type'] == type) {
-        if (pinList[i]['type'] == 'mypin') {
+        if (pinList[i]['type'] == 'mypin' ||
+            pinList[i]['type'] == 'protected') {
           createCustomMarker(pinList[i]);
         } else {
           createMarker(pinList[i]);
@@ -115,7 +117,7 @@ class MapSampleState extends State<Home> {
       await fetchList();
     }
     for (var i = 0; i < pinList.length; i++) {
-      if (pinList[i]['type'] == 'mypin') {
+      if (pinList[i]['type'] == 'mypin' || pinList[i]['type'] == 'protected') {
         createCustomMarker(pinList[i]);
       } else {
         createMarker(pinList[i]);
@@ -123,10 +125,10 @@ class MapSampleState extends State<Home> {
     }
   }
 
-  void createCustomMarker(Map<String, dynamic> item) {
+  void createCustomMarker(Map<String, dynamic> item) async {
     MarkerId markerId = MarkerId(item['name']);
     LatLng pinLocation = LatLng(item['lat'], item['lng']);
-    String color = item['color'];
+    Uint8List imageData = await getMarker(item['path']);
     Marker marker = Marker(
       markerId: markerId,
       position: pinLocation,
@@ -137,24 +139,28 @@ class MapSampleState extends State<Home> {
                 bearing: locationData.heading,
                 target: LatLng(pinLocation.latitude, pinLocation.longitude),
                 zoom: 15.00)));
-        showDialog(context: this.context, builder: (_) => PinInfo(item: item));
+        if (item['type'] == 'protected') {
+          showDialog(
+              context: this.context,
+              builder: (_) => ProtectedPinInfo(item: item));
+        } else {
+          showDialog(
+              context: this.context, builder: (_) => PinInfo(item: item));
+        }
       },
       zIndex: 2,
-      icon: color == 'white'
-          ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed)
-          : BitmapDescriptor.defaultMarkerWithHue(
-              BitmapDescriptor.hueBlue), //Default color
+      icon: BitmapDescriptor.fromBytes(imageData),
     );
     setState(() {
       markers[markerId] = marker;
     });
   }
 
-  void createMarker(Map<String, dynamic> item) {
+  void createMarker(Map<String, dynamic> item) async {
     MarkerId markerId = MarkerId(item['place_id']);
     LatLng pinLocation = LatLng(item['geometry']['location']['lat'],
         item['geometry']['location']['lng']);
-    String color = item['color'];
+    Uint8List imageData = await getMarker(item['path']);
     Marker marker = Marker(
       markerId: markerId,
       position: pinLocation,
@@ -168,16 +174,7 @@ class MapSampleState extends State<Home> {
         showDialog(context: this.context, builder: (_) => PinInfo(item: item));
       },
       zIndex: 2,
-      icon: color == 'pink'
-          ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet)
-          : color == 'orange'
-              ? BitmapDescriptor.defaultMarkerWithHue(
-                  BitmapDescriptor.hueOrange)
-              : color == 'yellow'
-                  ? BitmapDescriptor.defaultMarkerWithHue(
-                      BitmapDescriptor.hueYellow)
-                  : BitmapDescriptor.defaultMarkerWithHue(
-                      BitmapDescriptor.hueBlue),
+      icon: BitmapDescriptor.fromBytes(imageData),
     );
     setState(() {
       markers[markerId] = marker;
@@ -200,7 +197,8 @@ class MapSampleState extends State<Home> {
     } else {
       for (int i = 0; i < pinList.length; i++) {
         if (pinList[i]['type'] == pinType) {
-          if (pinList[i]['type'] == 'mypin') {
+          if (pinList[i]['type'] == 'mypin' ||
+              pinList[i]['type'] == 'protected') {
             markers.remove(MarkerId(pinList[i]['name']));
           } else {
             markers.remove(MarkerId(pinList[i]['place_id']));

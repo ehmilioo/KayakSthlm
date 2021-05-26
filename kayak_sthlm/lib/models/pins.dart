@@ -1,5 +1,7 @@
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -7,27 +9,33 @@ class Pins {
   final double longitude;
   final double latitude;
   List<dynamic> finalList = [];
+  List<dynamic> testData = [];
 
   Pins({@required this.longitude, @required this.latitude});
 
   var rentalInfo = {
     'type': 'kayak',
-    'color': 'pink',
+    'path': 'arrow_final.png',
   };
 
   var restaurantInfo = {
     'type': 'restaurant',
-    'color': 'orange',
+    'path': 'arrow_final.png',
   };
 
   var restplaceInfo = {
     'type': 'restplace',
-    'color': 'yellow',
+    'path': 'arrow_final.png',
   };
 
   var mypinInfo = {
     'type': 'mypin',
-    'color': 'white',
+    'path': 'arrow_final.png',
+  };
+
+  var protectedInfo = {
+    'type': 'protected',
+    'path': 'kayak1.png',
   };
 
   Future<List<dynamic>> fetchAllPins() async {
@@ -35,6 +43,7 @@ class Pins {
     await getPins('archipelago restaurant', restaurantInfo);
     await getPins('archipelago camping', restplaceInfo);
     await getCustomPins(mypinInfo);
+    await readProtectedPins();
     return finalList;
   }
 
@@ -46,6 +55,17 @@ class Pins {
     }
     await getCustomPins(mypinInfo);
     return finalList;
+  }
+
+  Future<void> readProtectedPins() async {
+    final String response =
+        await rootBundle.loadString('assets/restrictedAreas.json');
+    final data = await json.decode(response);
+    data.forEach((item) {
+      item.addAll(protectedInfo);
+      finalList.add(item);
+    });
+    print('Returned json pins');
   }
 
   Future<List<dynamic>> getPins(
