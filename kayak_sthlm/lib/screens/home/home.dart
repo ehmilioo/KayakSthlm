@@ -346,6 +346,7 @@ class MapSampleState extends State<Home> {
   Widget build(BuildContext context) {
     getCurrentLocation();
     return new Scaffold(
+      resizeToAvoidBottomInset: false,
       body: locationData == null
           ? Center(
               child: CircularProgressIndicator(

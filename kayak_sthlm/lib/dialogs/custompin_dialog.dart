@@ -165,7 +165,27 @@ class _CustomPinDialog extends State<CustomPinDialog> {
             } else {
               return CircularProgressIndicator();
             }
-          })
+          }),
+      Positioned(
+          top: 142,
+          right: 28,
+          child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Card(
+                elevation: 20,
+                shape: CircleBorder(),
+                child: CircleAvatar(
+                  radius: 24.0,
+                  backgroundColor: Colors.blue,
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                ),
+              )))
     ]));
   }
 }

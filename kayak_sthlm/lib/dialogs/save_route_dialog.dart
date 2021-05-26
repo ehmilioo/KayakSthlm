@@ -31,7 +31,6 @@ class _SaveRoute extends State<SaveRoute> {
 
   String routeName = '';
   bool favoriteRoute = false;
-  bool hasName = false;
   String date = DateFormat('EEEE dd MMMM yyyy')
       .format(DateTime.now()); // Tuesday 18 May 2021 -- Dag-Datum-Månad-År
 
@@ -94,7 +93,6 @@ class _SaveRoute extends State<SaveRoute> {
                                     color: Color.fromRGBO(136, 134, 134, 1)),
                               ),
                               onChanged: (val) {
-                                hasName = true;
                                 routeName = val;
                               })),
                       Row(
@@ -123,10 +121,8 @@ class _SaveRoute extends State<SaveRoute> {
                       OutlinedButton(
                           style: OutlinedButton.styleFrom(
                               minimumSize: Size(195, 48),
-                              primary: hasName ? Colors.black : Colors.white,
-                              backgroundColor: hasName
-                                  ? Color.fromRGBO(139, 239, 123, 1)
-                                  : Color.fromRGBO(217, 221, 224, 1),
+                              primary: Colors.white,
+                              backgroundColor: Color.fromRGBO(139, 239, 123, 1),
                               shadowColor: Colors.black,
                               elevation: 10,
                               shape: const RoundedRectangleBorder(
@@ -155,7 +151,7 @@ class _SaveRoute extends State<SaveRoute> {
                             } catch (e) {
                               print(e);
                             }
-                            Navigator.pop(context);
+                            Navigator.pop(context, true);
                           }),
                       SizedBox(height: 20),
                       OutlinedButton(
@@ -174,9 +170,7 @@ class _SaveRoute extends State<SaveRoute> {
                               )),
                           child: Text('Cancel'),
                           onPressed: () async {
-                            if (hasName == true) {
-                              Navigator.pop(context, false);
-                            } else {}
+                            Navigator.pop(context, false);
                           }),
                       SizedBox(height: 10)
                     ]))
