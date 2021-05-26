@@ -26,6 +26,8 @@ import 'package:kayak_sthlm/dialogs/filters_dialog.dart';
 import 'package:kayak_sthlm/dialogs/confirmation_dialog.dart';
 import 'package:kayak_sthlm/models/pins.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:kayak_sthlm/dialogs/protected_dialog.dart';
+import 'package:kayak_sthlm/dialogs/attention_dialog.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -47,8 +49,10 @@ class MapSampleState extends State<Home> {
   CameraPosition currentPosition;
   bool isStarted = false;
   bool pausedRoute = false;
+  bool stoppedRoute = false;
   Timer timer;
   double totalDistance = 0;
+  LatLng firstPos;
 
   static final sthlmNE = LatLng(60.380987, 19.644660);
   static final sthlmSW = LatLng(58.653765, 17.205695);
@@ -87,7 +91,7 @@ class MapSampleState extends State<Home> {
 
   Future<Uint8List> getMarker(String imagePath) async {
     ByteData byteData =
-        await DefaultAssetBundle.of(context).load("assets/$imagePath");
+        await DefaultAssetBundle.of(context).load("assets/${imagePath}");
     return byteData.buffer.asUint8List();
   }
 
@@ -111,7 +115,8 @@ class MapSampleState extends State<Home> {
 
     for (var i = 0; i < pinList.length; i++) {
       if (pinList[i]['type'] == type) {
-        if (pinList[i]['type'] == 'Custom Pin') {
+        if (pinList[i]['type'] == 'Custom Pin' ||
+            pinList[i]['type'] == 'protected') {
           createCustomMarker(pinList[i]);
         } else {
           createMarker(pinList[i]);
@@ -125,7 +130,8 @@ class MapSampleState extends State<Home> {
       await fetchList();
     }
     for (var i = 0; i < pinList.length; i++) {
-      if (pinList[i]['type'] == 'Custom Pin') {
+      if (pinList[i]['type'] == 'Custom Pin' ||
+          pinList[i]['type'] == 'protected') {
         createCustomMarker(pinList[i]);
       } else {
         createMarker(pinList[i]);
@@ -148,10 +154,15 @@ class MapSampleState extends State<Home> {
                   // bearing: locationData.heading,
                   target: LatLng(pinLocation.latitude, pinLocation.longitude),
                   zoom: 15.00)));
-          showDialog(
-              barrierColor: Colors.transparent,
-              context: this.context,
-              builder: (_) => PinInfo(item: item));
+          if (item['type'] == 'protected') {
+            showDialog(
+                barrierColor: Colors.transparent,
+                context: this.context,
+                builder: (_) => ProtectedPinInfo(item: item));
+          } else {
+            showDialog(
+                context: this.context, builder: (_) => PinInfo(item: item));
+          }
         },
         zIndex: 2,
         icon: BitmapDescriptor.fromBytes(imageData));
@@ -183,18 +194,7 @@ class MapSampleState extends State<Home> {
               builder: (_) => PinInfo(item: item));
         },
         zIndex: 2,
-        icon: BitmapDescriptor.fromBytes(imageData)
-        // icon: color == 'pink'
-        //     ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet)
-        //     : color == 'orange'
-        //         ? BitmapDescriptor.defaultMarkerWithHue(
-        //             BitmapDescriptor.hueOrange)
-        //         : color == 'yellow'
-        //             ? BitmapDescriptor.defaultMarkerWithHue(
-        //                 BitmapDescriptor.hueYellow)
-        //             : BitmapDescriptor.defaultMarkerWithHue(
-        //                 BitmapDescriptor.hueBlue),
-        );
+        icon: BitmapDescriptor.fromBytes(imageData));
     setState(() {
       markers[markerId] = marker;
     });
@@ -216,7 +216,8 @@ class MapSampleState extends State<Home> {
     } else {
       for (int i = 0; i < pinList.length; i++) {
         if (pinList[i]['type'] == pinType) {
-          if (pinList[i]['type'] == 'Custom Pin') {
+          if (pinList[i]['type'] == 'Custom Pin' ||
+              pinList[i]['type'] == 'protected') {
             markers.remove(MarkerId(pinList[i]['name']));
           } else {
             markers.remove(MarkerId(pinList[i]['place_id']));
@@ -229,24 +230,27 @@ class MapSampleState extends State<Home> {
   void updateMarkerAndCircle(
       LocationData newLocalData, Uint8List imageData) async {
     LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
-    this.setState(() {
-      marker = Marker(
-          markerId: MarkerId("user"),
-          position: latlng,
-          rotation: newLocalData.heading,
-          draggable: false,
-          zIndex: 2,
-          flat: true,
-          anchor: Offset(0.5, 0.5),
-          icon: BitmapDescriptor.fromBytes(imageData));
-      circle = Circle(
-          circleId: CircleId("radius"),
-          radius: newLocalData.accuracy + 100,
-          zIndex: 1,
-          strokeColor: Colors.blue,
-          center: latlng,
-          fillColor: Colors.blue.withAlpha(70));
-    });
+    if (this.mounted) {
+      this.setState(() {
+        marker = Marker(
+            markerId: MarkerId("user"),
+            position: latlng,
+            rotation: newLocalData.heading,
+            draggable: false,
+            zIndex: 2,
+            flat: true,
+            anchor: Offset(0.5, 0.5),
+            icon: BitmapDescriptor.fromBytes(imageData));
+        markers[marker.markerId] = marker;
+        circle = Circle(
+            circleId: CircleId("radius"),
+            radius: newLocalData.accuracy + 100,
+            zIndex: 1,
+            strokeColor: Colors.blue,
+            center: latlng,
+            fillColor: Colors.blue.withAlpha(70));
+      });
+    }
   }
 
   void getCurrentLocation() async {
@@ -384,28 +388,31 @@ class MapSampleState extends State<Home> {
                 Positioned(
                   top: 40,
                   left: 10,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: RawMaterialButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (_) => WeatherDialog(
-                              longitude: locationData.longitude,
-                              latitude: locationData.latitude),
-                        );
-                      },
-                      constraints: BoxConstraints(minWidth: 80, minHeight: 80),
-                      elevation: 10.0,
-                      fillColor: Colors.white,
-                      child: Icon(
-                        Icons.wb_sunny_outlined,
-                        size: 50.0,
-                      ),
-                      padding: EdgeInsets.all(10.0),
-                      shape: CircleBorder(),
-                    ),
-                  ),
+                  child: stoppedRoute
+                      ? Container()
+                      : Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: RawMaterialButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (_) => WeatherDialog(
+                                    longitude: locationData.longitude,
+                                    latitude: locationData.latitude),
+                              );
+                            },
+                            constraints:
+                                BoxConstraints(minWidth: 80, minHeight: 80),
+                            elevation: 10.0,
+                            fillColor: Colors.white,
+                            child: Icon(
+                              Icons.wb_sunny_outlined,
+                              size: 50.0,
+                            ),
+                            padding: EdgeInsets.all(10.0),
+                            shape: CircleBorder(),
+                          ),
+                        ),
                 ),
                 Positioned(
                     top: 140,
@@ -437,81 +444,223 @@ class MapSampleState extends State<Home> {
                 Positioned(
                   top: 45,
                   right: -5,
-                  child: RawMaterialButton(
-                    onPressed: () {
-                      showDialog(
-                        barrierColor: Colors.transparent,
-                        context: context,
-                        builder: (_) => Filters(
-                            togglePins: togglePins,
-                            toggleAllPins: toggleAllPins),
-                      );
-                    },
-                    elevation: 5.0,
-                    fillColor: Colors.white,
-                    child: Icon(
-                      Icons.filter_alt_outlined,
-                      size: 35.0,
-                    ),
-                    padding: EdgeInsets.all(10.0),
-                    shape: CircleBorder(),
-                  ),
+                  child: stoppedRoute
+                      ? Container()
+                      : RawMaterialButton(
+                          onPressed: () {
+                            showDialog(
+                              barrierColor: Colors.transparent,
+                              context: context,
+                              builder: (_) => Filters(
+                                  togglePins: togglePins,
+                                  toggleAllPins: toggleAllPins),
+                            );
+                          },
+                          elevation: 5.0,
+                          fillColor: Colors.white,
+                          child: Icon(
+                            Icons.filter_alt_outlined,
+                            size: 35.0,
+                          ),
+                          padding: EdgeInsets.all(10.0),
+                          shape: CircleBorder(),
+                        ),
                 ),
                 Positioned(
-                    bottom: 7,
-                    left: 100,
-                    child: pausedRoute
-                        ? Column(
+                  child: stoppedRoute
+                      ? Container(
+                          constraints: BoxConstraints(
+                            minHeight: double.infinity,
+                            minWidth: double.infinity,
+                          ),
+                          color: Colors.transparent,
+                          width: 150,
+                          height: 150,
+                        )
+                      : Container(height: 0, width: 0),
+                ),
+                Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: stoppedRoute
+                        ? Stack(
                             children: [
                               Container(
-                                  height: 69.0,
-                                  width: 69.0,
-                                  child: FloatingActionButton(
-                                    elevation: 10,
-                                    child: Container(
-                                        height: 69.0,
-                                        width: 69.0,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            gradient: RadialGradient(colors: [
-                                              Color.fromRGBO(139, 239, 123, 1),
-                                              Colors.black
-                                            ], stops: [
-                                              0.44,
-                                              1
-                                            ], radius: 1)),
-                                        child: Icon(Icons.play_arrow_outlined,
-                                            size: 50)),
-                                    onPressed: () {
-                                      pausedRoute = !pausedRoute;
-                                      _stopWatchTimer.onExecute
-                                          .add(StopWatchExecute.start);
-                                      startRoute();
-                                    },
-                                  )),
-                              SizedBox(height: 4),
-                              Container(
-                                  width: 79,
-                                  height: 22,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    boxShadow: <BoxShadow>[
-                                      BoxShadow(
-                                          color: Colors.black26,
-                                          blurRadius: 1.0,
-                                          offset: Offset(1, 1))
-                                    ],
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    color: Colors.white,
-                                  ),
-                                  child: Text('RESUME',
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400))),
+                                height: 200,
+                                width: 400,
+                                color: Colors.white,
+                                child: Column(
+                                  children: [
+                                    Text('Route Stopped'),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Text('Duration: '),
+                                            Text(StopWatchTimer.getDisplayTime(
+                                                    _stopWatchTimer.rawTime
+                                                        .valueWrapper?.value)
+                                                .substring(0, 8)),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text('Distance (KM)'),
+                                            Text(totalDistance.toString()),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 20),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        RawMaterialButton(
+                                          onPressed: () {
+                                            pausedRoute = !pausedRoute;
+                                            stoppedRoute = !stoppedRoute;
+                                            _stopWatchTimer.onExecute
+                                                .add(StopWatchExecute.start);
+                                            startRoute();
+                                          },
+                                          elevation: 5.0,
+                                          fillColor: Colors.green[200],
+                                          child: Icon(
+                                            Icons.play_arrow,
+                                            size: 35.0,
+                                          ),
+                                          padding: EdgeInsets.all(10.0),
+                                          shape: CircleBorder(),
+                                        ),
+                                        RawMaterialButton(
+                                          onPressed: () async {
+                                            bool savedRoute = await showDialog(
+                                              context: this.context,
+                                              builder: (_) => SaveRoute(
+                                                  routeList: routeCoords,
+                                                  distance: totalDistance,
+                                                  time: StopWatchTimer
+                                                      .getDisplayTimeSecond(
+                                                          _stopWatchTimer
+                                                              .rawTime
+                                                              .valueWrapper
+                                                              ?.value)),
+                                            );
+                                            if (savedRoute) {
+                                              finishRoute();
+                                              showDialog(
+                                                  context: this.context,
+                                                  builder: (_) => Confirmation(
+                                                      message:
+                                                          'Your route has been saved',
+                                                      color: true));
+                                              stoppedRoute = !stoppedRoute;
+                                            }
+                                          },
+                                          elevation: 5.0,
+                                          fillColor: Colors.blue[200],
+                                          child: Icon(
+                                            Icons.save_alt_sharp,
+                                            size: 35.0,
+                                          ),
+                                          padding: EdgeInsets.all(10.0),
+                                          shape: CircleBorder(),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(height: 20),
+                                    TextButton(
+                                      onPressed: () async {
+                                        final result = await showDialog(
+                                            context: this.context,
+                                            builder: (_) => AttentionDialog(
+                                                  message:
+                                                      'Are you sure you want to delete route?',
+                                                ));
+                                        if (result) {
+                                          stoppedRoute = !stoppedRoute;
+                                          finishRoute();
+                                        } else {
+                                          print('Canceled deletion');
+                                        }
+                                      },
+                                      child: Text('Delete Route',
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              decoration:
+                                                  TextDecoration.underline)),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           )
                         : Container(height: 0, width: 0)),
+                Positioned(
+                    bottom: 7,
+                    left: 100,
+                    child: stoppedRoute
+                        ? null
+                        : pausedRoute
+                            ? Column(
+                                children: [
+                                  Container(
+                                      height: 69.0,
+                                      width: 69.0,
+                                      child: FloatingActionButton(
+                                        elevation: 10,
+                                        child: Container(
+                                            height: 69.0,
+                                            width: 69.0,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                gradient: RadialGradient(
+                                                    colors: [
+                                                      Color.fromRGBO(
+                                                          139, 239, 123, 1),
+                                                      Colors.black
+                                                    ],
+                                                    stops: [
+                                                      0.44,
+                                                      1
+                                                    ],
+                                                    radius: 1)),
+                                            child: Icon(
+                                                Icons.play_arrow_outlined,
+                                                size: 50)),
+                                        onPressed: () {
+                                          pausedRoute = !pausedRoute;
+                                          _stopWatchTimer.onExecute
+                                              .add(StopWatchExecute.start);
+                                          startRoute();
+                                        },
+                                      )),
+                                  SizedBox(height: 4),
+                                  Container(
+                                      width: 79,
+                                      height: 22,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        boxShadow: <BoxShadow>[
+                                          BoxShadow(
+                                              color: Colors.black26,
+                                              blurRadius: 1.0,
+                                              offset: Offset(1, 1))
+                                        ],
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                        color: Colors.white,
+                                      ),
+                                      child: Text('RESUME',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400))),
+                                ],
+                              )
+                            : Container(height: 0, width: 0)),
                 Positioned(
                     bottom: 7,
                     right: 100,
@@ -538,19 +687,28 @@ class MapSampleState extends State<Home> {
                                         child: Icon(Icons.stop_outlined,
                                             size: 50)),
                                     onPressed: () async {
-                                      bool savedRoute = await showDialog(
-                                        context: this.context,
-                                        builder: (_) => SaveRoute(
-                                            routeList: routeCoords,
-                                            distance: totalDistance,
-                                            time: StopWatchTimer
-                                                .getDisplayTimeSecond(
-                                                    _stopWatchTimer.rawTime
-                                                        .valueWrapper?.value)),
-                                      );
-                                      if (savedRoute) {
-                                        finishRoute();
-                                      } else {}
+                                      stoppedRoute = !stoppedRoute;
+                                      _controller.animateCamera(
+                                          CameraUpdate.newCameraPosition(
+                                              new CameraPosition(
+                                                  bearing: 0,
+                                                  target: LatLng(
+                                                      firstPos.latitude,
+                                                      firstPos.longitude),
+                                                  zoom: 13.00)));
+                                      // bool savedRoute = await showDialog(
+                                      //   context: this.context,
+                                      //   builder: (_) => SaveRoute(
+                                      //       routeList: routeCoords,
+                                      //       distance: totalDistance,
+                                      //       time: StopWatchTimer
+                                      //           .getDisplayTimeSecond(
+                                      //               _stopWatchTimer.rawTime
+                                      //                   .valueWrapper?.value)),
+                                      // );
+                                      // if (savedRoute) {
+                                      //   finishRoute();
+                                      // } else {}
                                     },
                                   )),
                               SizedBox(height: 4),
@@ -615,7 +773,7 @@ class MapSampleState extends State<Home> {
                     } else {
                       _stopWatchTimer.onExecute.add(StopWatchExecute.start);
                       isStarted = !isStarted;
-                      LatLng firstPos =
+                      firstPos =
                           LatLng(locationData.latitude, locationData.longitude);
                       routeCoords.add(firstPos);
                       startRoute();
@@ -629,155 +787,163 @@ class MapSampleState extends State<Home> {
                 backgroundColor: Colors.black,
               ),
             )
-          : SizedBox(
-              height: 80,
-              child: BottomAppBar(
-                child: isStarted
-                    ? new Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                            SizedBox(
-                              width: 125,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text('DURATION',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400)),
-                                  Container(
-                                      child: StreamBuilder<int>(
-                                          stream: _stopWatchTimer.rawTime,
-                                          initialData: _stopWatchTimer
-                                              .rawTime.valueWrapper?.value,
-                                          builder: (context, snap) {
-                                            final value = snap.data;
-                                            final displayTime =
-                                                StopWatchTimer.getDisplayTime(
-                                                        value)
-                                                    .substring(0, 8);
-                                            return Container(
-                                                child: Text(
-                                              displayTime,
+          : stoppedRoute
+              ? null
+              : SizedBox(
+                  height: 80,
+                  child: BottomAppBar(
+                    child: isStarted
+                        ? new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                                SizedBox(
+                                  width: 125,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text('DURATION',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400)),
+                                      Container(
+                                          child: StreamBuilder<int>(
+                                              stream: _stopWatchTimer.rawTime,
+                                              initialData: _stopWatchTimer
+                                                  .rawTime.valueWrapper?.value,
+                                              builder: (context, snap) {
+                                                final value = snap.data;
+                                                final displayTime =
+                                                    StopWatchTimer
+                                                            .getDisplayTime(
+                                                                value)
+                                                        .substring(0, 8);
+                                                return Container(
+                                                    child: Text(
+                                                  displayTime,
+                                                  style: TextStyle(
+                                                      fontSize: 25,
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                ));
+                                              }),
+                                          height: 30),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                    padding: EdgeInsets.only(bottom: 8),
+                                    alignment: Alignment.bottomCenter,
+                                    height: 50,
+                                    width: 52,
+                                    child: pausedRoute
+                                        ? Text("PAUSED",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600))
+                                        : Text('PAUSE',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600))),
+                                SizedBox(
+                                  width: 125,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text('DISTANCE (KM)',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400)),
+                                      Container(
+                                          child: Text(
+                                              (totalDistance / 1000).toString(),
                                               style: TextStyle(
                                                   fontSize: 25,
-                                                  fontWeight: FontWeight.w700),
-                                            ));
-                                          }),
-                                      height: 30),
-                                ],
+                                                  fontWeight: FontWeight.w700)),
+                                          width: 40,
+                                          height: 30),
+                                    ],
+                                  ),
+                                ),
+                              ])
+                        : new Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              IconButton(
+                                padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
+                                // Navigationsknapp 1: Routes
+                                icon: Icon(Icons.place_outlined),
+                                iconSize: 30,
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MyRoutes()));
+                                },
                               ),
-                            ),
-                            Container(
+
+                              IconButton(
+                                padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
+                                // Navigationsknapp 2: Events
+                                icon: Icon(Icons.calendar_today_outlined),
+                                iconSize: 30,
+                                onPressed: () {
+                                  Navigator.of(context).push(PageRouteBuilder(
+                                      pageBuilder: (context, _, __) =>
+                                          RoutesInfoDialog(),
+                                      opaque: false,
+                                      barrierColor:
+                                          Colors.black.withOpacity(0.2)));
+                                },
+                              ),
+                              Container(
                                 padding: EdgeInsets.only(bottom: 8),
                                 alignment: Alignment.bottomCenter,
                                 height: 50,
                                 width: 52,
-                                child: pausedRoute
-                                    ? Text("PAUSED",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600))
-                                    : Text('PAUSE',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600))),
-                            SizedBox(
-                              width: 125,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text('DISTANCE (KM)',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400)),
-                                  Container(
-                                      child: Text(
-                                          (totalDistance / 1000).toString(),
-                                          style: TextStyle(
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.w700)),
-                                      width: 40,
-                                      height: 30),
-                                ],
+                                child: Text("START",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12)),
+                              ), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
+                              IconButton(
+                                padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
+                                // Navigationsknapp 3: Info
+                                icon: Icon(Icons.info_outline),
+                                iconSize: 30,
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              InformationScreen()));
+                                },
                               ),
-                            ),
-                          ])
-                    : new Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          IconButton(
-                            padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
-                            // Navigationsknapp 1: Routes
-                            icon: Icon(Icons.place_outlined),
-                            iconSize: 30,
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MyRoutes()));
-                            },
+                              IconButton(
+                                padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
+                                // Navigationsknapp 4: Settings
+                                icon: Icon(Icons.settings_outlined),
+                                iconSize: 30,
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Settings()));
+                                },
+                              ),
+                            ],
                           ),
-
-                          IconButton(
-                            padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
-                            // Navigationsknapp 2: Events
-                            icon: Icon(Icons.calendar_today_outlined),
-                            iconSize: 30,
-                            onPressed: () {
-                              Navigator.of(context).push(PageRouteBuilder(
-                                  pageBuilder: (context, _, __) =>
-                                      RoutesInfoDialog(),
-                                  opaque: false,
-                                  barrierColor: Colors.black.withOpacity(0.2)));
-                            },
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(bottom: 8),
-                            alignment: Alignment.bottomCenter,
-                            height: 50,
-                            width: 52,
-                            child: Text("START",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 12)),
-                          ), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
-                          IconButton(
-                            padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
-                            // Navigationsknapp 3: Info
-                            icon: Icon(Icons.info_outline),
-                            iconSize: 30,
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          InformationScreen()));
-                            },
-                          ),
-                          IconButton(
-                            padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
-                            // Navigationsknapp 4: Settings
-                            icon: Icon(Icons.settings_outlined),
-                            iconSize: 30,
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Settings()));
-                            },
-                          ),
-                        ],
-                      ),
-              ),
-            ),
+                  ),
+                ),
     );
   }
 
