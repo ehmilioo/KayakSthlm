@@ -47,70 +47,89 @@ class _PinInfo extends State<PinInfo> {
   @override
   Widget build(BuildContext context) {
     return widget.item['type'] == 'Custom Pin'
-        ? Card(
-            color: Colors.transparent,
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(
-                      left: 20, top: 120, right: 20, bottom: 20),
-                  margin: EdgeInsets.only(top: 45),
-                  decoration: BoxDecoration(
+        ? Container(
+            child: Stack(children: <Widget>[
+            Positioned(
+                top: 420,
+                child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black,
-                            offset: Offset(0, 10),
-                            blurRadius: 10),
-                      ]),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(Icons.close_outlined),
-                        color: Colors.blue[200],
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                    ),
+                    child: Material(
+                        color: Colors.white,
+                        child: Stack(children: [
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                widget.item['name'] != ''
+                                    ? Text(
+                                        widget.item['name'],
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700,
+                                            fontFamily: 'Montserrat'),
+                                      )
+                                    : Text('No name entered by user'),
+                                SizedBox(height: 10),
+                                RichText(
+                                    text: TextSpan(
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: 'Montserrat',
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14),
+                                        children: <TextSpan>[
+                                      TextSpan(text: 'Custom pin made by '),
+                                      TextSpan(
+                                          text: '${widget.item['username']}',
+                                          style: TextStyle(
+                                              fontStyle: FontStyle.italic))
+                                    ])),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                widget.item['desc'] != ''
+                                    ? Text('Description',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Montserrat'))
+                                    : Text('No description entered by user'),
+                                SizedBox(
+                                  height: 241,
+                                  child: Text('${widget.item['desc']}',
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Montserrat')),
+                                )
+                              ])
+                        ])))),
+            Positioned(
+                top: 424,
+                right: 3,
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Card(
+                      elevation: 20,
+                      shape: CircleBorder(),
+                      child: CircleAvatar(
+                        radius: 18.0,
+                        backgroundColor: Colors.blue,
+                        child: Icon(
+                          Icons.close,
+                          color: Colors.white,
+                          size: 30,
+                        ),
                       ),
-                      Text(
-                        widget.item['name'],
-                        style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w200,
-                            fontFamily: 'HammersmithOne'),
-                      ),
-                      Text(
-                        'Custom pin made by: ${widget.item['username']}',
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w200,
-                            fontFamily: 'HammersmithOne'),
-                      ),
-                      SizedBox(
-                        height: 22,
-                      ),
-                      Text(
-                        'Description',
-                        style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w200,
-                            fontFamily: 'HammersmithOne'),
-                      ),
-                      Text(widget.item['desc'],
-                          style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w200,
-                              fontFamily: 'HammersmithOne',
-                              color: Colors.red[800])),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )
+                    )))
+          ]))
         : FutureBuilder(
             future: getDetails(),
             builder: (context, snapshot) {

@@ -12,22 +12,22 @@ class Pins {
 
   var rentalInfo = {
     'type': 'Kayak Rental',
-    'color': 'pink',
+    'path': 'pins/bluepin.png',
   };
 
   var restaurantInfo = {
     'type': 'Restaurant',
-    'color': 'orange',
+    'path': 'pins/pinkpin.png',
   };
 
   var restplaceInfo = {
     'type': 'Rest Place',
-    'color': 'yellow',
+    'path': 'pins/greenpin.png',
   };
 
   var mypinInfo = {
     'type': 'Custom Pin',
-    'color': 'white',
+    'path': 'pins/yellowpin.png',
   };
 
   Future<List<dynamic>> fetchAllPins() async {

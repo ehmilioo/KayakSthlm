@@ -133,65 +133,68 @@ class MapSampleState extends State<Home> {
     }
   }
 
-  void createCustomMarker(Map<String, dynamic> item) {
+  void createCustomMarker(Map<String, dynamic> item) async {
+    Uint8List imageData = await getMarker(item['path']);
     MarkerId markerId = MarkerId(item['name']);
     LatLng pinLocation = LatLng(item['lat'], item['lng']);
-    String color = item['color'];
+    // String color = item['color'];
     Marker marker = Marker(
-      markerId: markerId,
-      position: pinLocation,
-      draggable: false,
-      onTap: () {
-        _controller
-            .animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
-                // bearing: locationData.heading,
-                target: LatLng(pinLocation.latitude, pinLocation.longitude),
-                zoom: 15.00)));
-        showDialog(context: this.context, builder: (_) => PinInfo(item: item));
-      },
-      zIndex: 2,
-      icon: color == 'white'
-          ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed)
-          : BitmapDescriptor.defaultMarkerWithHue(
-              BitmapDescriptor.hueBlue), //Default color
-    );
+        markerId: markerId,
+        position: pinLocation,
+        draggable: false,
+        onTap: () {
+          _controller
+              .animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+                  // bearing: locationData.heading,
+                  target: LatLng(pinLocation.latitude, pinLocation.longitude),
+                  zoom: 15.00)));
+          showDialog(
+              barrierColor: Colors.transparent,
+              context: this.context,
+              builder: (_) => PinInfo(item: item));
+        },
+        zIndex: 2,
+        icon: BitmapDescriptor.fromBytes(imageData));
     setState(() {
       markers[markerId] = marker;
     });
   }
 
-  void createMarker(Map<String, dynamic> item) {
+  void createMarker(Map<String, dynamic> item) async {
+    Uint8List imageData = await getMarker(item['path']);
+
     MarkerId markerId = MarkerId(item['place_id']);
     LatLng pinLocation = LatLng(item['geometry']['location']['lat'],
         item['geometry']['location']['lng']);
-    String color = item['color'];
+    // String color = item['color'];
     Marker marker = Marker(
-      markerId: markerId,
-      position: pinLocation,
-      draggable: false,
-      onTap: () {
-        _controller
-            .animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
-                // bearing: locationData.heading,
-                target: LatLng(pinLocation.latitude, pinLocation.longitude),
-                zoom: 15.00)));
-        showDialog(
-            barrierColor: Colors.transparent,
-            context: this.context,
-            builder: (_) => PinInfo(item: item));
-      },
-      zIndex: 2,
-      icon: color == 'pink'
-          ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet)
-          : color == 'orange'
-              ? BitmapDescriptor.defaultMarkerWithHue(
-                  BitmapDescriptor.hueOrange)
-              : color == 'yellow'
-                  ? BitmapDescriptor.defaultMarkerWithHue(
-                      BitmapDescriptor.hueYellow)
-                  : BitmapDescriptor.defaultMarkerWithHue(
-                      BitmapDescriptor.hueBlue),
-    );
+        markerId: markerId,
+        position: pinLocation,
+        draggable: false,
+        onTap: () {
+          _controller
+              .animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+                  // bearing: locationData.heading,
+                  target: LatLng(pinLocation.latitude, pinLocation.longitude),
+                  zoom: 15.00)));
+          showDialog(
+              barrierColor: Colors.transparent,
+              context: this.context,
+              builder: (_) => PinInfo(item: item));
+        },
+        zIndex: 2,
+        icon: BitmapDescriptor.fromBytes(imageData)
+        // icon: color == 'pink'
+        //     ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet)
+        //     : color == 'orange'
+        //         ? BitmapDescriptor.defaultMarkerWithHue(
+        //             BitmapDescriptor.hueOrange)
+        //         : color == 'yellow'
+        //             ? BitmapDescriptor.defaultMarkerWithHue(
+        //                 BitmapDescriptor.hueYellow)
+        //             : BitmapDescriptor.defaultMarkerWithHue(
+        //                 BitmapDescriptor.hueBlue),
+        );
     setState(() {
       markers[markerId] = marker;
     });
