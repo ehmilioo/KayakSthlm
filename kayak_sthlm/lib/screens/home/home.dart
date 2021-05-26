@@ -2,10 +2,13 @@ import 'dart:typed_data';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:kayak_sthlm/dialogs/EventsInfo_dialog.dart';
 import 'package:kayak_sthlm/dialogs/RoutesInfo_dialog.dart';
 import 'package:kayak_sthlm/dialogs/deleteRoute_dialog.dart';
 import 'package:kayak_sthlm/dialogs/eventsInfo_dialog.dart';
+import 'package:kayak_sthlm/dialogs/protected_dialog.dart';
+import 'package:kayak_sthlm/models/pins.dart';
 import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 import 'package:kayak_sthlm/screens/info/information.dart';
 import 'package:kayak_sthlm/screens/my_routes/my_routes.dart';
@@ -20,17 +23,133 @@ import 'package:kayak_sthlm/dialogs/custompin_dialog.dart';
 import 'package:kayak_sthlm/dialogs/pininfo_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
-import 'package:kayak_sthlm/screens/settings/settings.dart';
-import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:kayak_sthlm/dialogs/filters_dialog.dart';
-import 'package:kayak_sthlm/dialogs/confirmation_dialog.dart';
-import 'package:kayak_sthlm/models/pins.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:kayak_sthlm/dialogs/protected_dialog.dart';
-import 'package:kayak_sthlm/dialogs/attention_dialog.dart';
+import 'package:kayak_sthlm/screens/authenticate/authenticate.dart';
+import 'package:provider/provider.dart';
+import 'package:kayak_sthlm/models/user.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
+
+class SplashState extends StatelessWidget {
+  Future checkFirstSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seen = (prefs.getBool('seen') ?? false);
+
+    if (_seen) {
+      return Home.id;
+    } else {
+      // Set the flag to true at the end of onboarding screen if everything is successfull and so I am commenting it out
+      // await prefs.setBool('seen', true);
+      return IntroScreen.id;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: checkFirstSeen(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return MaterialApp(
+              initialRoute: snapshot.data,
+              routes: {
+                IntroScreen.id: (context) => IntroScreen(),
+                Home.id: (context) => Home(),
+              },
+            );
+          }
+        });
+  }
+}
+
+class IntroScreen extends StatelessWidget {
+  static String id = 'IntroScreen';
+
+  @override
+  Widget build(BuildContext context) {
+    final PageController controller = PageController(initialPage: 0);
+    return Scaffold(
+      body: PageView(
+        scrollDirection: Axis.horizontal,
+        controller: controller,
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/onBoardFirstP.png'),
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/onBoardSecondP.png'),
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/onBoardThirdP.png'),
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/onBoardFourthP.png'),
+              ),
+            ),
+          ),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 30.0),
+        child: FloatingActionButton(
+            //den här som behövs kollas påååååååååååååååååååååååå
+            //
+            //
+            //
+            // aaaaaaaaaaahhhhhh
+            onPressed: () {
+              if (controller.page == 3) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Wrapper()),
+                );
+              } else {
+                controller.nextPage(
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeInOut);
+              }
+            },
+            tooltip: 'Start',
+            child: Icon(Icons.play_arrow_outlined)),
+      ),
+    );
+  }
+}
+
+class Wrapper extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final user = Provider.of<TheUser>(context);
+
+    //return either home or authenticate widget
+    if (user == null) {
+      return Authenticate();
+    } else {
+      return Home();
+    }
+  }
+}
 
 class Home extends StatefulWidget {
+  static String id = 'Home';
   @override
   State<Home> createState() => MapSampleState();
 }

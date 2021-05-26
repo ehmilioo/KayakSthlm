@@ -45,6 +45,10 @@ flutter:
     - assets/weatherType.json
     - assets/pins/
     - assets/restrictedAreas.json
+    - assets/onBoardFirstP.png
+    - assets/onBoardSecondP.png
+    - assets/onBoardThirdP.png
+    - assets/onBoardFourthP.png
   fonts:
    - family:  AppIcons
      fonts:
