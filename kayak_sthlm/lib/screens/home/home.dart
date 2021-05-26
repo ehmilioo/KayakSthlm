@@ -677,13 +677,13 @@ class MapSampleState extends State<Home> {
                                                   );
                                                   if (savedRoute) {
                                                     finishRoute();
-                                                    showDialog(
-                                                        context: this.context,
-                                                        builder: (_) =>
-                                                            Confirmation(
-                                                                message:
-                                                                    'Your route has been saved',
-                                                                color: true));
+                                                    // showDialog(
+                                                    //     context: this.context,
+                                                    //     builder: (_) =>
+                                                    //         Confirmation(
+                                                    //             message:
+                                                    //                 'Your route has been saved',
+                                                    //             color: true));
                                                     stoppedRoute =
                                                         !stoppedRoute;
                                                   }
