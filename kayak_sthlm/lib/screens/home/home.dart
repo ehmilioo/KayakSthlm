@@ -615,6 +615,31 @@ class MapSampleState extends State<Home> {
                       : Container(height: 0, width: 0),
                 ),
                 Positioned(
+                    top: 25,
+                    left: 35,
+                    child: stoppedRoute
+                        ? Container(
+                            width: 322,
+                            height: 56,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 3.0,
+                                    offset: Offset(2.0, 3))
+                              ],
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: Colors.white,
+                            ),
+                            child: Text('ROUTE STOPPED',
+                                style: TextStyle(
+                                  fontFamily: 'Lato',
+                                  fontSize: 35,
+                                )))
+                        : Container()),
+                Positioned(
                     bottom: 0,
                     right: 0,
                     child: stoppedRoute
