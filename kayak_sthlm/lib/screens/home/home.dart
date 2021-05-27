@@ -33,7 +33,7 @@ class SplashState extends StatelessWidget {
       return Home.id;
     } else {
       // Set the flag to true at the end of onboarding screen if everything is successfull and so I am commenting it out
-      // await prefs.setBool('seen', true);
+      await prefs.setBool('seen', true);
       return IntroScreen.id;
     }
   }

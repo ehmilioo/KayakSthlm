@@ -646,6 +646,223 @@ class MapSampleState extends State<MapSample> {
     _setPolygon(rpa);
   }
 
+  void addReserve27() {
+    // ignore: deprecated_member_use
+    List<LatLng> polygonLatLngs = List<LatLng>();
+    LatLng point1 = LatLng(59.651857, 18.740128);
+    LatLng point2 = LatLng(59.649439, 18.743381);
+    LatLng point3 = LatLng(59.646303, 18.729977);
+    LatLng point4 = LatLng(59.650821, 18.723357);
+    LatLng point5 = LatLng(59.647809, 18.720078);
+    LatLng point6 = LatLng(59.666515, 18.679863);
+    LatLng point7 = LatLng(59.674342, 18.707576);
+    polygonLatLngs.add(point1);
+    polygonLatLngs.add(point2);
+    polygonLatLngs.add(point3);
+    polygonLatLngs.add(point4);
+    polygonLatLngs.add(point5);
+    polygonLatLngs.add(point6);
+    polygonLatLngs.add(point7);
+    var rpa = RPA(
+        'Tranvik Naturreservat',
+        'Protected since: 1978',
+        'Size: 370 hectare',
+        59.651857,
+        18.740128,
+        polygonLatLngs);
+    rpas.add(rpa);
+    _setPolygon(rpa);
+  }
+
+  void addReserve28() {
+    // ignore: deprecated_member_use
+    List<LatLng> polygonLatLngs = List<LatLng>();
+    LatLng point1 = LatLng(59.663181, 18.794586);
+    LatLng point2 = LatLng(59.657982, 18.799821);
+    LatLng point3 = LatLng(59.658555, 18.805073);
+    LatLng point4 = LatLng(59.654714, 18.804873);
+    LatLng point5 = LatLng(59.655878, 18.796293);
+    LatLng point6 = LatLng(59.654988, 18.790730);
+    LatLng point7 = LatLng(59.661638, 18.790606);
+    polygonLatLngs.add(point1);
+    polygonLatLngs.add(point2);
+    polygonLatLngs.add(point3);
+    polygonLatLngs.add(point4);
+    polygonLatLngs.add(point5);
+    polygonLatLngs.add(point6);
+    polygonLatLngs.add(point7);
+    var rpa = RPA(
+        'Stensholmens Naturreservat',
+        'Protected since: 1971',
+        'Size: 46 hectare',
+        59.663181,
+        18.794586,
+        polygonLatLngs);
+    rpas.add(rpa);
+    _setPolygon(rpa);
+  }
+
+  void addReserve29() {
+    // ignore: deprecated_member_use
+    List<LatLng> polygonLatLngs = List<LatLng>();
+    LatLng point1 = LatLng(59.588368, 18.973087);
+    LatLng point2 = LatLng(59.589086, 18.990934);
+    LatLng point3 = LatLng(59.584034, 18.990290);
+    LatLng point4 = LatLng(59.580952, 18.975104);
+    LatLng point5 = LatLng(59.586872, 18.972306);
+    polygonLatLngs.add(point1);
+    polygonLatLngs.add(point2);
+    polygonLatLngs.add(point3);
+    polygonLatLngs.add(point4);
+    polygonLatLngs.add(point5);
+    var rpa = RPA(
+        'Salskären Naturreservat',
+        'Protected since: 1973',
+        'Size: 75 hectare',
+        59.588368,
+        18.973087,
+        polygonLatLngs);
+    rpas.add(rpa);
+    _setPolygon(rpa);
+  }
+
+  void addReserve30() {
+    // ignore: deprecated_member_use
+    List<LatLng> polygonLatLngs = List<LatLng>();
+    LatLng point1 = LatLng(59.460616, 19.506813);
+    LatLng point2 = LatLng(59.411050, 19.455390);
+    LatLng point3 = LatLng(59.405077, 19.493510);
+    LatLng point4 = LatLng(59.453394, 19.536168);
+    polygonLatLngs.add(point1);
+    polygonLatLngs.add(point2);
+    polygonLatLngs.add(point3);
+    polygonLatLngs.add(point4);
+    var rpa = RPA(
+        'Svenska Högarna Naturreservat',
+        'Protected since: 1976',
+        'Size: 107 hectare',
+        59.460616,
+        19.506813,
+        polygonLatLngs);
+    rpas.add(rpa);
+    _setPolygon(rpa);
+  }
+
+  void addReserve31() {
+    // ignore: deprecated_member_use
+    List<LatLng> polygonLatLngs = List<LatLng>();
+    LatLng point1 = LatLng(59.481637, 19.214494);
+    LatLng point2 = LatLng(59.447569, 19.275021);
+    LatLng point3 = LatLng(59.405110, 19.190689);
+    LatLng point4 = LatLng(59.430324, 19.157256);
+    polygonLatLngs.add(point1);
+    polygonLatLngs.add(point2);
+    polygonLatLngs.add(point3);
+    polygonLatLngs.add(point4);
+    var rpa = RPA(
+        'Stora Nassa Naturreservat',
+        'Protected since: 1965',
+        'Size: 276 hectare',
+        59.481637,
+        19.214494,
+        polygonLatLngs);
+    rpas.add(rpa);
+    _setPolygon(rpa);
+  }
+
+  void addReserve32() {
+    // ignore: deprecated_member_use
+    List<LatLng> polygonLatLngs = List<LatLng>();
+    LatLng point1 = LatLng(59.375856, 18.863727);
+    LatLng point2 = LatLng(59.348450, 18.945344);
+    LatLng point3 = LatLng(59.353663, 19.026292);
+    LatLng point4 = LatLng(59.393760, 19.058120);
+    LatLng point5 = LatLng(59.457980, 19.020449);
+    polygonLatLngs.add(point1);
+    polygonLatLngs.add(point2);
+    polygonLatLngs.add(point3);
+    polygonLatLngs.add(point4);
+    polygonLatLngs.add(point5);
+    var rpa = RPA(
+        'Storö-Bockö-Lökaö Naturreservat',
+        'Protected since: 1972',
+        'Size: 1876 hectare',
+        59.375856,
+        18.863727,
+        polygonLatLngs);
+    rpas.add(rpa);
+    _setPolygon(rpa);
+  }
+  void addReserve33() {
+    // ignore: deprecated_member_use
+    List<LatLng> polygonLatLngs = List<LatLng>();
+    LatLng point1 = LatLng(59.476266, 18.892507);
+    LatLng point2 = LatLng(59.479829, 18.877942);
+    LatLng point3 = LatLng(59.478151, 18.925288);
+    LatLng point4 = LatLng(59.463583, 18.906200);
+    LatLng point5 = LatLng(59.468460, 18.897781);
+    polygonLatLngs.add(point1);
+    polygonLatLngs.add(point2);
+    polygonLatLngs.add(point3);
+    polygonLatLngs.add(point4);
+    polygonLatLngs.add(point5);
+    var rpa = RPA(
+        'Finnhamn Naturreservat',
+        'Protected since: 1972',
+        'Size: 190 hectare',
+        59.476266,
+        18.892507,
+        polygonLatLngs);
+    rpas.add(rpa);
+    _setPolygon(rpa);
+  }
+  void addReserve34() {
+    // ignore: deprecated_member_use
+    List<LatLng> polygonLatLngs = List<LatLng>();
+    LatLng point1 = LatLng(59.519565, 18.877613);
+    LatLng point2 = LatLng(59.524583, 18.873067);
+    LatLng point3 = LatLng(59.522472, 18.867350);
+    LatLng point4 = LatLng(59.525999, 18.863840);
+    LatLng point5 = LatLng(59.532106, 18.892460);
+    polygonLatLngs.add(point1);
+    polygonLatLngs.add(point2);
+    polygonLatLngs.add(point3);
+    polygonLatLngs.add(point4);
+    polygonLatLngs.add(point5);
+    var rpa = RPA(
+        'Hallonstenarna Naturreservat',
+        'Protected since: 1973',
+        'Size: 44 hectare',
+        59.519565,
+        18.877613,
+        polygonLatLngs);
+    rpas.add(rpa);
+    _setPolygon(rpa);
+  }
+  void addReserve35() {
+    // ignore: deprecated_member_use
+    List<LatLng> polygonLatLngs = List<LatLng>();
+    LatLng point1 = LatLng(59.529171, 18.836586);
+    LatLng point2 = LatLng(59.530654, 18.829934);
+    LatLng point3 = LatLng(59.534295, 18.833942);
+    LatLng point4 = LatLng(59.531370, 18.838624);
+    LatLng point5 = LatLng(59.529853, 18.838882);
+    polygonLatLngs.add(point1);
+    polygonLatLngs.add(point2);
+    polygonLatLngs.add(point3);
+    polygonLatLngs.add(point4);
+    polygonLatLngs.add(point5);
+    var rpa = RPA(
+        'Halsfambaken Naturreservat',
+        'Protected since: 1974',
+        'Size: 60 hectare',
+        59.529171,
+        18.836586,
+        polygonLatLngs);
+    rpas.add(rpa);
+    _setPolygon(rpa);
+  }
+
   void dataBasePrep() {
     addReserve1();
     addReserve2();
@@ -672,10 +889,18 @@ class MapSampleState extends State<MapSample> {
     addReserve24();
     addReserve25();
     addReserve26();
+    addReserve27();
+    addReserve28();
+    addReserve29();
+    addReserve30();
+    addReserve31();
+    addReserve32();
+    addReserve33();
+    addReserve34();
+    addReserve35();
   }
 
   void _setPolygon(RPA rpa) {
-    //var rpa = RPA('Skogås','Ett vackert naturreservat! /n Notes:  /n Protected since: ', 60.380987, 19.644660);
     final String polygonIdVal = 'polygon_id_$rpa.id';
     _polygons.add(Polygon(
       polygonId: PolygonId(polygonIdVal),
