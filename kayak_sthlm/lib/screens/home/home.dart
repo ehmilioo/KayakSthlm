@@ -3,13 +3,9 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:kayak_sthlm/dialogs/EventsInfo_dialog.dart';
-import 'package:kayak_sthlm/dialogs/RoutesInfo_dialog.dart';
 import 'package:kayak_sthlm/dialogs/deleteRoute_dialog.dart';
-import 'package:kayak_sthlm/dialogs/eventsInfo_dialog.dart';
 import 'package:kayak_sthlm/dialogs/protected_dialog.dart';
 import 'package:kayak_sthlm/models/pins.dart';
-import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 import 'package:kayak_sthlm/screens/events/events.dart';
 import 'package:kayak_sthlm/screens/info/information.dart';
 import 'package:kayak_sthlm/screens/my_routes/my_routes.dart';
@@ -19,11 +15,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'package:kayak_sthlm/dialogs/save_route_dialog.dart';
 import 'package:kayak_sthlm/dialogs/filters_dialog.dart';
-import 'package:kayak_sthlm/dialogs/confirmation_dialog.dart';
 import 'package:kayak_sthlm/dialogs/custompin_dialog.dart';
 import 'package:kayak_sthlm/dialogs/pininfo_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
-import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kayak_sthlm/screens/authenticate/authenticate.dart';
 import 'package:provider/provider.dart';
@@ -221,7 +215,7 @@ class MapSampleState extends State<Home> {
 
   Future<Uint8List> getMarker(String imagePath) async {
     ByteData byteData =
-        await DefaultAssetBundle.of(context).load("assets/${imagePath}");
+        await DefaultAssetBundle.of(context).load("assets/$imagePath");
     return byteData.buffer.asUint8List();
   }
 

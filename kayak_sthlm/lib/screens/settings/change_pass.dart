@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kayak_sthlm/dialogs/passOk_dialog.dart';
-import 'package:kayak_sthlm/dialogs/reauth_dialog.dart';
 
 class ChangePass extends StatefulWidget {
   @override

@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kayak_sthlm/screens/info/fire_info.dart';
-import 'information.dart';
 import 'dart:convert';
 
 class Kommuner {

@@ -1,17 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kayak_sthlm/dialogs/delete_dialog.dart';
-import 'package:kayak_sthlm/dialogs/logout_dialog.dart';
-import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 import 'package:kayak_sthlm/screens/home/home.dart';
 import 'package:kayak_sthlm/screens/info/information.dart';
 import 'package:kayak_sthlm/screens/my_routes/my_routes.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
-import 'package:kayak_sthlm/screens/settings/settings_edit.dart';
-import 'package:kayak_sthlm/services/auth.dart';
-import 'package:kayak_sthlm/screens/settings/delete_user.dart';
-import 'package:kayak_sthlm/screens/settings/change_pass.dart';
 
 class Events extends StatefulWidget {
   @override

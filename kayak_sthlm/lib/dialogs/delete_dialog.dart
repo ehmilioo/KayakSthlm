@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kayak_sthlm/dialogs/deleteOk_dialog.dart';
-import 'package:kayak_sthlm/dialogs/reauth_dialog.dart';
-import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 
 class DeleteDialog extends StatefulWidget {
   @override

@@ -5,7 +5,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kayak_sthlm/dialogs/preserve_dialog.dart';
 import 'package:kayak_sthlm/dialogs/reserveRules_dialog.dart';
 import 'information.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class WildlifePreserves extends StatelessWidget {
   @override
