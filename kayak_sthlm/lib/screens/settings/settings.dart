@@ -10,7 +10,6 @@ import 'package:kayak_sthlm/screens/info/information.dart';
 import 'package:kayak_sthlm/screens/my_routes/my_routes.dart';
 import 'package:kayak_sthlm/screens/settings/settings_edit.dart';
 import 'package:kayak_sthlm/services/auth.dart';
-import 'package:kayak_sthlm/screens/settings/delete_user.dart';
 import 'package:kayak_sthlm/screens/settings/change_pass.dart';
 
 class Settings extends StatefulWidget {

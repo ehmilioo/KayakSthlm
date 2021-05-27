@@ -1,9 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:kayak_sthlm/dialogs/reauth_dialog.dart';
-import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 
 class DeleteRouteOkDialog extends StatefulWidget {
   @override
