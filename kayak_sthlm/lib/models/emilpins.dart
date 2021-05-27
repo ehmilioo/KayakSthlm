@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -8,32 +9,33 @@ class Pins {
   final double longitude;
   final double latitude;
   List<dynamic> finalList = [];
+  List<dynamic> testData = [];
 
   Pins({@required this.longitude, @required this.latitude});
 
   var rentalInfo = {
-    'type': 'Kayak Rental',
-    'path': 'pins/bluepin.png',
+    'type': 'kayak',
+    'path': 'arrow_final.png',
   };
 
   var restaurantInfo = {
-    'type': 'Restaurant',
-    'path': 'pins/pinkpin.png',
+    'type': 'restaurant',
+    'path': 'arrow_final.png',
   };
 
   var restplaceInfo = {
-    'type': 'Rest Place',
-    'path': 'pins/greenpin.png',
+    'type': 'restplace',
+    'path': 'arrow_final.png',
   };
 
   var mypinInfo = {
-    'type': 'Custom Pin',
-    'path': 'pins/yellowpin.png',
+    'type': 'mypin',
+    'path': 'arrow_final.png',
   };
 
   var protectedInfo = {
     'type': 'protected',
-    'path': 'pins/sealpin.png',
+    'path': 'kayak1.png',
   };
 
   Future<List<dynamic>> fetchAllPins() async {
@@ -47,7 +49,7 @@ class Pins {
 
   Future<List<dynamic>> reloadCustomPins() async {
     for (var i = 0; i < finalList.length; i++) {
-      if (finalList[i]['type'] == 'Custom Pin') {
+      if (finalList[i]['type'] == 'mypin') {
         finalList.removeAt(i);
       }
     }

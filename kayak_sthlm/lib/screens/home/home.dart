@@ -532,10 +532,8 @@ class MapSampleState extends State<Home> {
                                 BoxConstraints(minWidth: 80, minHeight: 80),
                             elevation: 10.0,
                             fillColor: Colors.white,
-                            child: Icon(
-                              Icons.wb_sunny_outlined,
-                              size: 50.0,
-                            ),
+                            child:
+                                Image.asset('assets/navigationbar/weather.png'),
                             padding: EdgeInsets.all(10.0),
                             shape: CircleBorder(),
                           ),
@@ -588,10 +586,8 @@ class MapSampleState extends State<Home> {
                           },
                           elevation: 5.0,
                           fillColor: Colors.white,
-                          child: Icon(
-                            Icons.filter_alt_outlined,
-                            size: 35.0,
-                          ),
+                          child:
+                              Image.asset('assets/navigationbar/filters.png'),
                           padding: EdgeInsets.all(10.0),
                           shape: CircleBorder(),
                         ),
@@ -1175,7 +1171,8 @@ class MapSampleState extends State<Home> {
                               IconButton(
                                 padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
                                 // Navigationsknapp 1: Routes
-                                icon: Icon(Icons.place_outlined),
+                                icon: Image.asset(
+                                    'assets/navigationbar/routes.png'),
                                 iconSize: 30,
                                 onPressed: () {
                                   Navigator.pushReplacement(
