@@ -81,7 +81,7 @@ class MapSampleState extends State<Home> {
 
   Future<Uint8List> getMarker(String imagePath) async {
     ByteData byteData =
-        await DefaultAssetBundle.of(context).load("assets/$imagePath");
+        await DefaultAssetBundle.of(context).load("assets/${imagePath}");
     return byteData.buffer.asUint8List();
   }
 
