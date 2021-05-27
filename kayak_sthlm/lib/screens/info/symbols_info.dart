@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'information.dart';
 import 'app_icons.dart';
 
 class SymbolsScreen extends StatelessWidget {

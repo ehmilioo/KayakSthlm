@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import 'information.dart';
-
 class GuideScreen extends StatelessWidget {
   final YoutubePlayer player1 = YoutubePlayer(
     controller: YoutubePlayerController(

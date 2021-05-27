@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kayak_sthlm/screens/authenticate/register.dart';
 import 'package:kayak_sthlm/screens/events/events.dart';
 import 'package:kayak_sthlm/screens/home/home.dart';
 import 'package:kayak_sthlm/screens/info/fire_screen.dart';
@@ -8,14 +7,12 @@ import 'package:kayak_sthlm/screens/info/guides.dart';
 import 'package:kayak_sthlm/screens/info/mapForReserves.dart';
 import 'package:kayak_sthlm/screens/my_routes/my_routes.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
-import 'package:kayak_sthlm/services/auth.dart';
 import 'package:kayak_sthlm/screens/info/symbols_info.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
 import 'app_icons.dart';
 
 class InformationScreen extends StatelessWidget {
-  final AuthService _auth = AuthService();
   final Database db = new Database();
 
   void openPage(BuildContext context) {
