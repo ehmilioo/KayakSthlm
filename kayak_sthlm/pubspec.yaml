@@ -49,6 +49,7 @@ flutter:
     - assets/onBoardSecondP.png
     - assets/onBoardThirdP.png
     - assets/onBoardFourthP.png
+    - assets/eventsComingSoon.png
   fonts:
    - family:  AppIcons
      fonts:

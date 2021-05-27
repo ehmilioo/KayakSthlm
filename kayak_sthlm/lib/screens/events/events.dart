@@ -59,6 +59,10 @@ class EventsPage extends State<Events> {
                 width: 324,
                 padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                 decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: AssetImage('assets/eventsComingSoon.png'),
+                    ),
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10)),
               )
