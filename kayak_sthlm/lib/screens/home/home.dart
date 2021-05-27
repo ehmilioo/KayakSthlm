@@ -132,7 +132,7 @@ class IntroScreen extends StatelessWidget {
               }
             },
             tooltip: 'Start',
-            child: Icon(Icons.play_arrow_outlined)),
+            child: Image.asset('assets/home/play.png')),
       ),
     );
   }
@@ -532,8 +532,7 @@ class MapSampleState extends State<Home> {
                                 BoxConstraints(minWidth: 80, minHeight: 80),
                             elevation: 10.0,
                             fillColor: Colors.white,
-                            child:
-                                Image.asset('assets/navigationbar/weather.png'),
+                            child: Image.asset('assets/home/weather.png'),
                             padding: EdgeInsets.all(10.0),
                             shape: CircleBorder(),
                           ),
@@ -586,8 +585,7 @@ class MapSampleState extends State<Home> {
                           },
                           elevation: 5.0,
                           fillColor: Colors.white,
-                          child:
-                              Image.asset('assets/navigationbar/filters.png'),
+                          child: Image.asset('assets/home/filters.png'),
                           padding: EdgeInsets.all(10.0),
                           shape: CircleBorder(),
                         ),
@@ -742,10 +740,8 @@ class MapSampleState extends State<Home> {
                                                               1
                                                             ],
                                                                 radius: 1)),
-                                                    child: Icon(
-                                                        Icons
-                                                            .play_arrow_outlined,
-                                                        size: 50)),
+                                                    child: Image.asset(
+                                                        'assets/home/play.png')),
                                                 onPressed: () {
                                                   pausedRoute = !pausedRoute;
                                                   stoppedRoute = !stoppedRoute;
@@ -803,9 +799,8 @@ class MapSampleState extends State<Home> {
                                                               1
                                                             ],
                                                                 radius: 1)),
-                                                    child: Icon(
-                                                        Icons.save_alt_outlined,
-                                                        size: 35)),
+                                                    child: Image.asset(
+                                                        'assets/home/save.png')),
                                                 onPressed: () async {
                                                   bool savedRoute =
                                                       await showDialog(
@@ -912,9 +907,8 @@ class MapSampleState extends State<Home> {
                                                       1
                                                     ],
                                                     radius: 1)),
-                                            child: Icon(
-                                                Icons.play_arrow_outlined,
-                                                size: 50)),
+                                            child: Image.asset(
+                                                'assets/home/play.png')),
                                         onPressed: () {
                                           pausedRoute = !pausedRoute;
                                           _stopWatchTimer.onExecute
@@ -974,8 +968,8 @@ class MapSampleState extends State<Home> {
                                                       1
                                                     ],
                                                     radius: 1)),
-                                            child: Icon(Icons.stop_outlined,
-                                                size: 50)),
+                                            child: Image.asset(
+                                                'assets/home/stop.png')),
                                         onPressed: () async {
                                           stoppedRoute = !stoppedRoute;
                                           _controller.animateCamera(
@@ -1053,8 +1047,8 @@ class MapSampleState extends State<Home> {
                             stops: [0.44, 1],
                             radius: 1)),
                     child: isStarted
-                        ? Icon(Icons.pause_outlined, size: 50)
-                        : Icon(Icons.play_arrow_outlined, size: 50)),
+                        ? Image.asset('assets/home/pause.png')
+                        : Image.asset('assets/home/play.png')),
                 onPressed: () {
                   setState(() {
                     if (isStarted) {

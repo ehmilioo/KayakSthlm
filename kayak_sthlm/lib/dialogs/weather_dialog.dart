@@ -137,7 +137,7 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Icon(Icons.cloud, size: 40),
-                                  Icon(Icons.waves_outlined, size: 40),
+                                  Image.asset('assets/home/wind.png'),
                                   Icon(Icons.wb_cloudy_outlined, size: 40)
                                 ],
                               ),
