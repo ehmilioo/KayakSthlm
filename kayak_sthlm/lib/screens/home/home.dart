@@ -8,6 +8,7 @@ import 'package:kayak_sthlm/dialogs/RoutesInfo_dialog.dart';
 import 'package:kayak_sthlm/dialogs/deleteRoute_dialog.dart';
 import 'package:kayak_sthlm/dialogs/eventsInfo_dialog.dart';
 import 'package:kayak_sthlm/dialogs/protected_dialog.dart';
+import 'package:kayak_sthlm/events/events.dart';
 import 'package:kayak_sthlm/models/pins.dart';
 import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 import 'package:kayak_sthlm/screens/info/information.dart';
@@ -1196,12 +1197,10 @@ class MapSampleState extends State<Home> {
                                 icon: Icon(Icons.calendar_today_outlined),
                                 iconSize: 30,
                                 onPressed: () {
-                                  Navigator.of(context).push(PageRouteBuilder(
-                                      pageBuilder: (context, _, __) =>
-                                          RoutesInfoDialog(),
-                                      opaque: false,
-                                      barrierColor:
-                                          Colors.black.withOpacity(0.2)));
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Events()));
                                 },
                               ),
                               Container(

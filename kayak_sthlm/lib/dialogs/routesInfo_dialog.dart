@@ -9,6 +9,16 @@ import 'package:kayak_sthlm/screens/settings/settings_edit.dart';
 
 import 'eventsInfo_dialog.dart';
 
+// ONPRESSED SOM LEDER HIT
+//  onPressed: () {
+//                                   Navigator.of(context).push(PageRouteBuilder(
+//                                       pageBuilder: (context, _, __) =>
+//                                           RoutesInfoDialog(),
+//                                       opaque: false,
+//                                       barrierColor:
+//                                           Colors.black.withOpacity(0.2)));
+//                                 },
+
 class RoutesInfoDialog extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => RoutesInfoOverlayState();

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kayak_sthlm/events/events.dart';
 import 'package:kayak_sthlm/screens/authenticate/register.dart';
 import 'package:kayak_sthlm/screens/home/home.dart';
 import 'package:kayak_sthlm/screens/info/fire_screen.dart';
@@ -250,7 +251,10 @@ class InformationScreen extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
                 icon: Icon(Icons.calendar_today_outlined),
                 iconSize: 30,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Events()));
+                },
               ),
               Container(
                 padding: EdgeInsets.only(bottom: 8),
