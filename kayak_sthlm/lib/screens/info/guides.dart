@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import 'information.dart';
-
 class GuideScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -75,6 +73,14 @@ class GuideScreen extends StatelessWidget {
                                                 mute: false,
                                               ),
                                             ),
+                                            bottomActions: [
+                                              const SizedBox(width: 14.0),
+                                              CurrentPosition(),
+                                              const SizedBox(width: 8.0),
+                                              ProgressBar(isExpanded: true,),
+                                              RemainingDuration(),
+                                              const PlaybackSpeedButton(),
+                                            ],
                                             showVideoProgressIndicator: true,
                                           ),
                                           SizedBox(height: 25),
@@ -88,6 +94,14 @@ class GuideScreen extends StatelessWidget {
                                                 mute: false,
                                               ),
                                             ),
+                                                bottomActions: [
+                                                  const SizedBox(width: 14.0),
+                                                  CurrentPosition(),
+                                                  const SizedBox(width: 8.0),
+                                                  ProgressBar(isExpanded: true,),
+                                                  RemainingDuration(),
+                                                  const PlaybackSpeedButton(),
+                                                ],
                                             showVideoProgressIndicator: true,
                                           ),
                                           SizedBox(height: 25),
@@ -101,6 +115,14 @@ class GuideScreen extends StatelessWidget {
                                                 mute: false,
                                               ),
                                             ),
+                                            bottomActions: [
+                                              const SizedBox(width: 14.0),
+                                              CurrentPosition(),
+                                              const SizedBox(width: 8.0),
+                                              ProgressBar(isExpanded: true,),
+                                              RemainingDuration(),
+                                              const PlaybackSpeedButton(),
+                                            ],
                                             showVideoProgressIndicator: true,
                                           ),
                                           SizedBox(height: 25),
@@ -114,6 +136,14 @@ class GuideScreen extends StatelessWidget {
                                                 mute: false,
                                               ),
                                             ),
+                                            bottomActions: [
+                                              const SizedBox(width: 14.0),
+                                              CurrentPosition(),
+                                              const SizedBox(width: 8.0),
+                                              ProgressBar(isExpanded: true,),
+                                              RemainingDuration(),
+                                              const PlaybackSpeedButton(),
+                                            ],
                                             showVideoProgressIndicator: true,
                                           ),
                                         ]))))
