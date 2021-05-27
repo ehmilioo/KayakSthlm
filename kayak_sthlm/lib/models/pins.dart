@@ -31,14 +31,9 @@ class Pins {
     'path': 'pins/yellowpin.png',
   };
 
-  var sealInfo = {
-    'type': 'seal',
+  var protectedInfo = {
+    'type': 'protected',
     'path': 'pins/sealpin.png',
-  };
-
-  var birdInfo = {
-    'type': 'bird',
-    'path': 'pins/birdpin.png',
   };
 
   Future<List<dynamic>> fetchAllPins() async {
@@ -65,8 +60,7 @@ class Pins {
         await rootBundle.loadString('assets/restrictedAreas.json');
     final data = await json.decode(response);
     data.forEach((item) {
-      item.addAll(sealInfo);
-      item.addAll(birdInfo);
+      item.addAll(protectedInfo);
       finalList.add(item);
     });
   }
