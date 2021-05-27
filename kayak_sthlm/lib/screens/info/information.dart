@@ -75,7 +75,7 @@ class InformationScreen extends StatelessWidget {
                     ),
                     child: IconButton(
                       iconSize: 56,
-                      icon: Icon(Icons.lightbulb_outline, size: 55),
+                      icon: Image.asset('assets/info/guides.png'),
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -146,7 +146,7 @@ class InformationScreen extends StatelessWidget {
                     ),
                     child: IconButton(
                       iconSize: 56,
-                      icon: Icon(AppIcons.fire, size: 55),
+                      icon: Image.asset('assets/info/fireban.png'),
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -215,10 +215,7 @@ class InformationScreen extends StatelessWidget {
                       colors: [Color.fromRGBO(86, 151, 211, 1), Colors.black],
                       stops: [0.44, 1],
                       radius: 1)),
-              child: Icon(
-                Icons.map_outlined,
-                size: 50,
-              )),
+              child: Image.asset('assets/navigationbar/home.png')),
           onPressed: () {
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (context) => Home()));
@@ -237,7 +234,7 @@ class InformationScreen extends StatelessWidget {
 
                   // Navigationsknapp 1: Routes
                   padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
-                  icon: Icon(Icons.place_outlined),
+                  icon: Image.asset('assets/navigationbar/routes.png'),
                   iconSize: 30,
                   onPressed: () {
                     Navigator.pushReplacement(context,
