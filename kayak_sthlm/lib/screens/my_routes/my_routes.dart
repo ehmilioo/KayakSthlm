@@ -326,15 +326,11 @@ class _MyRoutesState extends State {
                                                     builder: (_) =>
                                                         DeleteRouteMyRoutesDialog());
                                                 if (result) {
-                                                  deleteRoute(
-                                                      document.reference);
-                                                  if (snap.connectionState ==
-                                                      ConnectionState.done) {
-                                                    setState(() {
-                                                      sorting = 1;
-                                                      routeList = sortAll();
-                                                    });
-                                                  }
+                                                  setState(() {
+                                                    routeList.remove(document);
+                                                    deleteRoute(
+                                                        document.reference);
+                                                  });
                                                 } else {
                                                   print('Canceled deletion');
                                                 }
