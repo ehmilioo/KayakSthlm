@@ -5,7 +5,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kayak_sthlm/dialogs/preserve_dialog.dart';
 import 'package:kayak_sthlm/dialogs/reserveRules_dialog.dart';
 import 'information.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class WildlifePreserves extends StatelessWidget {
   @override
@@ -642,6 +641,86 @@ class MapSampleState extends State<MapSample> {
         'Size: 5100 hectare',
         59.06789784800449,
         18.529172130014715,
+        polygonLatLngs);
+    rpas.add(rpa);
+    _setPolygon(rpa);
+  }
+
+  void addReserve27() {
+    // ignore: deprecated_member_use
+    List<LatLng> polygonLatLngs = List<LatLng>();
+    LatLng point1 = LatLng(59.651857, 18.740128);
+    LatLng point2 = LatLng(59.649439, 18.743381);
+    LatLng point3 = LatLng(59.646303, 18.729977);
+    LatLng point4 = LatLng(59.650821, 18.723357);
+    LatLng point5 = LatLng(59.647809, 18.720078);
+    LatLng point6 = LatLng(59.666515, 18.679863);
+    LatLng point7 = LatLng(59.674342, 18.707576);
+    polygonLatLngs.add(point1);
+    polygonLatLngs.add(point2);
+    polygonLatLngs.add(point3);
+    polygonLatLngs.add(point4);
+    polygonLatLngs.add(point5);
+    polygonLatLngs.add(point6);
+    polygonLatLngs.add(point7);
+    var rpa = RPA(
+        'Tranvik Naturreservat',
+        'Protected since: 1978',
+        'Size: 370 hectare',
+        59.651857,
+        18.740128,
+        polygonLatLngs);
+    rpas.add(rpa);
+    _setPolygon(rpa);
+  }
+
+  void addReserve28() {
+    // ignore: deprecated_member_use
+    List<LatLng> polygonLatLngs = List<LatLng>();
+    LatLng point1 = LatLng(59.663181, 18.794586);
+    LatLng point2 = LatLng(59.657982, 18.799821);
+    LatLng point3 = LatLng(59.658555, 18.805073);
+    LatLng point4 = LatLng(59.654714, 18.804873);
+    LatLng point5 = LatLng(59.655878, 18.796293);
+    LatLng point6 = LatLng(59.654988, 18.790730);
+    LatLng point7 = LatLng(59.661638, 18.790606);
+    polygonLatLngs.add(point1);
+    polygonLatLngs.add(point2);
+    polygonLatLngs.add(point3);
+    polygonLatLngs.add(point4);
+    polygonLatLngs.add(point5);
+    polygonLatLngs.add(point6);
+    polygonLatLngs.add(point7);
+    var rpa = RPA(
+        'Stensholmens Naturreservat',
+        'Protected since: 1971',
+        'Size: 46 hectare',
+        59.663181,
+        18.794586,
+        polygonLatLngs);
+    rpas.add(rpa);
+    _setPolygon(rpa);
+  }
+
+  void addReserve29() {
+    // ignore: deprecated_member_use
+    List<LatLng> polygonLatLngs = List<LatLng>();
+    LatLng point1 = LatLng(59.588368, 18.973087);
+    LatLng point2 = LatLng(59.589086, 18.990934);
+    LatLng point3 = LatLng(59.584034, 18.990290);
+    LatLng point4 = LatLng(59.580952, 18.975104);
+    LatLng point5 = LatLng(59.586872, 18.972306);
+    polygonLatLngs.add(point1);
+    polygonLatLngs.add(point2);
+    polygonLatLngs.add(point3);
+    polygonLatLngs.add(point4);
+    polygonLatLngs.add(point5);
+    var rpa = RPA(
+        'Salskären Naturreservat',
+        'Protected since: 1973',
+        'Size: 75 hectare',
+        59.588368,
+        18.973087,
         polygonLatLngs);
     rpas.add(rpa);
     _setPolygon(rpa);
