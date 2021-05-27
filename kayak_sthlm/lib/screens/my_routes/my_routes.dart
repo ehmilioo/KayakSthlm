@@ -331,7 +331,6 @@ class _MyRoutesState extends State {
                                                       ConnectionState.done) {
                                                     setState(() {
                                                       sorting = 1;
-
                                                       routeList = sortAll();
                                                     });
                                                   }
