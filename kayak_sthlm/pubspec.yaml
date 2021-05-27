@@ -31,6 +31,7 @@ flutter:
     - assets/bakgrund.png
     - assets/arrow_final.png
     - assets/weatherType.json
+    - assets/eventsComingSoon.png
   fonts:
     - family: FugazOne
       fonts:
