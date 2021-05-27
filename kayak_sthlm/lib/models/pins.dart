@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -30,11 +31,17 @@ class Pins {
     'path': 'pins/yellowpin.png',
   };
 
+  var protectedInfo = {
+    'type': 'protected',
+    'path': 'pins/sealpin.png',
+  };
+
   Future<List<dynamic>> fetchAllPins() async {
     await getPins('hyra kajak', rentalInfo);
     await getPins('archipelago restaurant', restaurantInfo);
     await getPins('archipelago camping', restplaceInfo);
     await getCustomPins(mypinInfo);
+    await readProtectedPins();
     return finalList;
   }
 
@@ -46,6 +53,16 @@ class Pins {
     }
     await getCustomPins(mypinInfo);
     return finalList;
+  }
+
+  Future<void> readProtectedPins() async {
+    final String response =
+        await rootBundle.loadString('assets/restrictedAreas.json');
+    final data = await json.decode(response);
+    data.forEach((item) {
+      item.addAll(protectedInfo);
+      finalList.add(item);
+    });
   }
 
   Future<List<dynamic>> getPins(
