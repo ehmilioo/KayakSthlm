@@ -101,94 +101,167 @@ class _MyRoutesState extends State {
                 padding: EdgeInsets.symmetric(horizontal: 0),
                 height: 70,
                 width: MediaQuery.of(context).size.width,
-                child: ListView(
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 35),
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      Container(
-                        child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                                minimumSize: Size(122, 35),
-                                primary:
-                                    sorting == 1 ? Colors.white : Colors.black,
-                                backgroundColor: sorting == 1
-                                    ? Color.fromRGBO(85, 152, 214, 1)
-                                    : Color.fromRGBO(212, 230, 251, 1),
-                                shadowColor: Colors.black,
-                                elevation: 10,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                textStyle: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.w500)),
-                            onPressed: () {
-                              if (snap.connectionState ==
-                                  ConnectionState.done) {
-                                setState(() {
-                                  sorting = 1;
-                                  routeList = sortAll();
-                                });
-                              }
-                            },
-                            child: Text('All Routes')),
-                      ),
-                      SizedBox(width: 15),
-                      Container(
-                        child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                                minimumSize: Size(122, 35),
-                                primary:
-                                    sorting == 2 ? Colors.white : Colors.black,
-                                backgroundColor: sorting == 2
-                                    ? Color.fromRGBO(85, 152, 214, 1)
-                                    : Color.fromRGBO(212, 230, 251, 1),
-                                shadowColor: Colors.black,
-                                elevation: 10,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                textStyle: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.w500)),
-                            onPressed: () {
-                              if (snap.connectionState ==
-                                  ConnectionState.done) {
-                                setState(() {
-                                  sorting = 2;
-                                  routeList = sortFavourites();
-                                });
-                              }
-                            },
-                            child: Text('Favorite Routes')),
-                      ),
-                      SizedBox(width: 15),
-                      Container(
-                        child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                                minimumSize: Size(122, 35),
-                                primary:
-                                    sorting == 3 ? Colors.white : Colors.black,
-                                backgroundColor: sorting == 3
-                                    ? Color.fromRGBO(85, 152, 214, 1)
-                                    : Color.fromRGBO(212, 230, 251, 1),
-                                shadowColor: Colors.black,
-                                elevation: 10,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                textStyle: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.w500)),
-                            onPressed: () {
-                              if (snap.connectionState ==
-                                  ConnectionState.done) {
-                                setState(() {
-                                  sorting = 3;
-                                  sortLongest();
-                                });
-                              }
-                            },
-                            child: Text('Longest Routes')),
-                      )
-                    ])),
+                child: RawScrollbar(
+                  thumbColor: Color.fromRGBO(127, 184, 244, 0.8),
+                  radius: Radius.circular(7),
+                  isAlwaysShown: true,
+                  thickness: 14,
+                  child: ListView(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 15, horizontal: 35),
+                      scrollDirection: Axis.horizontal,
+                      children: <Widget>[
+                        Container(
+                          child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                  minimumSize: Size(122, 35),
+                                  primary: sorting == 1
+                                      ? Colors.white
+                                      : Colors.black,
+                                  backgroundColor: sorting == 1
+                                      ? Color.fromRGBO(85, 152, 214, 1)
+                                      : Color.fromRGBO(212, 230, 251, 1),
+                                  shadowColor: Colors.black,
+                                  elevation: 10,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500)),
+                              onPressed: () {
+                                if (snap.connectionState ==
+                                    ConnectionState.done) {
+                                  setState(() {
+                                    sorting = 1;
+                                    routeList = sortAll();
+                                  });
+                                }
+                              },
+                              child: Text('All Routes')),
+                        ),
+                        SizedBox(width: 15),
+                        Container(
+                          child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                  minimumSize: Size(122, 35),
+                                  primary: sorting == 2
+                                      ? Colors.white
+                                      : Colors.black,
+                                  backgroundColor: sorting == 2
+                                      ? Color.fromRGBO(85, 152, 214, 1)
+                                      : Color.fromRGBO(212, 230, 251, 1),
+                                  shadowColor: Colors.black,
+                                  elevation: 10,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500)),
+                              onPressed: () {
+                                if (snap.connectionState ==
+                                    ConnectionState.done) {
+                                  setState(() {
+                                    sorting = 2;
+                                    routeList = sortFavourites();
+                                  });
+                                }
+                              },
+                              child: Text('Favorite Routes')),
+                        ),
+                        SizedBox(width: 15),
+                        Container(
+                          child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                  minimumSize: Size(122, 35),
+                                  primary: sorting == 3
+                                      ? Colors.white
+                                      : Colors.black,
+                                  backgroundColor: sorting == 3
+                                      ? Color.fromRGBO(85, 152, 214, 1)
+                                      : Color.fromRGBO(212, 230, 251, 1),
+                                  shadowColor: Colors.black,
+                                  elevation: 10,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500)),
+                              onPressed: () {
+                                if (snap.connectionState ==
+                                    ConnectionState.done) {
+                                  setState(() {
+                                    sorting = 3;
+                                    sortLongest();
+                                  });
+                                }
+                              },
+                              child: Text('Longest Routes')),
+                        ),
+                        SizedBox(width: 15),
+                        Container(
+                          child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                  minimumSize: Size(122, 35),
+                                  primary: sorting == 4
+                                      ? Colors.white
+                                      : Colors.black,
+                                  backgroundColor: sorting == 4
+                                      ? Color.fromRGBO(85, 152, 214, 1)
+                                      : Color.fromRGBO(212, 230, 251, 1),
+                                  shadowColor: Colors.black,
+                                  elevation: 10,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500)),
+                              onPressed: () {
+                                if (snap.connectionState ==
+                                    ConnectionState.done) {
+                                  setState(() {
+                                    sorting = 4;
+                                    sortLongest();
+                                  });
+                                }
+                              },
+                              child: Text('Latest Routes')),
+                        ),
+                        SizedBox(width: 15),
+                        Container(
+                          child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                  minimumSize: Size(122, 35),
+                                  primary: sorting == 5
+                                      ? Colors.white
+                                      : Colors.black,
+                                  backgroundColor: sorting == 5
+                                      ? Color.fromRGBO(85, 152, 214, 1)
+                                      : Color.fromRGBO(212, 230, 251, 1),
+                                  shadowColor: Colors.black,
+                                  elevation: 10,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500)),
+                              onPressed: () {
+                                if (snap.connectionState ==
+                                    ConnectionState.done) {
+                                  setState(() {
+                                    sorting = 5;
+                                    sortShortest();
+                                  });
+                                }
+                              },
+                              child: Text('Shortest Routes')),
+                        )
+                      ]),
+                )),
             Container(
                 padding: EdgeInsets.fromLTRB(30, 0, 20, 0),
                 height: 513,
