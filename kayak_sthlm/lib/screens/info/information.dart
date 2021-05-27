@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kayak_sthlm/events/events.dart';
 import 'package:kayak_sthlm/screens/authenticate/register.dart';
+import 'package:kayak_sthlm/screens/events/events.dart';
 import 'package:kayak_sthlm/screens/home/home.dart';
 import 'package:kayak_sthlm/screens/info/fire_screen.dart';
 import 'package:kayak_sthlm/screens/info/guides.dart';
