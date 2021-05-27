@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kayak_sthlm/dialogs/weather_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
+import 'package:kayak_sthlm/screens/events/events.dart';
 
 class Home extends StatefulWidget  {
   @override
@@ -225,7 +226,12 @@ class MapSampleState extends State<Home> {
                 // Navigationsknapp 2: Events
                 icon: Icon(Icons.calendar_today_outlined),
                 iconSize: 35,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Events()));
+                },
               ),
               Container(
                   child: Text("Start",
