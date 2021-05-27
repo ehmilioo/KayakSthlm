@@ -5,6 +5,51 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'information.dart';
 
 class GuideScreen extends StatelessWidget {
+  final YoutubePlayer player1 = YoutubePlayer(
+    controller: YoutubePlayerController(
+        initialVideoId: 'ddwOc4uj4mQ',
+        flags: YoutubePlayerFlags(
+          hideControls: false,
+          controlsVisibleAtStart: false,
+          autoPlay: false,
+          mute: false,
+        )),
+    showVideoProgressIndicator: true,
+  );
+  final YoutubePlayer player2 = YoutubePlayer(
+    controller: YoutubePlayerController(
+        initialVideoId: 'zT67YPFkqqY',
+        flags: YoutubePlayerFlags(
+          hideControls: false,
+          controlsVisibleAtStart: false,
+          autoPlay: false,
+          mute: false,
+        )),
+    showVideoProgressIndicator: true,
+  );
+  final YoutubePlayer player3 = YoutubePlayer(
+    controller: YoutubePlayerController(
+        initialVideoId: 'Calmsh4zI5U',
+        flags: YoutubePlayerFlags(
+          hideControls: false,
+          controlsVisibleAtStart: false,
+          autoPlay: false,
+          mute: false,
+        )),
+    showVideoProgressIndicator: true,
+  );
+  final YoutubePlayer player4 = YoutubePlayer(
+    controller: YoutubePlayerController(
+        initialVideoId: 'ddwOc4uj4mQ',
+        flags: YoutubePlayerFlags(
+          hideControls: false,
+          controlsVisibleAtStart: false,
+          autoPlay: false,
+          mute: false,
+        )),
+    showVideoProgressIndicator: true,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,98 +70,39 @@ class GuideScreen extends StatelessWidget {
                       height: 650,
                       width: 324,
                       padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black,
-                                offset: Offset(0, 5),
-                                blurRadius: 10),
-                          ]),
+                      decoration:
+                          BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [
+                        BoxShadow(color: Colors.black, offset: Offset(0, 5), blurRadius: 10),
+                      ]),
                       child: Column(children: <Widget>[
                         Container(
                             height: 50,
                             alignment: Alignment.topCenter,
-                            child: Text('TIPS',
-                                style: TextStyle(
-                                    fontSize: 35,
-                                    fontWeight: FontWeight.w500))),
+                            child: Text('TIPS', style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500))),
                         Container(
                             padding: EdgeInsets.only(left: 30),
                             height: 30,
                             alignment: Alignment.bottomLeft,
-                            child: Text('Videos',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500))),
+                            child: Text('Videos', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
                         Expanded(
                             child: Container(
                                 padding: EdgeInsets.symmetric(horizontal: 10),
                                 height: 600,
                                 width: 324,
                                 child: RawScrollbar(
-                                    thumbColor:
-                                        Color.fromRGBO(127, 184, 244, 0.8),
+                                    thumbColor: Color.fromRGBO(127, 184, 244, 0.8),
                                     radius: Radius.circular(7),
                                     isAlwaysShown: true,
                                     thickness: 14,
-                                    child: ListView(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 25),
-                                        children: <Widget>[
-                                          YoutubePlayer(
-                                            controller: YoutubePlayerController(
-                                              initialVideoId: 'ddwOc4uj4mQ',
-                                              flags: YoutubePlayerFlags(
-                                                hideControls: false,
-                                                controlsVisibleAtStart: false,
-                                                autoPlay: false,
-                                                mute: false,
-                                              ),
-                                            ),
-                                            showVideoProgressIndicator: true,
-                                          ),
-                                          SizedBox(height: 25),
-                                          YoutubePlayer(
-                                            controller: YoutubePlayerController(
-                                              initialVideoId: 'zT67YPFkqqY',
-                                              flags: YoutubePlayerFlags(
-                                                hideControls: false,
-                                                controlsVisibleAtStart: false,
-                                                autoPlay: false,
-                                                mute: false,
-                                              ),
-                                            ),
-                                            showVideoProgressIndicator: true,
-                                          ),
-                                          SizedBox(height: 25),
-                                          YoutubePlayer(
-                                            controller: YoutubePlayerController(
-                                              initialVideoId: 'Calmsh4zI5U',
-                                              flags: YoutubePlayerFlags(
-                                                hideControls: false,
-                                                controlsVisibleAtStart: false,
-                                                autoPlay: false,
-                                                mute: false,
-                                              ),
-                                            ),
-                                            showVideoProgressIndicator: true,
-                                          ),
-                                          SizedBox(height: 25),
-                                          YoutubePlayer(
-                                            controller: YoutubePlayerController(
-                                              initialVideoId: 'JbP4XHPjVPk',
-                                              flags: YoutubePlayerFlags(
-                                                hideControls: false,
-                                                controlsVisibleAtStart: true,
-                                                autoPlay: false,
-                                                mute: false,
-                                              ),
-                                            ),
-                                            showVideoProgressIndicator: true,
-                                          ),
-                                        ]))))
+                                    child: ListView(padding: EdgeInsets.symmetric(horizontal: 25), children: <Widget>[
+                                      player1,
+                                      SizedBox(height: 25),
+                                      player2,
+                                      SizedBox(height: 25),
+                                      player3,
+                                      SizedBox(height: 25),
+                                      player4,
+                                    ]))))
                       ]))),
               Positioned(
                   top: 26,
