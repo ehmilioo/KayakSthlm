@@ -18,9 +18,19 @@ class EventStart extends State<Events> {
         backgroundColor: Colors.red[600],
         elevation: 0.0,
       ),
+   //om man vill lägga till en infobox i framtiden som poppar upp när man trycker på bilden
+   //   body: GestureDetector(
+   //     onTap: () {
+   //       print('asfd');
+    //   },
       body: Container(
-
-      ),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/eventsComingSoon.png'),
+            ),
+          ),
+        ),
+    //  ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 30.0),
