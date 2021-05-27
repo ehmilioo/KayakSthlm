@@ -50,6 +50,10 @@ flutter:
     - assets/onBoardThirdP.png
     - assets/onBoardFourthP.png
     - assets/eventsComingSoon.png
+    - assets/info/
+    - assets/home/
+    - assets/navigationbar/
+
   fonts:
    - family:  AppIcons
      fonts:

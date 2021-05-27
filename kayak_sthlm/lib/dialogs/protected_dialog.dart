@@ -22,7 +22,7 @@ class _ProtectedPinInfo extends State<ProtectedPinInfo> {
     return Container(
         child: Stack(children: <Widget>[
       Container(
-          height: 378,
+          height: 386,
           padding: EdgeInsets.all(Constants.padding),
           margin: EdgeInsets.fromLTRB(37, 120, 37, 0),
           decoration: BoxDecoration(
@@ -38,7 +38,13 @@ class _ProtectedPinInfo extends State<ProtectedPinInfo> {
               child: Column(
                 children: <Widget>[
                   Container(
-                      height: 90,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border(
+                              bottom: BorderSide(
+                                  width: 1,
+                                  color: Color.fromRGBO(214, 214, 214, 1)))),
+                      height: 70,
                       child: Text(widget.item['name'],
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -57,7 +63,7 @@ class _ProtectedPinInfo extends State<ProtectedPinInfo> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontFamily: 'Montserrat',
-                                      fontSize: 20,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                     ),
                                     children: <TextSpan>[
@@ -65,7 +71,7 @@ class _ProtectedPinInfo extends State<ProtectedPinInfo> {
                                   text: 'Type: ',
                                   style:
                                       TextStyle(fontWeight: FontWeight.bold)),
-                              widget.item['type'] == 'bird'
+                              widget.item['areaType'] == 'bird'
                                   ? TextSpan(text: 'Bird Protection Area')
                                   : TextSpan(text: 'Seal Protection Area')
                             ]))),
@@ -75,7 +81,7 @@ class _ProtectedPinInfo extends State<ProtectedPinInfo> {
                                 text: TextSpan(
                                     style: TextStyle(
                                         fontFamily: 'Montserrat',
-                                        fontSize: 20,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black),
                                     children: <TextSpan>[
@@ -91,7 +97,7 @@ class _ProtectedPinInfo extends State<ProtectedPinInfo> {
                                 text: TextSpan(
                                     style: TextStyle(
                                         fontFamily: 'Montserrat',
-                                        fontSize: 20,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black),
                                     children: <TextSpan>[
@@ -107,7 +113,7 @@ class _ProtectedPinInfo extends State<ProtectedPinInfo> {
                                 text: TextSpan(
                                     style: TextStyle(
                                         fontFamily: 'Montserrat',
-                                        fontSize: 20,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black),
                                     children: <TextSpan>[
@@ -123,12 +129,12 @@ class _ProtectedPinInfo extends State<ProtectedPinInfo> {
                                 text: TextSpan(
                                     style: TextStyle(
                                         fontFamily: 'Montserrat',
-                                        fontSize: 20,
+                                        fontSize: 13,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black),
                                     children: <TextSpan>[
                               TextSpan(
-                                  text: 'Description ',
+                                  text: 'Description: ',
                                   style:
                                       TextStyle(fontWeight: FontWeight.bold)),
                               TextSpan(text: '${widget.item['desc']}')
