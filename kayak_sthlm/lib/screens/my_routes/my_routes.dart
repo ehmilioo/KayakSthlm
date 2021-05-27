@@ -7,6 +7,8 @@ import 'package:kayak_sthlm/screens/info/information.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
+import 'deleteRouteMyRoutes_dialog.dart';
+
 class MyRoutes extends StatefulWidget {
   const MyRoutes({Key key}) : super(key: key);
 
@@ -59,6 +61,13 @@ class _MyRoutesState extends State {
         ? 1
         : 0);
     routeList = list;
+  }
+
+  Future<void> deleteRoute(DocumentReference docRef) {
+    return docRef
+        .delete()
+        .then((value) => print('Route Deleted'))
+        .catchError((error) => print('Failed to delete route: $error'));
   }
 
   @override
@@ -310,8 +319,25 @@ class _MyRoutesState extends State {
                                         children: [
                                           SizedBox(height: 44),
                                           GestureDetector(
-                                              onTap: () {
-                                                print(document.get('name'));
+                                              onTap: () async {
+                                                final result = await showDialog(
+                                                    context: this.context,
+                                                    builder: (_) =>
+                                                        DeleteRouteMyRoutesDialog());
+                                                if (result) {
+                                                  deleteRoute(
+                                                      document.reference);
+                                                  if (snap.connectionState ==
+                                                      ConnectionState.done) {
+                                                    setState(() {
+                                                      sorting = 1;
+
+                                                      routeList = sortAll();
+                                                    });
+                                                  }
+                                                } else {
+                                                  print('Canceled deletion');
+                                                }
                                               },
                                               child: Container(
                                                 height: 176,

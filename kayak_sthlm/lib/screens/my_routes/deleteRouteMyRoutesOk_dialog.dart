@@ -5,12 +5,13 @@ import 'package:flutter/widgets.dart';
 import 'package:kayak_sthlm/dialogs/reauth_dialog.dart';
 import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 
-class DeleteRouteOkDialog extends StatefulWidget {
+class DeleteRouteMyRoutesOkDialog extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => DeleteRouteOkOverlayState();
+  State<StatefulWidget> createState() => DeleteRouteMyRoutesOkOverlayState();
 }
 
-class DeleteRouteOkOverlayState extends State<DeleteRouteOkDialog> {
+class DeleteRouteMyRoutesOkOverlayState
+    extends State<DeleteRouteMyRoutesOkDialog> {
   @override
   void initState() {
     super.initState();

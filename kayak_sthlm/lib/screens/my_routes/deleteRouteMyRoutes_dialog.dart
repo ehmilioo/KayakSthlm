@@ -6,14 +6,14 @@ import 'package:kayak_sthlm/dialogs/deleteOk_dialog.dart';
 import 'package:kayak_sthlm/dialogs/reauth_dialog.dart';
 import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
 
-import 'deleteRouteOk_dialog.dart';
+import 'deleteRouteMyRoutesOk_dialog.dart';
 
-class DeleteRouteDialog extends StatefulWidget {
+class DeleteRouteMyRoutesDialog extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => DeleteRouteOverlayState();
+  State<StatefulWidget> createState() => DeleteRouteMyRoutesOverlayState();
 }
 
-class DeleteRouteOverlayState extends State<DeleteRouteDialog> {
+class DeleteRouteMyRoutesOverlayState extends State<DeleteRouteMyRoutesDialog> {
   @override
   void initState() {
     super.initState();
@@ -108,7 +108,8 @@ class DeleteRouteOverlayState extends State<DeleteRouteDialog> {
                             showDialog(
                                     barrierDismissible: false,
                                     context: context,
-                                    builder: (_) => DeleteRouteOkDialog())
+                                    builder: (_) =>
+                                        DeleteRouteMyRoutesOkDialog())
                                 .then((value) {
                               Navigator.pop(context, true);
                             });
