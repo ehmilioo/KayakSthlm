@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:kayak_sthlm/screens/authenticate/sign_in.dart';
+import 'package:kayak_sthlm/screens/home/home.dart';
 import 'package:kayak_sthlm/services/auth.dart';
 
 class LogoutDialog extends StatefulWidget {
@@ -31,7 +31,6 @@ class LogoutOverlayState extends State<LogoutDialog> {
           .then((value) => print("User deleted"))
           .catchError((error) => print("Failed: $error"));
       await user.delete();
-      print('Tog bort horungen');
     } catch (e) {
       print(e);
     }
@@ -129,7 +128,7 @@ class LogoutOverlayState extends State<LogoutDialog> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SignIn()));
+                                    builder: (context) => SplashState()));
                           }),
                       SizedBox(height: 10)
                     ]))
