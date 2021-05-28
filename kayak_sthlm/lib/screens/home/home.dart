@@ -19,10 +19,8 @@ import 'package:kayak_sthlm/dialogs/custompin_dialog.dart';
 import 'package:kayak_sthlm/dialogs/pininfo_dialog.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:kayak_sthlm/screens/authenticate/authenticate.dart';
-import 'package:provider/provider.dart';
-import 'package:kayak_sthlm/models/user.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'package:kayak_sthlm/screens//wrapper.dart';
 
 class SplashState extends StatelessWidget {
   Future checkFirstSeen() async {
@@ -32,7 +30,6 @@ class SplashState extends StatelessWidget {
     if (_seen) {
       return Home.id;
     } else {
-      // Set the flag to true at the end of onboarding screen if everything is successfull and so I am commenting it out
       await prefs.setBool('seen', true);
       return IntroScreen.id;
     }
@@ -52,7 +49,7 @@ class SplashState extends StatelessWidget {
               initialRoute: snapshot.data,
               routes: {
                 IntroScreen.id: (context) => IntroScreen(),
-                Home.id: (context) => Home(),
+                Home.id: (context) => Wrapper(),
               },
             );
           }
@@ -114,11 +111,6 @@ class IntroScreen extends StatelessWidget {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 30.0),
         child: FloatingActionButton(
-            //den här som behövs kollas påååååååååååååååååååååååå
-            //
-            //
-            //
-            // aaaaaaaaaaahhhhhh
             onPressed: () {
               if (controller.page == 3) {
                 Navigator.pushReplacement(
@@ -135,20 +127,6 @@ class IntroScreen extends StatelessWidget {
             child: Image.asset('assets/home/play.png')),
       ),
     );
-  }
-}
-
-class Wrapper extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final user = Provider.of<TheUser>(context);
-
-    //return either home or authenticate widget
-    if (user == null) {
-      return Authenticate();
-    } else {
-      return Home();
-    }
   }
 }
 
