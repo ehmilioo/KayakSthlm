@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kayak_sthlm/dialogs/passOk_dialog.dart';
+import 'package:kayak_sthlm/dialogs/reauth_dialog.dart';
 
 class ChangePass extends StatefulWidget {
   @override
@@ -201,13 +202,13 @@ class _ChangePass extends State<ChangePass> {
                                 onPressed: () {
                                   if (_unsavedChanges) {
                                     if (newPassword == secondPassword) {
-                                      updatePassword(newPassword);
                                       showDialog(
                                               context: context,
-                                              builder: (_) => PassOkDialog())
-                                          .then((value) {
-                                        Navigator.of(context).pop();
-                                      });
+                                              builder: (_) => AuthDialog())
+                                          .then((val) => {
+                                                updatePassword(newPassword),
+                                                Navigator.of(context).pop()
+                                              });
                                     } else {
                                       setState(() =>
                                           error = 'Passwords do not match');

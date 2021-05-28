@@ -23,6 +23,7 @@ class SettingsPage extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Color.fromRGBO(242, 248, 255, 1),
         body: Container(
             height: MediaQuery.of(context).size.height,
