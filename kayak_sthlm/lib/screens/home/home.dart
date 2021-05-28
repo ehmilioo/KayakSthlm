@@ -510,7 +510,7 @@ class MapSampleState extends State<Home> {
                                 BoxConstraints(minWidth: 80, minHeight: 80),
                             elevation: 10.0,
                             fillColor: Colors.white,
-                            child: Image.asset('assets/home/weather.png'),
+                            child: Icon(Icons.wb_sunny_outlined, size: 50),
                             padding: EdgeInsets.all(10.0),
                             shape: CircleBorder(),
                           ),
