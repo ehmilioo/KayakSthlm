@@ -46,6 +46,7 @@ class SplashState extends StatelessWidget {
             );
           } else {
             return MaterialApp(
+              debugShowCheckedModeBanner: false,
               initialRoute: snapshot.data,
               routes: {
                 IntroScreen.id: (context) => IntroScreen(),

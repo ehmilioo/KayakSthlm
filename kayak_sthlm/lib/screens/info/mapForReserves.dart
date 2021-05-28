@@ -10,6 +10,7 @@ class WildlifePreserves extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Wildlife Preserves',
       home: MapSample(),
     );
@@ -663,13 +664,8 @@ class MapSampleState extends State<MapSample> {
     polygonLatLngs.add(point5);
     polygonLatLngs.add(point6);
     polygonLatLngs.add(point7);
-    var rpa = RPA(
-        'Tranvik Naturreservat',
-        'Protected since: 1978',
-        'Size: 370 hectare',
-        59.651857,
-        18.740128,
-        polygonLatLngs);
+    var rpa = RPA('Tranvik Naturreservat', 'Protected since: 1978',
+        'Size: 370 hectare', 59.651857, 18.740128, polygonLatLngs);
     rpas.add(rpa);
     _setPolygon(rpa);
   }
@@ -691,13 +687,8 @@ class MapSampleState extends State<MapSample> {
     polygonLatLngs.add(point5);
     polygonLatLngs.add(point6);
     polygonLatLngs.add(point7);
-    var rpa = RPA(
-        'Stensholmens Naturreservat',
-        'Protected since: 1971',
-        'Size: 46 hectare',
-        59.663181,
-        18.794586,
-        polygonLatLngs);
+    var rpa = RPA('Stensholmens Naturreservat', 'Protected since: 1971',
+        'Size: 46 hectare', 59.663181, 18.794586, polygonLatLngs);
     rpas.add(rpa);
     _setPolygon(rpa);
   }
@@ -715,13 +706,8 @@ class MapSampleState extends State<MapSample> {
     polygonLatLngs.add(point3);
     polygonLatLngs.add(point4);
     polygonLatLngs.add(point5);
-    var rpa = RPA(
-        'Salskären Naturreservat',
-        'Protected since: 1973',
-        'Size: 75 hectare',
-        59.588368,
-        18.973087,
-        polygonLatLngs);
+    var rpa = RPA('Salskären Naturreservat', 'Protected since: 1973',
+        'Size: 75 hectare', 59.588368, 18.973087, polygonLatLngs);
     rpas.add(rpa);
     _setPolygon(rpa);
   }
@@ -737,13 +723,8 @@ class MapSampleState extends State<MapSample> {
     polygonLatLngs.add(point2);
     polygonLatLngs.add(point3);
     polygonLatLngs.add(point4);
-    var rpa = RPA(
-        'Svenska Högarna Naturreservat',
-        'Protected since: 1976',
-        'Size: 107 hectare',
-        59.460616,
-        19.506813,
-        polygonLatLngs);
+    var rpa = RPA('Svenska Högarna Naturreservat', 'Protected since: 1976',
+        'Size: 107 hectare', 59.460616, 19.506813, polygonLatLngs);
     rpas.add(rpa);
     _setPolygon(rpa);
   }
@@ -759,13 +740,8 @@ class MapSampleState extends State<MapSample> {
     polygonLatLngs.add(point2);
     polygonLatLngs.add(point3);
     polygonLatLngs.add(point4);
-    var rpa = RPA(
-        'Stora Nassa Naturreservat',
-        'Protected since: 1965',
-        'Size: 276 hectare',
-        59.481637,
-        19.214494,
-        polygonLatLngs);
+    var rpa = RPA('Stora Nassa Naturreservat', 'Protected since: 1965',
+        'Size: 276 hectare', 59.481637, 19.214494, polygonLatLngs);
     rpas.add(rpa);
     _setPolygon(rpa);
   }
@@ -783,16 +759,12 @@ class MapSampleState extends State<MapSample> {
     polygonLatLngs.add(point3);
     polygonLatLngs.add(point4);
     polygonLatLngs.add(point5);
-    var rpa = RPA(
-        'Storö-Bockö-Lökaö Naturreservat',
-        'Protected since: 1972',
-        'Size: 1876 hectare',
-        59.375856,
-        18.863727,
-        polygonLatLngs);
+    var rpa = RPA('Storö-Bockö-Lökaö Naturreservat', 'Protected since: 1972',
+        'Size: 1876 hectare', 59.375856, 18.863727, polygonLatLngs);
     rpas.add(rpa);
     _setPolygon(rpa);
   }
+
   void addReserve33() {
     // ignore: deprecated_member_use
     List<LatLng> polygonLatLngs = List<LatLng>();
@@ -806,16 +778,12 @@ class MapSampleState extends State<MapSample> {
     polygonLatLngs.add(point3);
     polygonLatLngs.add(point4);
     polygonLatLngs.add(point5);
-    var rpa = RPA(
-        'Finnhamn Naturreservat',
-        'Protected since: 1972',
-        'Size: 190 hectare',
-        59.476266,
-        18.892507,
-        polygonLatLngs);
+    var rpa = RPA('Finnhamn Naturreservat', 'Protected since: 1972',
+        'Size: 190 hectare', 59.476266, 18.892507, polygonLatLngs);
     rpas.add(rpa);
     _setPolygon(rpa);
   }
+
   void addReserve34() {
     // ignore: deprecated_member_use
     List<LatLng> polygonLatLngs = List<LatLng>();
@@ -829,16 +797,12 @@ class MapSampleState extends State<MapSample> {
     polygonLatLngs.add(point3);
     polygonLatLngs.add(point4);
     polygonLatLngs.add(point5);
-    var rpa = RPA(
-        'Hallonstenarna Naturreservat',
-        'Protected since: 1973',
-        'Size: 44 hectare',
-        59.519565,
-        18.877613,
-        polygonLatLngs);
+    var rpa = RPA('Hallonstenarna Naturreservat', 'Protected since: 1973',
+        'Size: 44 hectare', 59.519565, 18.877613, polygonLatLngs);
     rpas.add(rpa);
     _setPolygon(rpa);
   }
+
   void addReserve35() {
     // ignore: deprecated_member_use
     List<LatLng> polygonLatLngs = List<LatLng>();
@@ -852,13 +816,8 @@ class MapSampleState extends State<MapSample> {
     polygonLatLngs.add(point3);
     polygonLatLngs.add(point4);
     polygonLatLngs.add(point5);
-    var rpa = RPA(
-        'Halsfambaken Naturreservat',
-        'Protected since: 1974',
-        'Size: 60 hectare',
-        59.529171,
-        18.836586,
-        polygonLatLngs);
+    var rpa = RPA('Halsfambaken Naturreservat', 'Protected since: 1974',
+        'Size: 60 hectare', 59.529171, 18.836586, polygonLatLngs);
     rpas.add(rpa);
     _setPolygon(rpa);
   }

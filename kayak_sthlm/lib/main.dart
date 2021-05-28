@@ -18,10 +18,10 @@ class MyApp extends StatelessWidget {
       initialData: null,
       value: AuthService().user,
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Custom Fonts',
         // Set Montserrat as the default app font.
         theme: ThemeData(fontFamily: 'Montserrat'),
-        debugShowCheckedModeBanner: false,
         home: SplashState(),
       ),
     );
