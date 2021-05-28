@@ -138,7 +138,7 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                 children: [
                                   Icon(Icons.cloud, size: 40),
                                   Image.asset('assets/home/wind.png'),
-                                  Icon(Icons.wb_cloudy_outlined, size: 40)
+                                  Image.asset('assets/home/rain.png')
                                 ],
                               ),
                               SizedBox(width: 10),
@@ -215,7 +215,7 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                               '°',
                                           style: TextStyle(fontSize: 12)),
                                     ),
-                                    Icon(Icons.wb_sunny, size: 45),
+                                    Icon(Icons.cloud, size: 45),
                                     Text(
                                         TimeOfDay.fromDateTime(DateTime.now()
                                                 .add(Duration(hours: 1)))
@@ -238,7 +238,7 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                               '°',
                                           style: TextStyle(fontSize: 12)),
                                     ),
-                                    Icon(Icons.wb_sunny, size: 45),
+                                    Icon(Icons.cloud, size: 45),
                                     Text(
                                         TimeOfDay.fromDateTime(DateTime.now()
                                                 .add(Duration(hours: 2)))
@@ -261,7 +261,7 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                               '°',
                                           style: TextStyle(fontSize: 12)),
                                     ),
-                                    Icon(Icons.wb_sunny, size: 45),
+                                    Icon(Icons.cloud, size: 45),
                                     Text(
                                         TimeOfDay.fromDateTime(DateTime.now()
                                                 .add(Duration(hours: 3)))
@@ -284,7 +284,7 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                               '°',
                                           style: TextStyle(fontSize: 12)),
                                     ),
-                                    Icon(Icons.wb_sunny, size: 45),
+                                    Icon(Icons.cloud, size: 45),
                                     Text(
                                         TimeOfDay.fromDateTime(DateTime.now()
                                                 .add(Duration(hours: 4)))
