@@ -179,37 +179,10 @@ class GuideScreen extends StatelessWidget {
                                             ],
                                             showVideoProgressIndicator: true,
                                           ),
-                                        ]))))
-                                    child: ListView(padding: EdgeInsets.symmetric(horizontal: 25), children: <Widget>[
-                                      player1,
-                                      SizedBox(height: 25),
-                                      player2,
-                                      SizedBox(height: 25),
-                                      player3,
-                                      SizedBox(height: 25),
-                                      player4,
-                                    ]))))
-                      ]))),
-              Positioned(
-                  top: 26,
-                  right: 6,
-                  child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Card(
-                        elevation: 20,
-                        shape: CircleBorder(),
-                        child: CircleAvatar(
-                          radius: 24.0,
-                          backgroundColor: Colors.blue,
-                          child: Icon(
-                            Icons.close,
-                            color: Colors.white,
-                            size: 40,
-                          ),
-                        ),
-                      )))
-            ])));
+                                        ])))),
+                  ],
+            ),
+        ),
+              )])));
   }
 }
