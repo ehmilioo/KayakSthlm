@@ -33,7 +33,7 @@ class Pins {
 
   var protectedInfo = {
     'type': 'protected',
-    'path': 'pins/sealpin.png',
+    'path': 'pins/birdpin.png',
   };
 
   Future<List<dynamic>> fetchAllPins() async {
