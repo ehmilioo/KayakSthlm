@@ -441,6 +441,11 @@ class MapSampleState extends State<Home> {
     _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
     totalDistance = 0;
     print('Cleared cache');
+    getCurrentLocation();
+    _controller.animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+        // bearing: locationData.heading,
+        target: LatLng(locationData.latitude, locationData.longitude),
+        zoom: 15.00)));
   }
 
   @override
@@ -677,7 +682,8 @@ class MapSampleState extends State<Home> {
                                               SizedBox(height: 5),
                                               Container(
                                                   child: Text(
-                                                      totalDistance.toString(),
+                                                      (totalDistance / 1000)
+                                                          .toStringAsFixed(2),
                                                       style: TextStyle(
                                                           fontSize: 25,
                                                           fontWeight:
@@ -785,7 +791,11 @@ class MapSampleState extends State<Home> {
                                                     context: this.context,
                                                     builder: (_) => SaveRoute(
                                                         routeList: routeCoords,
-                                                        distance: totalDistance,
+                                                        distance: double.parse(
+                                                            (totalDistance /
+                                                                    1000)
+                                                                .toStringAsFixed(
+                                                                    2)),
                                                         time: StopWatchTimer
                                                             .getDisplayTimeSecond(
                                                                 _stopWatchTimer
@@ -956,9 +966,9 @@ class MapSampleState extends State<Home> {
                                                       bearing: 0,
                                                       target: LatLng(
                                                           firstPos.latitude -
-                                                              0.0035,
+                                                              0.03,
                                                           firstPos.longitude),
-                                                      zoom: 15.00)));
+                                                      zoom: 12.00)));
                                           // bool savedRoute = await showDialog(
                                           //   context: this.context,
                                           //   builder: (_) => SaveRoute(
@@ -1040,6 +1050,13 @@ class MapSampleState extends State<Home> {
                           LatLng(locationData.latitude, locationData.longitude);
                       routeCoords.add(firstPos);
                       startRoute();
+                      getCurrentLocation();
+                      _controller.animateCamera(CameraUpdate.newCameraPosition(
+                          new CameraPosition(
+                              // bearing: locationData.heading,
+                              target: LatLng(locationData.latitude,
+                                  locationData.longitude),
+                              zoom: 15.00)));
                     }
                   });
                 },
@@ -1125,7 +1142,8 @@ class MapSampleState extends State<Home> {
                                               fontWeight: FontWeight.w400)),
                                       Container(
                                           child: Text(
-                                              (totalDistance / 1000).toString(),
+                                              (totalDistance / 1000)
+                                                  .toStringAsFixed(2),
                                               style: TextStyle(
                                                   fontSize: 25,
                                                   fontWeight: FontWeight.w700)),

@@ -317,7 +317,7 @@ class _MyRoutesState extends State {
                                         .map((DocumentSnapshot document) {
                                       return Column(
                                         children: [
-                                          SizedBox(height: 44),
+                                          SizedBox(height: 24),
                                           GestureDetector(
                                               onTap: () async {
                                                 final result = await showDialog(
@@ -401,9 +401,17 @@ class _MyRoutesState extends State {
                                                     ),
                                                     Text(
                                                       'Duration: ' +
-                                                          document.get(
-                                                              'timeTaken') +
-                                                          'm',
+                                                          (int.parse(document.get(
+                                                                      'timeTaken')) /
+                                                                  60)
+                                                              .round()
+                                                              .toString() +
+                                                          ' minutes, ' +
+                                                          (int.parse(document.get(
+                                                                      'timeTaken')) %
+                                                                  60)
+                                                              .toString() +
+                                                          ' seconds',
                                                       style: TextStyle(
                                                           fontSize: 15,
                                                           fontWeight:

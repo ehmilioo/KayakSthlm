@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kayak_sthlm/dialogs/deleteOk_dialog.dart';
+import 'package:kayak_sthlm/screens/home/home.dart';
 
 class DeleteDialog extends StatefulWidget {
   @override
@@ -125,7 +126,12 @@ class DeleteOverlayState extends State<DeleteDialog> {
                                 barrierDismissible: false,
                                 context: context,
                                 builder: (_) => DeleteOkDialog()).then((value) {
-                              Navigator.of(context).pop();
+                              Navigator.of(context)
+                                  .popUntil((route) => route.isFirst);
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SplashState()));
                             });
                           }),
                       SizedBox(height: 10)
