@@ -49,13 +49,11 @@ class _AuthDialog extends State<AuthDialog> {
             ]),
         child: Column(
           children: <Widget>[
-            Text(
-                'To save these changes, you need to confirm your password below'),
+            Text('Please enter your current password below to confirm.'),
             ConstrainedBox(
                 constraints: BoxConstraints(maxHeight: 82, minHeight: 82),
                 child: TextFormField(
-                    style:
-                        TextStyle(fontFamily: 'HammersmithOne', fontSize: 18),
+                    style: TextStyle(fontFamily: 'Montserrat', fontSize: 18),
                     obscureText: hidePassword,
                     decoration: InputDecoration(
                         labelText: 'Password',
