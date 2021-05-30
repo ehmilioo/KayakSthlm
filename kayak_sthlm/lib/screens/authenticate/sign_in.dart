@@ -189,7 +189,8 @@ class _SignInState extends State<SignIn> {
                                         textStyle: TextStyle(fontSize: 18)),
                                     onPressed: () {
                                       Navigator.push(context,
-                                          MaterialPageRoute(builder: (context) {
+                                          CupertinoPageRoute(
+                                              builder: (context) {
                                         return ResetPass();
                                       }));
                                     },

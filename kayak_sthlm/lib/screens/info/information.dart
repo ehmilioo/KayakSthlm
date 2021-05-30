@@ -10,6 +10,7 @@ import 'package:kayak_sthlm/screens/settings/settings.dart';
 import 'package:kayak_sthlm/screens/info/symbols_info.dart';
 import 'package:kayak_sthlm/services/database.dart';
 import 'package:kayak_sthlm/screens/authenticate/reset_pass.dart';
+import '../../fadeRoute.dart';
 import 'app_icons.dart';
 
 class InformationScreen extends StatelessWidget {
@@ -110,7 +111,7 @@ class InformationScreen extends StatelessWidget {
                       iconSize: 56,
                       icon: Icon(AppIcons.reserves, size: 55),
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => WildlifePreserves()));
@@ -217,8 +218,7 @@ class InformationScreen extends StatelessWidget {
                       radius: 1)),
               child: Image.asset('assets/navigationbar/home.png')),
           onPressed: () {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => Home()));
+            Navigator.pushReplacement(context, FadeRoute(page: Home()));
           },
         ),
       ),
@@ -237,8 +237,8 @@ class InformationScreen extends StatelessWidget {
                   icon: Image.asset('assets/navigationbar/routes.png'),
                   iconSize: 30,
                   onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => MyRoutes()));
+                    Navigator.pushReplacement(
+                        context, FadeRoute(page: MyRoutes()));
                   }),
               IconButton(
                 // Navigationsknapp 2: Events
@@ -246,8 +246,7 @@ class InformationScreen extends StatelessWidget {
                 icon: Icon(Icons.calendar_today_outlined),
                 iconSize: 30,
                 onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Events()));
+                  Navigator.pushReplacement(context, FadeRoute(page: Events()));
                 },
               ),
               Container(
@@ -284,8 +283,8 @@ class InformationScreen extends StatelessWidget {
                   icon: Icon(Icons.settings_outlined),
                   iconSize: 30,
                   onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Settings()));
+                    Navigator.pushReplacement(
+                        context, FadeRoute(page: Settings()));
                   }),
             ],
           ),

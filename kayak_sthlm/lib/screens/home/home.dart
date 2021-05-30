@@ -25,6 +25,8 @@ import 'package:kayak_sthlm/screens//wrapper.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/scheduler.dart';
 
+import '../../fadeRoute.dart';
+
 class SplashState extends StatelessWidget {
   Future checkFirstSeen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -49,6 +51,7 @@ class SplashState extends StatelessWidget {
             );
           } else {
             return MaterialApp(
+              debugShowCheckedModeBanner: false,
               initialRoute: snapshot.data,
               routes: {
                 IntroScreen.id: (context) => IntroScreen(),
@@ -447,6 +450,11 @@ class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
     _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
     totalDistance = 0;
     print('Cleared cache');
+    getCurrentLocation();
+    _controller.animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+        // bearing: locationData.heading,
+        target: LatLng(locationData.latitude, locationData.longitude),
+        zoom: 15.00)));
   }
 
   @override
@@ -683,7 +691,8 @@ class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
                                               SizedBox(height: 5),
                                               Container(
                                                   child: Text(
-                                                      totalDistance.toString(),
+                                                      (totalDistance / 1000)
+                                                          .toStringAsFixed(2),
                                                       style: TextStyle(
                                                           fontSize: 25,
                                                           fontWeight:
@@ -791,7 +800,11 @@ class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
                                                     context: this.context,
                                                     builder: (_) => SaveRoute(
                                                         routeList: routeCoords,
-                                                        distance: totalDistance,
+                                                        distance: double.parse(
+                                                            (totalDistance /
+                                                                    1000)
+                                                                .toStringAsFixed(
+                                                                    2)),
                                                         time: StopWatchTimer
                                                             .getDisplayTimeSecond(
                                                                 _stopWatchTimer
@@ -962,9 +975,9 @@ class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
                                                       bearing: 0,
                                                       target: LatLng(
                                                           firstPos.latitude -
-                                                              0.0035,
+                                                              0.03,
                                                           firstPos.longitude),
-                                                      zoom: 15.00)));
+                                                      zoom: 12.00)));
                                           // bool savedRoute = await showDialog(
                                           //   context: this.context,
                                           //   builder: (_) => SaveRoute(
@@ -1046,6 +1059,13 @@ class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
                           LatLng(locationData.latitude, locationData.longitude);
                       routeCoords.add(firstPos);
                       startRoute();
+                      getCurrentLocation();
+                      _controller.animateCamera(CameraUpdate.newCameraPosition(
+                          new CameraPosition(
+                              // bearing: locationData.heading,
+                              target: LatLng(locationData.latitude,
+                                  locationData.longitude),
+                              zoom: 15.00)));
                     }
                   });
                 },
@@ -1131,7 +1151,8 @@ class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
                                               fontWeight: FontWeight.w400)),
                                       Container(
                                           child: Text(
-                                              (totalDistance / 1000).toString(),
+                                              (totalDistance / 1000)
+                                                  .toStringAsFixed(2),
                                               style: TextStyle(
                                                   fontSize: 25,
                                                   fontWeight: FontWeight.w700)),
@@ -1154,9 +1175,7 @@ class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
                                 iconSize: 30,
                                 onPressed: () {
                                   Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => MyRoutes()));
+                                      context, FadeRoute(page: MyRoutes()));
                                 },
                               ),
 
@@ -1167,9 +1186,7 @@ class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
                                 iconSize: 30,
                                 onPressed: () {
                                   Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Events()));
+                                      context, FadeRoute(page: Events()));
                                 },
                               ),
                               Container(
@@ -1189,11 +1206,8 @@ class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
                                 icon: Icon(Icons.info_outline),
                                 iconSize: 30,
                                 onPressed: () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              InformationScreen()));
+                                  Navigator.pushReplacement(context,
+                                      FadeRoute(page: InformationScreen()));
                                 },
                               ),
                               IconButton(
@@ -1203,9 +1217,7 @@ class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
                                 iconSize: 30,
                                 onPressed: () {
                                   Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Settings()));
+                                      context, FadeRoute(page: Settings()));
                                 },
                               ),
                             ],
