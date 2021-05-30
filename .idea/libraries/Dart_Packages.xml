@@ -9,6 +9,13 @@
             </list>
           </value>
         </entry>
+        <entry key="after_layout">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../../../../flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/after_layout-1.1.0/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="analyzer">
           <value>
             <list>
@@ -755,6 +762,7 @@
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/_fe_analyzer_shared-21.0.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/after_layout-1.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/analyzer-1.5.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/args-2.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.5.0/lib" />

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:kayak_sthlm/dialogs/deleteRoute_dialog.dart';
 import 'package:kayak_sthlm/dialogs/protected_dialog.dart';
+import 'package:kayak_sthlm/dialogs/routesInfo_dialog.dart';
 import 'package:kayak_sthlm/models/pins.dart';
 import 'package:kayak_sthlm/screens/events/events.dart';
 import 'package:kayak_sthlm/screens/info/information.dart';
@@ -21,6 +22,8 @@ import 'package:kayak_sthlm/services/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:kayak_sthlm/screens//wrapper.dart';
+import 'package:after_layout/after_layout.dart';
+import 'package:flutter/scheduler.dart';
 
 class SplashState extends StatelessWidget {
   Future checkFirstSeen() async {
@@ -136,7 +139,7 @@ class Home extends StatefulWidget {
   State<Home> createState() => MapSampleState();
 }
 
-class MapSampleState extends State<Home> {
+class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
   final Database db = new Database();
   final Set<Polyline> _polyline = {};
   List<LatLng> routeCoords = [];
@@ -170,6 +173,9 @@ class MapSampleState extends State<Home> {
   void initState() {
     setFilterBool();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkFirstSeenTutorial();
+    });
   }
 
   @override
@@ -448,7 +454,7 @@ class MapSampleState extends State<Home> {
     getCurrentLocation();
     return new Scaffold(
       resizeToAvoidBottomInset: false,
-      body: locationData == null
+      body: locationData == null || pinList == null
           ? Center(
               child: CircularProgressIndicator(
                 backgroundColor: Colors.black,
@@ -1208,6 +1214,27 @@ class MapSampleState extends State<Home> {
                 ),
     );
   }
+  void checkFirstSeenTutorial() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seenTutorial = (prefs.getBool('seenTutorial') ?? false);
+
+    if (_seenTutorial) {
+      return;
+    } else {
+     // await prefs.setBool('seenTutorial', true);
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+          builder: (context) => RoutesInfoDialog()));
+      return;
+    }
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+  //  checkFirstSeenTutorial();
+  }
+
 
 // List <Dialog> dialogs = <Dialog> [
 //     RoutesInfoDialog(),
