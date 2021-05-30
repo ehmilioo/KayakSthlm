@@ -4,6 +4,10 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class GuideScreen extends StatelessWidget {
   final YoutubePlayer player1 = YoutubePlayer(
+    bottomActions: [
+      CurrentPosition(),
+      ProgressBar(isExpanded: true),
+    ],
     controller: YoutubePlayerController(
         initialVideoId: 'ddwOc4uj4mQ',
         flags: YoutubePlayerFlags(
@@ -15,6 +19,10 @@ class GuideScreen extends StatelessWidget {
     showVideoProgressIndicator: true,
   );
   final YoutubePlayer player2 = YoutubePlayer(
+    bottomActions: [
+      CurrentPosition(),
+      ProgressBar(isExpanded: true),
+    ],
     controller: YoutubePlayerController(
         initialVideoId: 'zT67YPFkqqY',
         flags: YoutubePlayerFlags(
@@ -26,6 +34,10 @@ class GuideScreen extends StatelessWidget {
     showVideoProgressIndicator: true,
   );
   final YoutubePlayer player3 = YoutubePlayer(
+    bottomActions: [
+      CurrentPosition(),
+      ProgressBar(isExpanded: true),
+    ],
     controller: YoutubePlayerController(
         initialVideoId: 'Calmsh4zI5U',
         flags: YoutubePlayerFlags(
@@ -37,8 +49,28 @@ class GuideScreen extends StatelessWidget {
     showVideoProgressIndicator: true,
   );
   final YoutubePlayer player4 = YoutubePlayer(
+    bottomActions: [
+      CurrentPosition(),
+      ProgressBar(isExpanded: true),
+    ],
     controller: YoutubePlayerController(
-        initialVideoId: 'ddwOc4uj4mQ',
+        initialVideoId: 'smoRZGa0qXs',
+        flags: YoutubePlayerFlags(
+          hideControls: false,
+          controlsVisibleAtStart: false,
+          autoPlay: false,
+          mute: false,
+        )),
+    showVideoProgressIndicator: true,
+  );
+
+  final YoutubePlayer player5 = YoutubePlayer(
+    bottomActions: [
+      CurrentPosition(),
+      ProgressBar(isExpanded: true),
+    ],
+    controller: YoutubePlayerController(
+        initialVideoId: 'peA76KGvM_w',
         flags: YoutubePlayerFlags(
           hideControls: false,
           controlsVisibleAtStart: false,
@@ -115,6 +147,8 @@ class GuideScreen extends StatelessWidget {
                                           player3,
                                           SizedBox(height: 25),
                                           player4,
+                                          SizedBox(height: 25),
+                                          player5,
                                         ]))))
                       ]))),
               Positioned(
