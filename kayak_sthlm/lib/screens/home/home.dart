@@ -23,7 +23,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:kayak_sthlm/screens//wrapper.dart';
 import 'package:after_layout/after_layout.dart';
-import 'package:flutter/scheduler.dart';
 
 import '../../fadeRoute.dart';
 
@@ -176,9 +175,7 @@ class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
   void initState() {
     setFilterBool();
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      checkFirstSeenTutorial();
-    });
+//    WidgetsBinding.instance.addPostFrameCallback((_) => checkFirstSeenTutorial(context));
   }
 
   @override
@@ -459,6 +456,7 @@ class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
 
   @override
   Widget build(BuildContext context) {
+    loadAllMarkers(true);
     getCurrentLocation();
     return new Scaffold(
       resizeToAvoidBottomInset: false,
@@ -1226,7 +1224,7 @@ class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
                 ),
     );
   }
-  void checkFirstSeenTutorial() async {
+  void checkFirstSeenTutorial(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seenTutorial = (prefs.getBool('seenTutorial') ?? false);
 
