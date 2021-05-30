@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' hide Settings;
 import 'package:kayak_sthlm/screens/events/events.dart';
 import 'package:kayak_sthlm/screens/home/home.dart';
 import 'package:kayak_sthlm/screens/info/information.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:kayak_sthlm/screens/settings/settings.dart';
 
+import '../../fadeRoute.dart';
 import 'deleteRouteMyRoutes_dialog.dart';
 
 class MyRoutes extends StatefulWidget {
@@ -113,8 +115,8 @@ class _MyRoutesState extends State {
                 child: RawScrollbar(
                   thumbColor: Color.fromRGBO(127, 184, 244, 0.8),
                   radius: Radius.circular(7),
-                  isAlwaysShown: true,
-                  thickness: 14,
+                  isAlwaysShown: false,
+                  thickness: 10,
                   child: ListView(
                       padding:
                           EdgeInsets.symmetric(vertical: 15, horizontal: 35),
@@ -464,8 +466,7 @@ class _MyRoutesState extends State {
                         radius: 1)),
                 child: Image.asset('assets/navigationbar/home.png')),
             onPressed: () {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => Home()));
+              Navigator.pushReplacement(context, FadeRoute(page: Home()));
             },
           ),
         ),
@@ -497,8 +498,8 @@ class _MyRoutesState extends State {
                   icon: Icon(Icons.calendar_today_outlined),
                   iconSize: 30,
                   onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Events()));
+                    Navigator.pushReplacement(
+                        context, FadeRoute(page: Events()));
                   },
                 ),
                 Container(
@@ -518,9 +519,7 @@ class _MyRoutesState extends State {
                   iconSize: 30,
                   onPressed: () {
                     Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => InformationScreen()));
+                        context, FadeRoute(page: InformationScreen()));
                   },
                 ),
 
@@ -531,9 +530,7 @@ class _MyRoutesState extends State {
                   iconSize: 30,
                   onPressed: () {
                     Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => InformationScreen()));
+                        context, FadeRoute(page: Settings()));
                   },
                 ),
               ],

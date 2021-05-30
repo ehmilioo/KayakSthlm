@@ -5,6 +5,8 @@ import 'package:kayak_sthlm/screens/info/information.dart';
 import 'package:kayak_sthlm/screens/my_routes/my_routes.dart';
 import 'package:kayak_sthlm/screens/settings/settings.dart';
 
+import '../../fadeRoute.dart';
+
 class Events extends StatefulWidget {
   @override
   State<Events> createState() => EventsPage();
@@ -76,8 +78,7 @@ class EventsPage extends State<Events> {
                         radius: 1)),
                 child: Image.asset('assets/navigationbar/home.png')),
             onPressed: () {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => Home()));
+              Navigator.pushReplacement(context, FadeRoute(page: Home()));
             },
           ),
         ),
@@ -95,8 +96,8 @@ class EventsPage extends State<Events> {
                     icon: Image.asset('assets/navigationbar/routes.png'),
                     iconSize: 30,
                     onPressed: () {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => MyRoutes()));
+                      Navigator.pushReplacement(
+                          context, FadeRoute(page: MyRoutes()));
                     }),
                 Container(
                   width: 48,
@@ -133,9 +134,7 @@ class EventsPage extends State<Events> {
                   iconSize: 30,
                   onPressed: () {
                     Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => InformationScreen()));
+                        context, FadeRoute(page: InformationScreen()));
                   },
                 ),
 
@@ -145,8 +144,8 @@ class EventsPage extends State<Events> {
                   icon: Icon(Icons.settings_outlined),
                   iconSize: 30,
                   onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Settings()));
+                    Navigator.pushReplacement(
+                        context, FadeRoute(page: Settings()));
                   },
                 ),
               ],

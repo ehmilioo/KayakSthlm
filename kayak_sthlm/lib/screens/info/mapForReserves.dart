@@ -966,7 +966,7 @@ class MapSampleState extends State<MapSample> {
                         size: 30,
                       ),
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => InformationScreen()));

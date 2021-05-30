@@ -12,6 +12,8 @@ import 'package:kayak_sthlm/screens/settings/settings_edit.dart';
 import 'package:kayak_sthlm/services/auth.dart';
 import 'package:kayak_sthlm/screens/settings/change_pass.dart';
 
+import '../../fadeRoute.dart';
+
 class Settings extends StatefulWidget {
   @override
   State<Settings> createState() => SettingsPage();
@@ -92,7 +94,7 @@ class SettingsPage extends State<Settings> {
                                 ]),
                             onPressed: () {
                               Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
+                                  CupertinoPageRoute(builder: (context) {
                                 return SettingsEdit();
                               }));
                             })),
@@ -123,7 +125,7 @@ class SettingsPage extends State<Settings> {
                                 ]),
                             onPressed: () {
                               Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
+                                  CupertinoPageRoute(builder: (context) {
                                 return ChangePass();
                               }));
                             })),
@@ -179,7 +181,7 @@ class SettingsPage extends State<Settings> {
                       ),
                       child: Row(
                         children: [
-                          SizedBox(width: 45),
+                          SizedBox(width: 55),
                           Icon(Icons.logout, color: Colors.white),
                           SizedBox(width: 10),
                           Text('Log Out'),
@@ -211,8 +213,7 @@ class SettingsPage extends State<Settings> {
                         radius: 1)),
                 child: Image.asset('assets/navigationbar/home.png')),
             onPressed: () {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => Home()));
+              Navigator.pushReplacement(context, FadeRoute(page: Home()));
             },
           ),
         ),
@@ -230,8 +231,8 @@ class SettingsPage extends State<Settings> {
                     icon: Image.asset('assets/navigationbar/routes.png'),
                     iconSize: 30,
                     onPressed: () {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => MyRoutes()));
+                      Navigator.pushReplacement(
+                          context, FadeRoute(page: MyRoutes()));
                     }),
                 IconButton(
                   // Navigationsknapp 2: Events
@@ -239,8 +240,8 @@ class SettingsPage extends State<Settings> {
                   icon: Icon(Icons.calendar_today_outlined),
                   iconSize: 30,
                   onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Events()));
+                    Navigator.pushReplacement(
+                        context, FadeRoute(page: Events()));
                   },
                 ),
                 Container(
@@ -260,9 +261,7 @@ class SettingsPage extends State<Settings> {
                   iconSize: 30,
                   onPressed: () {
                     Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => InformationScreen()));
+                        context, FadeRoute(page: InformationScreen()));
                   },
                 ),
                 Container(

@@ -22,6 +22,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:kayak_sthlm/screens//wrapper.dart';
 
+import '../../fadeRoute.dart';
+
 class SplashState extends StatelessWidget {
   Future checkFirstSeen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -1167,9 +1169,7 @@ class MapSampleState extends State<Home> {
                                 iconSize: 30,
                                 onPressed: () {
                                   Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => MyRoutes()));
+                                      context, FadeRoute(page: MyRoutes()));
                                 },
                               ),
 
@@ -1180,9 +1180,7 @@ class MapSampleState extends State<Home> {
                                 iconSize: 30,
                                 onPressed: () {
                                   Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Events()));
+                                      context, FadeRoute(page: Events()));
                                 },
                               ),
                               Container(
@@ -1202,11 +1200,8 @@ class MapSampleState extends State<Home> {
                                 icon: Icon(Icons.info_outline),
                                 iconSize: 30,
                                 onPressed: () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              InformationScreen()));
+                                  Navigator.pushReplacement(context,
+                                      FadeRoute(page: InformationScreen()));
                                 },
                               ),
                               IconButton(
@@ -1216,9 +1211,7 @@ class MapSampleState extends State<Home> {
                                 iconSize: 30,
                                 onPressed: () {
                                   Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Settings()));
+                                      context, FadeRoute(page: Settings()));
                                 },
                               ),
                             ],
