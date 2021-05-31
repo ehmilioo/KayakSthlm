@@ -22,7 +22,6 @@ import 'package:kayak_sthlm/services/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:kayak_sthlm/screens//wrapper.dart';
-import 'package:after_layout/after_layout.dart';
 
 import '../../fadeRoute.dart';
 
@@ -141,7 +140,7 @@ class Home extends StatefulWidget {
   State<Home> createState() => MapSampleState();
 }
 
-class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
+class MapSampleState extends State<Home>{
   final Database db = new Database();
   final Set<Polyline> _polyline = {};
   List<LatLng> routeCoords = [];
@@ -175,7 +174,6 @@ class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
   void initState() {
     setFilterBool();
     super.initState();
-//    WidgetsBinding.instance.addPostFrameCallback((_) => checkFirstSeenTutorial(context));
   }
 
   @override
@@ -1224,6 +1222,8 @@ class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
                 ),
     );
   }
+  //funkar inte
+  //    WidgetsBinding.instance.addPostFrameCallback((_) => checkFirstSeenTutorial(context));
   void checkFirstSeenTutorial(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seenTutorial = (prefs.getBool('seenTutorial') ?? false);
@@ -1238,11 +1238,6 @@ class MapSampleState extends State<Home> with AfterLayoutMixin<Home> {
           builder: (context) => RoutesInfoDialog()));
       return;
     }
-  }
-
-  @override
-  void afterFirstLayout(BuildContext context) {
-  //  checkFirstSeenTutorial();
   }
 
 
