@@ -67,7 +67,12 @@ class WeatherOverlayState extends State<WeatherDialog> {
               snapshot.data.timeSeries[0]['parameters'][18]['values'][0] -
                   1); //-1 eftersom SMHI API börjar på 1 och listor på 0 :-)
           print(
-              '${snapshot.data.timeSeries[0]['parameters'][10]['values'][0]}');
+              '${snapshot.data.timeSeries[0]['parameters'][16]['values'][0]}');
+          print(
+              '${snapshot.data.timeSeries[1]['parameters'][17]['values'][0]}');
+          print(
+              '${snapshot.data.timeSeries[2]['parameters'][18]['values'][0]}');
+
           return Container(
               child: Stack(children: <Widget>[
             Container(
@@ -126,7 +131,7 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                 children: [
                                   Text(
                                       double.parse(
-                                              '${snapshot.data.timeSeries[0]['parameters'][10]['values'][0]}')
+                                              '${snapshot.data.timeSeries[0]['parameters'][0]['values'][0]}')
                                           .round()
                                           .toString(),
                                       style: TextStyle(fontSize: 72)),
@@ -138,7 +143,7 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Icon(Icons.cloud, size: 40),
+                                  Icon(Icons.wb_cloudy, size: 40),
                                   Image.asset('assets/home/wind.png'),
                                   Image.asset('assets/home/rain.png')
                                 ],
@@ -165,24 +170,11 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                             text: 'Wind: ',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold)),
-                                        double.parse('${snapshot.data.timeSeries[0]['parameters'][14]['values'][0]}')
-                                                    .round()
-                                                    .toString()
-                                                    .substring(0, 1) ==
-                                                '-'
-                                            ? TextSpan(
-                                                text: double.parse(
-                                                            '${snapshot.data.timeSeries[0]['parameters'][14]['values'][0]}')
-                                                        .round()
-                                                        .toString()
-                                                        .substring(1) +
-                                                    ' m/s')
-                                            : TextSpan(
-                                                text: double.parse(
-                                                            '${snapshot.data.timeSeries[0]['parameters'][14]['values'][0]}')
-                                                        .round()
-                                                        .toString() +
-                                                    ' m/s')
+                                        TextSpan(
+                                            text: double.parse(
+                                                        '${snapshot.data.timeSeries[0]['parameters'][4]['values'][0]}')
+                                                    .toString() +
+                                                ' m/s')
                                       ])),
                                   RichText(
                                       text: TextSpan(
@@ -197,7 +189,7 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                                 fontWeight: FontWeight.bold)),
                                         TextSpan(
                                             text:
-                                                '${snapshot.data.timeSeries[0]['parameters'][0]['values'][0]}%')
+                                                '${snapshot.data.timeSeries[0]['parameters'][16]['values'][0]} mm/h')
                                       ])),
                                 ],
                               )
@@ -223,13 +215,13 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                       alignment: Alignment.centerRight,
                                       child: Text(
                                           double.parse(
-                                                      '               ${snapshot.data.timeSeries[1]['parameters'][10]['values'][0]}')
+                                                      '               ${snapshot.data.timeSeries[1]['parameters'][0]['values'][0]}')
                                                   .round()
                                                   .toString() +
                                               '°',
                                           style: TextStyle(fontSize: 12)),
                                     ),
-                                    Icon(Icons.cloud, size: 45),
+                                    Icon(Icons.wb_cloudy, size: 45),
                                     Text(
                                         TimeOfDay.fromDateTime(DateTime.now()
                                                 .add(Duration(hours: 1)))
@@ -246,13 +238,13 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                       alignment: Alignment.centerRight,
                                       child: Text(
                                           double.parse(
-                                                      '               ${snapshot.data.timeSeries[2]['parameters'][10]['values'][0]}')
+                                                      '               ${snapshot.data.timeSeries[2]['parameters'][0]['values'][0]}')
                                                   .round()
                                                   .toString() +
                                               '°',
                                           style: TextStyle(fontSize: 12)),
                                     ),
-                                    Icon(Icons.cloud, size: 45),
+                                    Icon(Icons.wb_cloudy, size: 45),
                                     Text(
                                         TimeOfDay.fromDateTime(DateTime.now()
                                                 .add(Duration(hours: 2)))
@@ -269,13 +261,13 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                       alignment: Alignment.centerRight,
                                       child: Text(
                                           double.parse(
-                                                      '               ${snapshot.data.timeSeries[3]['parameters'][10]['values'][0]}')
+                                                      '               ${snapshot.data.timeSeries[3]['parameters'][0]['values'][0]}')
                                                   .round()
                                                   .toString() +
                                               '°',
                                           style: TextStyle(fontSize: 12)),
                                     ),
-                                    Icon(Icons.cloud, size: 45),
+                                    Icon(Icons.wb_sunny, size: 45),
                                     Text(
                                         TimeOfDay.fromDateTime(DateTime.now()
                                                 .add(Duration(hours: 3)))
@@ -292,13 +284,13 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                       alignment: Alignment.centerRight,
                                       child: Text(
                                           double.parse(
-                                                      '               ${snapshot.data.timeSeries[4]['parameters'][10]['values'][0]}')
+                                                      '               ${snapshot.data.timeSeries[4]['parameters'][0]['values'][0]}')
                                                   .round()
                                                   .toString() +
                                               '°',
                                           style: TextStyle(fontSize: 12)),
                                     ),
-                                    Icon(Icons.cloud, size: 45),
+                                    Icon(Icons.wb_sunny, size: 45),
                                     Text(
                                         TimeOfDay.fromDateTime(DateTime.now()
                                                 .add(Duration(hours: 4)))

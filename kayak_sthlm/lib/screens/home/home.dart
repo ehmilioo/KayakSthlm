@@ -353,9 +353,10 @@ class MapSampleState extends State<Home> {
             circleId: CircleId("radius"),
             radius: newLocalData.accuracy + 100,
             zIndex: 1,
-            strokeColor: Colors.blue,
+            strokeColor: Colors.lightBlue,
+            strokeWidth: 5,
             center: latlng,
-            fillColor: Colors.blue.withAlpha(70));
+            fillColor: Colors.lightBlue.withAlpha(80));
       });
     }
   }
@@ -393,10 +394,10 @@ class MapSampleState extends State<Home> {
     if (cachedLon == null || cachedLat == null) {
       return false;
     }
-    if (locationData.latitude > cachedLat + 0.00003 ||
-        cachedLat - 0.00003 > locationData.latitude) {
-      if (locationData.longitude > cachedLon + 0.00003 ||
-          cachedLon - 0.00003 > locationData.longitude) {
+    if (locationData.latitude > cachedLat + 0.00002 ||
+        cachedLat - 0.00002 > locationData.latitude) {
+      if (locationData.longitude > cachedLon + 0.00002 ||
+          cachedLon - 0.00002 > locationData.longitude) {
         return false;
       }
     }
@@ -407,7 +408,7 @@ class MapSampleState extends State<Home> {
     double cachedLon;
     double cachedLat;
     timer = Timer.periodic(
-        Duration(seconds: 2),
+        Duration(seconds: 5),
         (Timer t) => {
               if (cachedLat == locationData.latitude &&
                   cachedLon == locationData.longitude)
@@ -971,9 +972,9 @@ class MapSampleState extends State<Home> {
                                                       bearing: 0,
                                                       target: LatLng(
                                                           firstPos.latitude -
-                                                              0.03,
+                                                              0.003,
                                                           firstPos.longitude),
-                                                      zoom: 12.00)));
+                                                      zoom: 14.00)));
                                           // bool savedRoute = await showDialog(
                                           //   context: this.context,
                                           //   builder: (_) => SaveRoute(
