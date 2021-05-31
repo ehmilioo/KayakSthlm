@@ -22,7 +22,6 @@ import 'package:kayak_sthlm/services/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:kayak_sthlm/screens//wrapper.dart';
-
 import '../../fadeRoute.dart';
 
 class SplashState extends StatelessWidget {
@@ -140,7 +139,7 @@ class Home extends StatefulWidget {
   State<Home> createState() => MapSampleState();
 }
 
-class MapSampleState extends State<Home>{
+class MapSampleState extends State<Home> {
   final Database db = new Database();
   final Set<Polyline> _polyline = {};
   List<LatLng> routeCoords = [];
@@ -454,11 +453,12 @@ class MapSampleState extends State<Home>{
 
   @override
   Widget build(BuildContext context) {
-    loadAllMarkers(true);
+    //loadAllMarkers(true);
     getCurrentLocation();
     return new Scaffold(
       resizeToAvoidBottomInset: false,
-      body: locationData == null || pinList == null
+      body: locationData == null
+          //|| pinList == null
           ? Center(
               child: CircularProgressIndicator(
                 backgroundColor: Colors.black,
@@ -1077,153 +1077,176 @@ class MapSampleState extends State<Home>{
               : SizedBox(
                   height: 80,
                   child: BottomAppBar(
-                    child: isStarted
-                        ? new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                                SizedBox(
-                                  width: 125,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text('DURATION',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400)),
-                                      Container(
-                                          child: StreamBuilder<int>(
-                                              stream: _stopWatchTimer.rawTime,
-                                              initialData: _stopWatchTimer
-                                                  .rawTime.valueWrapper?.value,
-                                              builder: (context, snap) {
-                                                final value = snap.data;
-                                                final displayTime =
-                                                    StopWatchTimer
-                                                            .getDisplayTime(
-                                                                value)
-                                                        .substring(0, 8);
-                                                return Container(
-                                                    child: Text(
-                                                  displayTime,
+                    child: pinList == null
+                        ? Align(
+                            alignment: Alignment(0.0, 1),
+                            child: Container(
+                              height: 20,
+                              width: 200,
+                              margin: EdgeInsets.symmetric(vertical: 20),
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                child: LinearProgressIndicator(),
+                              ),
+                            ),
+                          )
+                        : isStarted
+                            ? new Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                    SizedBox(
+                                      width: 125,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text('DURATION',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400)),
+                                          Container(
+                                              child: StreamBuilder<int>(
+                                                  stream:
+                                                      _stopWatchTimer.rawTime,
+                                                  initialData: _stopWatchTimer
+                                                      .rawTime
+                                                      .valueWrapper
+                                                      ?.value,
+                                                  builder: (context, snap) {
+                                                    final value = snap.data;
+                                                    final displayTime =
+                                                        StopWatchTimer
+                                                                .getDisplayTime(
+                                                                    value)
+                                                            .substring(0, 8);
+                                                    return Container(
+                                                        child: Text(
+                                                      displayTime,
+                                                      style: TextStyle(
+                                                          fontSize: 25,
+                                                          fontWeight:
+                                                              FontWeight.w700),
+                                                    ));
+                                                  }),
+                                              height: 30),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                        padding: EdgeInsets.only(bottom: 8),
+                                        alignment: Alignment.bottomCenter,
+                                        height: 50,
+                                        width: 52,
+                                        child: pausedRoute
+                                            ? Text("PAUSED",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.w600))
+                                            : Text('PAUSE',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.w600))),
+                                    SizedBox(
+                                      width: 125,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text('DISTANCE (KM)',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400)),
+                                          Container(
+                                              child: Text(
+                                                  (totalDistance / 1000)
+                                                      .toStringAsFixed(2),
                                                   style: TextStyle(
                                                       fontSize: 25,
                                                       fontWeight:
-                                                          FontWeight.w700),
-                                                ));
-                                              }),
-                                          height: 30),
-                                    ],
+                                                          FontWeight.w700)),
+                                              width: 40,
+                                              height: 30),
+                                        ],
+                                      ),
+                                    ),
+                                  ])
+                            : new Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  IconButton(
+                                    padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
+                                    // Navigationsknapp 1: Routes
+                                    icon: Image.asset(
+                                        'assets/navigationbar/routes.png'),
+                                    iconSize: 30,
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context, FadeRoute(page: MyRoutes()));
+                                    },
                                   ),
-                                ),
-                                Container(
+
+                                  IconButton(
+                                    padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
+                                    // Navigationsknapp 2: Events
+                                    icon: Icon(Icons.calendar_today_outlined),
+                                    iconSize: 30,
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context, FadeRoute(page: Events()));
+                                    },
+                                  ),
+                                  Container(
                                     padding: EdgeInsets.only(bottom: 8),
                                     alignment: Alignment.bottomCenter,
                                     height: 50,
                                     width: 52,
-                                    child: pausedRoute
-                                        ? Text("PAUSED",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w600))
-                                        : Text('PAUSE',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w600))),
-                                SizedBox(
-                                  width: 125,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text('DISTANCE (KM)',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400)),
-                                      Container(
-                                          child: Text(
-                                              (totalDistance / 1000)
-                                                  .toStringAsFixed(2),
-                                              style: TextStyle(
-                                                  fontSize: 25,
-                                                  fontWeight: FontWeight.w700)),
-                                          width: 40,
-                                          height: 30),
-                                    ],
+                                    child: Text("START",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12)),
+                                  ), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
+                                  IconButton(
+                                    padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
+                                    // Navigationsknapp 3: Info
+                                    icon: Icon(Icons.info_outline),
+                                    iconSize: 30,
+                                    onPressed: () {
+                                      Navigator.pushReplacement(context,
+                                          FadeRoute(page: InformationScreen()));
+                                    },
                                   ),
-                                ),
-                              ])
-                        : new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              IconButton(
-                                padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
-                                // Navigationsknapp 1: Routes
-                                icon: Image.asset(
-                                    'assets/navigationbar/routes.png'),
-                                iconSize: 30,
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                      context, FadeRoute(page: MyRoutes()));
-                                },
+                                  IconButton(
+                                    padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
+                                    // Navigationsknapp 4: Settings
+                                    icon: Icon(Icons.settings_outlined),
+                                    iconSize: 30,
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context, FadeRoute(page: Settings()));
+                                    },
+                                  ),
+                                ],
                               ),
-
-                              IconButton(
-                                padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
-                                // Navigationsknapp 2: Events
-                                icon: Icon(Icons.calendar_today_outlined),
-                                iconSize: 30,
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                      context, FadeRoute(page: Events()));
-                                },
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(bottom: 8),
-                                alignment: Alignment.bottomCenter,
-                                height: 50,
-                                width: 52,
-                                child: Text("START",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 12)),
-                              ), // En container som innehåller text till mittenknappen och samtidigt sprider ut ikonerna runt mittenknappen
-                              IconButton(
-                                padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
-                                // Navigationsknapp 3: Info
-                                icon: Icon(Icons.info_outline),
-                                iconSize: 30,
-                                onPressed: () {
-                                  Navigator.pushReplacement(context,
-                                      FadeRoute(page: InformationScreen()));
-                                },
-                              ),
-                              IconButton(
-                                padding: EdgeInsets.fromLTRB(8, 0, 8, 16),
-                                // Navigationsknapp 4: Settings
-                                icon: Icon(Icons.settings_outlined),
-                                iconSize: 30,
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                      context, FadeRoute(page: Settings()));
-                                },
-                              ),
-                            ],
-                          ),
                   ),
                 ),
     );
   }
-  //funkar inte
-  //    WidgetsBinding.instance.addPostFrameCallback((_) => checkFirstSeenTutorial(context));
+
   void checkFirstSeenTutorial(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seenTutorial = (prefs.getBool('seenTutorial') ?? false);
@@ -1231,15 +1254,12 @@ class MapSampleState extends State<Home>{
     if (_seenTutorial) {
       return;
     } else {
-     // await prefs.setBool('seenTutorial', true);
+      // await prefs.setBool('seenTutorial', true);
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-          builder: (context) => RoutesInfoDialog()));
+          context, MaterialPageRoute(builder: (context) => RoutesInfoDialog()));
       return;
     }
   }
-
 
 // List <Dialog> dialogs = <Dialog> [
 //     RoutesInfoDialog(),
