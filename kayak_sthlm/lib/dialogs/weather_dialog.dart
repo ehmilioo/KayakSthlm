@@ -66,6 +66,8 @@ class WeatherOverlayState extends State<WeatherDialog> {
           Map<String, dynamic> response = getWeatherTypeInfo(
               snapshot.data.timeSeries[0]['parameters'][18]['values'][0] -
                   1); //-1 eftersom SMHI API börjar på 1 och listor på 0 :-)
+          print(
+              '${snapshot.data.timeSeries[0]['parameters'][10]['values'][0]}');
           return Container(
               child: Stack(children: <Widget>[
             Container(
@@ -163,12 +165,24 @@ class WeatherOverlayState extends State<WeatherDialog> {
                                             text: 'Wind: ',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold)),
-                                        TextSpan(
-                                            text: double.parse(
-                                                        '${snapshot.data.timeSeries[0]['parameters'][14]['values'][0]}')
+                                        double.parse('${snapshot.data.timeSeries[0]['parameters'][14]['values'][0]}')
                                                     .round()
-                                                    .toString() +
-                                                ' m/s')
+                                                    .toString()
+                                                    .substring(0, 1) ==
+                                                '-'
+                                            ? TextSpan(
+                                                text: double.parse(
+                                                            '${snapshot.data.timeSeries[0]['parameters'][14]['values'][0]}')
+                                                        .round()
+                                                        .toString()
+                                                        .substring(1) +
+                                                    ' m/s')
+                                            : TextSpan(
+                                                text: double.parse(
+                                                            '${snapshot.data.timeSeries[0]['parameters'][14]['values'][0]}')
+                                                        .round()
+                                                        .toString() +
+                                                    ' m/s')
                                       ])),
                                   RichText(
                                       text: TextSpan(
