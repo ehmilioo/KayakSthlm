@@ -1,5 +1,5 @@
 # KayakSthlm
-School project for Stockholm University
+School project for Stockholm University  
 Grade: A, highest points possible to achieve.
 
 ## Screenshots
