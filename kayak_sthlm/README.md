@@ -2,7 +2,7 @@
  School project for Stockholm University
 
 
-ToDo:
+## ToDo (done):
 - Skriva klart getters setters
 - Klass för hämta user tabell
 - Ta bort en användare
@@ -10,7 +10,3 @@ ToDo:
 - Implentera google MAPS
 - Implentera API
 - HITTA NÅGOT SÄTT ATT HÄMTA ANVÄNDAREN
-fkljöwenbweiojpfbwefiopub
-Någonting.
-
-hej hej nu funkar det
